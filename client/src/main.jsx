@@ -3,9 +3,16 @@ import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home.jsx";
-import Doctors from "./pages/AllDoctors/Doctors.jsx";
-import DoctorContext from "./context/doctorContext.jsx";
-import DoctorDashboard from "./pages/DoctorDashboard/DoctorDashboard.jsx";
+import DoctorContext from "./context/DoctorContext.jsx";
+import Doctor from "./pages/Doctor/Doctor.jsx";
+import Contact from "./pages/Contact/Contact.jsx";
+import Error from "./pages/error/Error.jsx";
+import About from "./pages/About/About.jsx";
+import Profile from "./pages/UserPage/Profile.jsx";
+import Appointment from "./pages/Appointment/Appointment.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Signup from "./pages/Signup/Signup.jsx";
+import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -18,13 +25,41 @@ const routes = createBrowserRouter([
       },
       {
         path: "/doctors",
-        element: <Doctors />,
+        element: <Doctor />,
       },
       {
-        path: "/dashboard",
-        element: <DoctorDashboard />,
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/appointment",
+        element: <Appointment />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/appointment/0000",
+        element: <AppointmentPage />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Error />,
   },
 ]);
 

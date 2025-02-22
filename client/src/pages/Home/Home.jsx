@@ -1,21 +1,16 @@
 import React from "react";
-
-import Herosection from "./Herosection";
-import Section from "../../components/Section";
-import TopDoctorSection from "./TopDoctorSection";
-import Banner from "./Banner";
-import Footer from "../../components/Footer";
+import HeroSec from "../../components/HeroSec/HeroSec";
+import Speciality from "../../components/SpecialitySection/Speciality";
+import Doctors from "../../components/Doctors/Doctors";
 
 const Home = () => {
   return (
-    <>
-      <Herosection />
-      {/* <div className="border-b border-b-slate-300 pt-10"></div> */}
-      <Section />
-      <TopDoctorSection />
-      <Banner />
-      <Footer/>
-    </>
+    <div className="border p-5 md:ps-10 md:pr-10 flex flex-col justify-center">
+      <HeroSec />
+      <Speciality />
+      <Doctors />
+
+    </div>
   );
 };
 

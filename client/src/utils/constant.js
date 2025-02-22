@@ -1,7 +1,7 @@
 import logo from "../assets/Logo/3.png";
 import doctor1 from "../assets/Doctors/1.avif";
 import doctor2 from "../assets/Doctors/2.webp";
-import banner1 from "../assets/Banner/doctoringrp.png";
+import heroImg from "../assets/Banner/doctoringrp.png";
 import advbanner from "../assets/Banner/1.png";
 import speciality1 from "../assets/SpecialityImgs/1.jpg";
 import speciality2 from "../assets/SpecialityImgs/2.jpg";
@@ -19,7 +19,7 @@ export const images = [
     doctors: [doctor1, doctor2],
   },
   {
-    hero: banner1,
+    hero: heroImg,
   },
   {
     adv: advbanner,
@@ -28,11 +28,11 @@ export const images = [
 
 export const speciality = [
   {
-    label: "dermatologist",
+    label: "Dermatologist",
     img: speciality1,
   },
   {
-    label: "gynecologist",
+    label: "Gynecologist",
     img: speciality2,
   },
   {
@@ -44,7 +44,7 @@ export const speciality = [
     img: speciality6,
   },
   {
-    label: "pediatricians",
+    label: "Pediatricians",
     img: speciality5,
   },
 ];
@@ -54,31 +54,43 @@ export const TopDoctors = [
     img: doctor1,
     name: "Dr.Cristina Shrestha",
     specilizedIn: "Neurologist",
-    stuatus: true,
-  },
-  {
-    img: doctor2,
-    name: "Dr.Manabi Shrestha",
-    specilizedIn: "dermatologist",
-    stuatus: false,
+    status: true,
   },
   {
     img: doctor1,
     name: "Dr.Cristina Shrestha",
     specilizedIn: "Neurologist",
-    stuatus: true,
+    status: true,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
+  },
+  {
+    img: doctor2,
+    name: "Dr.Manabi Shrestha",
+    specilizedIn: "dermatologist",
+    status: false,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
   },
   {
     img: doctor2,
     name: "Dr.Manabi Shrestha",
     specilizedIn: "gynecologist",
-    stuatus: false,
+    status: false,
   },
   {
     img: doctor1,
     name: "Dr.Cristina Shrestha",
     specilizedIn: "General Physician",
-    stuatus: true,
+    status: true,
   },
 ];
 export const AllDoctors = [
@@ -86,35 +98,70 @@ export const AllDoctors = [
     img: doctor1,
     name: "Dr.Cristina Shrestha",
     specilizedIn: "Neurologist",
-    stuatus: true,
+    status: true,
+    rating: 2,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
+    rating: 2,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
+    rating: 2,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
+    rating: 2,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
+    rating: 2,
+  },
+  {
+    img: doctor1,
+    name: "Dr.Cristina Shrestha",
+    specilizedIn: "Neurologist",
+    status: true,
     rating: 2,
   },
   {
     img: doctor2,
     name: "Dr.Manabi Shrestha",
     specilizedIn: "gynecologist",
-    stuatus: false,
+    status: false,
     rating: 1,
   },
   {
     img: doctor1,
     name: "Dr.Cristina Shrestha",
     specilizedIn: "General Physician",
-    stuatus: true,
+    status: true,
     rating: 1,
   },
   {
     img: doctor2,
     name: "Dr.Manabi Shrestha",
     specilizedIn: "dermatologist",
-    stuatus: false,
+    status: false,
     rating: 1,
   },
   {
     img: doctor1,
     name: "Dr.Cristina Shrestha",
     specilizedIn: "pediatricians",
-    stuatus: true,
+    status: true,
     rating: 1,
   },
 ];
