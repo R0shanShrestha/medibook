@@ -10,7 +10,7 @@ const AppointmentCard = ({
   ispaid,
 }) => {
   return (
-    <div className="flex flex-col overflow-hidden w-fit justify-center items-center rounded-xl shadow">
+    <div className="flex flex-col overflow-hidden w-fit h-fit  justify-center items-center rounded-xl shadow">
       <div className="imgBox">
         <img
           src={DocImg}

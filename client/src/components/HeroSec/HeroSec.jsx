@@ -21,7 +21,7 @@ const HeroSec = () => {
           <p className="text-emerald-300 font-medium">
             Connecting You with Trusted Doctors Fast & Easy Booking
           </p>
-        </div>
+        </div>    
         <Link
           to={"#"}
           className="border p-3 rounded-md bg-emerald-300 text-slate-50 font-bold text-sm w-fit hover:bg-emerald-400"

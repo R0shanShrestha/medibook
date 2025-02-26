@@ -1,7 +1,9 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
+import { AuthContextProvider } from "../../context/AuthContext";
 
 const Login = () => {
+  const { loginUser } = useContext(AuthContextProvider);
   // Form Variables
   const Email = useRef();
   const Password = useRef();
@@ -17,7 +19,7 @@ const Login = () => {
     Email.current.value = "";
     Password.current.value = "";
 
-    alert(dataObj);
+    loginUser(dataObj);
   };
 
   return (
@@ -33,7 +35,7 @@ const Login = () => {
           <div className="field text-slate-600 flex flex-col">
             <label htmlFor="Email">Email</label>
             <input
-            ref={Email}
+              ref={Email}
               type="email"
               id="Email"
               className="border outline-none  p-2 rounded w-full "
@@ -42,7 +44,7 @@ const Login = () => {
           <div className="field text-slate-600 flex flex-col">
             <label htmlFor="password">Password</label>
             <input
-            ref={Password}
+              ref={Password}
               type="password"
               id="password"
               className="border outline-none  p-2 rounded w-full "

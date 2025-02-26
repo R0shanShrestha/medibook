@@ -13,6 +13,13 @@ import Appointment from "./pages/Appointment/Appointment.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
 import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
+import AuthContext from "./context/AuthContext.jsx";
+import Dashboard from "./Admin/Dashboard/Dashboard.jsx";
+import DashboardItems from "./Admin/Dashboard/DashboardItems.jsx";
+import AddDoctor from "./Admin/Doctor/AddDoctor.jsx";
+import Appointments from "./Admin/Appointments/Appointments.jsx";
+import Doctors from "./Admin/Doctor/Doctors.jsx";
+import Patient from "./Admin/Patient/Patient.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -58,13 +65,41 @@ const routes = createBrowserRouter([
     ],
   },
   {
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardItems />,
+      },
+      {
+        path: "/dashboard/add-doctor",
+        element: <AddDoctor />,
+      },
+      {
+        path: "/dashboard/appointment",
+        element: <Appointments />,
+      },
+      {
+        path: "/dashboard/doctors",
+        element: <Doctors />,
+      },
+      {
+        path: "/dashboard/patient",
+        element: <Patient />,
+      },
+    ],
+  },
+  {
     path: "*",
     element: <Error />,
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <DoctorContext>
-    <RouterProvider router={routes} />
-  </DoctorContext>
+  <AuthContext>
+    <DoctorContext>
+      <RouterProvider router={routes} />
+    </DoctorContext>
+  </AuthContext>
 );

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiHome } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FcAbout, FcContacts } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { images } from "../../utils/constant";
+import { AuthContextProvider } from "../../context/AuthContext";
 
 const MobileNav = ({ NavSwitchHandler }) => {
-  const islogged = false;
+  const { islogged } = useContext(AuthContextProvider);
   const [userMenu, setUserMenu] = useState(false);
 
   setTimeout(() => {

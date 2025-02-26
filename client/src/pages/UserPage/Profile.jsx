@@ -6,7 +6,7 @@ import EditModel from "./EditModel";
 const Profile = () => {
   return (
     <div className="flex flex-col  justify-center p-1">
-      <div className="flex w-[70%] p-10  mx-auto flex-col gap-10 relative">
+      <div className="flex md:w-[70%] w-full p-10  mx-auto flex-col gap-10 relative">
         <div className="userProfileImg flex justify-between">
           <img
             src={images[1].doctors[0]}
@@ -21,7 +21,9 @@ const Profile = () => {
         </div>
 
         <div className="userDetails">
-          <h1 className="text-3xl font-semibold text-slate-800">User Name</h1>
+          <h1 className="md:text-3xl text-2xl font-semibold text-slate-800">
+            User Name
+          </h1>
           <div className="uersinofs">
             {/* contact information */}
             <div className="contactInfo flex  gap-2 flex-col mt-10 p-3">
@@ -30,17 +32,17 @@ const Profile = () => {
                   Contact Information
                 </h5>
                 <div className="field text-sm flex gap-10 ">
-                  <p className="flex gap-10 p-2">
+                  <p className="flex gap-10 p-2 text-sm">
                     Email id: <span>tests</span>{" "}
                   </p>
                 </div>
                 <div className="field text-sm flex gap-10">
-                  <p className="flex gap-10 p-2">
+                  <p className="flex gap-10 p-2 text-sm">
                     Phone: <span>+977-9807960410</span>{" "}
                   </p>
                 </div>
                 <div className="field text-sm flex gap-10">
-                  <p className="flex gap-10 p-2">
+                  <p className="flex gap-10 p-2 text-sm">
                     Address: <span>Mechinagar-7, jhapa</span>{" "}
                   </p>
                 </div>

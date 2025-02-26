@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { images } from "../../utils/constant";
+import { AuthContextProvider } from "../../context/AuthContext";
 
 const Header = ({ NavSwitchHandler }) => {
-  const islogged = false;
+  const { islogged } = useContext(AuthContextProvider);
   const [userMenu, setUserMenu] = useState(false);
   const [tab, setTab] = useState("home");
   const tabHandler = (seltab) => {
@@ -90,7 +91,7 @@ const Header = ({ NavSwitchHandler }) => {
           </div>
         </div>
       ) : (
-        <div className="profileImg ">
+        <div className="profileImg hidden lg:block ">
           <img
             src={images[1].doctors[0]}
             alt=" not found"

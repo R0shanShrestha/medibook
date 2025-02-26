@@ -1,7 +1,9 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
+import { AuthContextProvider } from "../../context/AuthContext";
 
 const Signup = () => {
+  const { signupUser } = useContext(AuthContextProvider);
   // Form Variables
   const Fullname = useRef();
   const Email = useRef();
@@ -16,6 +18,8 @@ const Signup = () => {
       Passowrd: Password.current.value,
       Fullname: Fullname.current.value,
     };
+
+    signupUser(dataObj);
   };
 
   return (

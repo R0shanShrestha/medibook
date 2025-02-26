@@ -8,7 +8,6 @@ const Doctor = () => {
   const [selectlist, setSelectlist] = useState(false);
 
   const [selectSpeciality, setselectSpeciality] = useState("");
-  console.log(selectSpeciality);
 
   const FilterDoctorData =
     selectSpeciality != ""
@@ -42,7 +41,7 @@ const Doctor = () => {
               </p>
             </div>
             <div
-              className={`specList flex-wrap md:flex md:flex-col  p-2 mt-5 ${
+              className={`specList flex-wrap lg:flex lg:flex-col   p-2 mt-5 ${
                 selectlist ? "flex" : "hidden"
               }`}
             >

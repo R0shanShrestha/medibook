@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const DoctorLists = ({ doctor }) => {
   let { img, name, specilizedIn, status } = doctor;
   return (
-    <div className=" overflow-hidden min-w-[200px] max-w-[200px] p-2 flex flex-col gap-2 cursor-pointer rounded-xl hover:shadow-xl ">
+    <div className=" h-fit overflow-hidden min-w-[200px] max-w-[200px] p-2 flex flex-col gap-2 cursor-pointer rounded-xl hover:shadow-xl ">
       <img
         src={img}
         alt="Not found"
@@ -26,7 +26,10 @@ const DoctorLists = ({ doctor }) => {
           <p className="font-semibold text-slate-800">{name}</p>
           <p className="text-slate-700">{specilizedIn}</p>
         </div>
-        <Link to={'/appointment/0000'} className="border mt-3 p-2 w-fit rounded-md bg-emerald-200 font-bold hover:bg-emerald-400 text-white">
+        <Link
+          to={"/appointment/0000"}
+          className="border mt-3 p-2 w-fit rounded-md bg-emerald-200 font-bold hover:bg-emerald-400 text-white"
+        >
           View
         </Link>
       </div>

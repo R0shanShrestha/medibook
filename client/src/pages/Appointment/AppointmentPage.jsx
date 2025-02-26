@@ -1,6 +1,8 @@
 import { Check, CheckCircle } from "lucide-react";
 import React, { useState } from "react";
 import { FcAbout } from "react-icons/fc";
+import { AllDoctors } from "../../utils/constant";
+import { Link } from "react-router-dom";
 
 const AppointmentPage = () => {
   let DateArr = [
@@ -27,29 +29,30 @@ const AppointmentPage = () => {
   const [DayAct, setDayAct] = useState(false);
 
   return (
-    <div className=" flex p-1 flex-col overflow-hidden">
-      <div className="flex w-[70%] p-10  mx-auto flex-col">
+    <div className=" flex p-1 flex-col w-full overflow-hidden">
+      <div className="flex lg:w-[70%] p-10  w-full mx-auto flex-col">
         {/* UserInfo */}
-        <div className="p-10  flex gap-5">
-          <div className="imgBox w-[300px] h-[250px]  rounded-md overflow-hidden">
+        <div className="md:p-10  flex md:flex-row flex-col gap-5  md:w-full   w-full ">
+          <div className="imgBox w-full md:w-[300px] h-[250px]  rounded-md ">
             <img
-              src="#"
+              src={AllDoctors[0].img}
               alt="Not found"
-              className="w-full h-full object-cover object-top border "
+              className="w-full h-full object-cover object-top  "
             />
           </div>
-          <div className="DocInfo flex border flex-col  w-full p-5 rounded-md gap-4  justify-center">
-            {/* Names */}
-            <div className="text-emerald-400">
+
+          {/* Names */}
+          <div className="DocInfo flex border flex-col w-full  p-5 rounded-md gap-4  justify-center">
+            <div className="text-emerald-400 ">
               <h1 className="font-semibold text-xl flex items-center gap-5">
-                {"Name"}
+                {AllDoctors[0].name}
                 <span className=" text-emerald-600 ">
                   <CheckCircle size={15} />
                 </span>
               </h1>
 
               <div className="text-slate-500 font-light items-center text-sm flex gap-3">
-                <p>MBBS-General Physican</p>
+                <p>MBBS-{AllDoctors[0].specilizedIn}</p>
                 <span className=" p-2 text-sm rounded-xl">2 years</span>
               </div>
             </div>
@@ -76,8 +79,8 @@ const AppointmentPage = () => {
         </div>
 
         {/* Booking Slots*/}
-        <div className="p-10  flex flex-col items-end">
-          <div className=" p-5 w-[80%] flex flex-col gap-2 ">
+        <div className="lg:p-10  flex flex-col lg:items-end">
+          <div className=" p-5 lg:w-[80%] flex flex-col gap-2 ">
             <div className="title">
               <h1 className="text-slate-500 font-medium text-xl">
                 Booking Slots
@@ -87,7 +90,7 @@ const AppointmentPage = () => {
               {DateArr.map(({ day, Datytime }) => (
                 <div className="dateB p-2  w-fit cursor-pointer">
                   <p
-                    className=" rounded-xl hover:bg-emerald-300 hover:text-white text-sm flex flex-col justify-cente items-center p-2.5"
+                    className=" rounded-xl border hover:bg-emerald-300 hover:text-white text-sm flex flex-col justify-cente items-center p-2.5"
                     onClick={(e) => {
                       e.currentTarget.classList.add(
                         "bg-emerald-300",
@@ -102,29 +105,35 @@ const AppointmentPage = () => {
               ))}
             </div>
 
-            <div className="TimeBlock w-full flex flex-wrap">
-              {Times.map(({ time }) => {
-                return (
-                  <div className="dateB p-2  w-fit cursor-pointer">
-                    <p
-                      className=" rounded-3xl hover:bg-emerald-300 hover:text-white text-sm flex flex-col justify-cente items-center p-2 ps-4 pr-4"
-                      onClick={(e) => {
-                        e.currentTarget.classList.add(
-                          "bg-emerald-300",
-                          "text-white"
-                        );
-                      }}
-                    >
-                      <span>{time}</span>
-                    </p>
-                  </div>
-                );
-              })}
+            <div className="TimeBlock w-full flex flex-wrap gap-3 flex-col">
+              <h1 className="font-medium text-slate-500">Time</h1>
+              <div className="flex flex-wrap">
+                {Times.map(({ time }) => {
+                  return (
+                    <div className="dateB p-2  w-fit cursor-pointer">
+                      <p
+                        className=" rounded-3xl border hover:bg-emerald-300 hover:text-white text-sm flex flex-col justify-cente items-center p-2 ps-4 pr-4"
+                        onClick={(e) => {
+                          e.currentTarget.classList.add(
+                            "bg-emerald-300",
+                            "text-white"
+                          );
+                        }}
+                      >
+                        <span>{time}</span>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             <div className="bookingBtn w-full  p-5">
-              <button className=" p-3 rounded-xl ps-6 pr-6 text-sm bg-emerald-400 text-white hover:bg-emerald-300 ">
+              <Link
+                to={"/appointment"}
+                className=" p-5 w-full md:w-fit rounded-xl ps-6 pr-6 text-sm bg-emerald-400 text-white hover:bg-emerald-300 "
+              >
                 Book an appointment
-              </button>
+              </Link>
             </div>
           </div>
         </div>
