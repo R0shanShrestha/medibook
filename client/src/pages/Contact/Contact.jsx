@@ -1,119 +1,81 @@
 import React from "react";
 import { speciality } from "../../utils/constant";
+import { Phone, Mail, MapPin } from "lucide-react";
+
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-[#e6f7f4] flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
-        {/* Contact Support Section */}
-        <div className="space-y-8">
-          <h2 className="text-3xl font-semibold text-gray-800">
-            Contact Support
-          </h2>
+    <div className="min-h-screen bg-gradient-to-b from-[#e6f7f4] to-white flex items-center justify-center p-4">
+      <div className="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-start">
 
-          <div className="space-y-6">
-            <div className="bg-white p-4 rounded-xl shadow-sm">
-              <h3 className="font-medium mb-1">
-                Help Line Support ( Sun to Sat ) 24/7
-              </h3>
-              <a
-                href="tel:9763299634"
-                className="text-red-500 hover:text-red-600 flex items-center gap-2"
-              >
-                9763299634 <span className="text-lg">→</span>
-              </a>
+        <div className="space-y-6 md:space-y-8">
+          <h2 className="text-3xl font-bold text-emerald-700">Contact Support</h2>
+
+          <div className="space-y-4">
+            <div className="bg-white p-5 rounded-2xl shadow-lg hover:shadow-xl transition-shadow flex items-center gap-4">
+              <Phone className="text-emerald-600 w-6 h-6" />
+              <div>
+                <h3 className="font-semibold text-gray-700">Help Line (24/7)</h3>
+                <a href="tel:9763299634" className="text-emerald-600 hover:text-emerald-700 font-medium">
+                  +977 9763299634
+                </a>
+              </div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl shadow-sm">
-              <h3 className="font-medium mb-1">Email Support</h3>
-              <a
-                href="mailto:commail@gmail.com"
-                className="text-red-500 hover:text-red-600 flex items-center gap-2"
-              >
-                commail@gmail.com <span className="text-lg">→</span>
-              </a>
+            <div className="bg-white p-5 rounded-2xl shadow-lg hover:shadow-xl transition-shadow flex items-center gap-4">
+              <Mail className="text-emerald-600 w-6 h-6" />
+              <div>
+                <h3 className="font-semibold text-gray-700">Email Support</h3>
+                <a href="mailto:commail@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium">
+                  commail@gmail.com
+                </a>
+              </div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl shadow-sm">
-              <h3 className="font-medium mb-1">Location</h3>
-              <p className="text-red-500">fake Location Kathmandu</p>
+            <div className="bg-white p-5 rounded-2xl shadow-lg hover:shadow-xl transition-shadow flex items-center gap-4">
+              <MapPin className="text-emerald-600 w-6 h-6" />
+              <div>
+                <h3 className="font-semibold text-gray-700">Location</h3>
+                <p className="text-emerald-600 font-medium">Kathmandu, Nepal</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Appointment Form Section */}
-        <div className="relative">
-          <div className="bg-white p-6 rounded-3xl shadow-lg">
-            <h2 className="text-2xl font-medium text-[#4acfb7] mb-6">
-              Appointment Booking Form
+        <div className="relative w-full">
+          <div className="bg-white p-8 rounded-3xl shadow-xl w-full hover:shadow-2xl transition-shadow">
+            <h2 className="text-2xl md:text-3xl font-bold text-emerald-700 mb-6">
+              Book an Appointment
             </h2>
 
-            <form className="space-y-4 flex flex-col">
-              <label
-                htmlFor="BookDate
-              "
-                className="flex flex-col gap-3"
-              >
-                <span className="font-semibold ps-3 text-slate-600">
-                  Patient Name{" "}
-                </span>
-                <input
-                  placeholder="Patient Name"
-                  className="border-gray-200 p-3.5 border rounded-md outline-none focus:border-[#4acfb7]"
-                />
-              </label>
-              <label
-                htmlFor="BookDate
-              "
-                className="flex flex-col gap-3"
-              >
-                <span className="font-semibold ps-3 text-slate-600">
-                  Patient Number{" "}
-                </span>
-                <input
-                  placeholder="Patient Number"
-                  type="tel"
-                  className="border-gray-200 p-3.5 border rounded-md outline-none focus:border-[#4acfb7]"
-                />
-              </label>
+            <form className="space-y-4 flex flex-col w-full">
+              <input
+                type="text"
+                placeholder="Patient Name"
+                className="border border-gray-200 p-3 rounded-xl outline-none focus:border-emerald-500"
+              />
+              <input
+                type="tel"
+                placeholder="Patient Number"
+                className="border border-gray-200 p-3 rounded-xl outline-none focus:border-emerald-500"
+              />
+              <input
+                type="date"
+                className="border border-gray-200 p-3 rounded-xl outline-none focus:border-emerald-500"
+              />
+              <select className="border border-gray-200 p-3 rounded-xl outline-none focus:border-emerald-500">
+                <option value="">All Doctors</option>
+                {speciality?.map(({ label }, idx) => (
+                  <option key={idx} value={label}>{label}</option>
+                ))}
+              </select>
 
-              <label
-                htmlFor="BookDate
-              "
-                className="flex flex-col gap-3"
-              >
-                <span className="font-semibold ps-3 text-slate-600">
-                  Booking Date
-                </span>
-                <input
-                  id="BookDate"
-                  type="date"
-                  className="border-gray-200 p-3.5 border rounded-md outline-none focus:border-[#4acfb7] outline-none"
-                />
-              </label>
-              <label
-                htmlFor="BookDate
-              "
-                className="flex flex-col gap-3"
-              >
-                <span className="font-semibold ps-3 text-slate-600">
-                  Select Specialized Doctor
-                </span>
-                <select
-                  id="speci"
-                  className="border p-3.5 rounded-md outline-none"
-                >
-                  {speciality?.map(({ label }) => {
-                    return <option value="label">{label}</option>;
-                  })}
-                </select>
-              </label>
-
-              <button className="w-full p-3 rounded-md font-semibold bg-[#4acfb7] hover:bg-[#3dbfa7] text-white">
+              <button className="w-full p-3 rounded-xl font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-colors">
                 Book Appointment
               </button>
             </form>
           </div>
         </div>
+
       </div>
     </div>
   );

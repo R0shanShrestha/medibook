@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 
 const Speciality = () => {
   return (
-    <div className=" w-full items-center justify-center flex flex-col md:p-10  gap-10  ">
-      <div className="md:w-[90%] w-fit p-3 md:ps-10 md:pr-10 flex flex-col  items-start gap-5">
+    <div className=" w-full items-center justify-center flex flex-col md:p-10 md:mt-20  gap-10  ">
+      <div className="md:w-[90%] w-fit p-3 md:ps-10 md:pr-10 flex flex-col  items-start gap-20">
         <div className="flex justify-between  w-full ">
           <div className=" p-2  flex flex-col gap-2">
-            <h1 className="text-emerald-400 font-bold text-xl md:text-3xl">
+            <h1 className="text-emerald-800 font-bold text-xl md:text-3xl">
               Find by Speciality
             </h1>
-            <p className="text-emerald-300 font-medium text-sm hidden md:flex">
+            <p className="text-gray-600 font-medium text-sm hidden md:flex">
               Simply browse through our extensive list of trusted doctors.
               schedule your appoinment hassle-free
             </p>

@@ -5,7 +5,7 @@ import Doctors from "../../components/Doctors/Doctors";
 
 const Home = () => {
   return (
-    <div className="border p-5 md:ps-10 md:pr-10 flex flex-col justify-center">
+    <div className=" p-5 md:ps-10 md:pr-10 flex flex-col justify-center">
       <HeroSec />
       <Speciality />
       <Doctors />

@@ -16,7 +16,7 @@ const App = () => {
       )}
       <Outlet />
 
-      <div className="hidden md:hidden">
+      <div className="hidden md:flex">
         <Footer />
       </div>
     </>

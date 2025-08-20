@@ -3,22 +3,40 @@ import { Link, Outlet } from "react-router-dom";
 import {
   LayoutDashboard,
   Calendar,
-  PlusSquareIcon,
   User2Icon,
-  MailPlus,
+  UserCogIcon,
   LogOut,
 } from "lucide-react";
 import MobileAdminNav from "../../components/Header/MobileAdminNav";
 
-const Dashboard = () => {
+const DoctorDashboard = ({ doctorName = "Dr. John Doe" }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const links = [
-    { key: "dashboard", label: "Dashboard", icon: <LayoutDashboard />, to: "/admin/dashboard" },
-    { key: "appointments", label: "Appointments", icon: <Calendar />, to: "/admin/dashboard/appointment" },
-    { key: "addDoctor", label: "Add Doctor", icon: <PlusSquareIcon />, to: "/admin/dashboard/add-doctor" },
-    { key: "doctors", label: "Doctors List", icon: <User2Icon />, to: "/admin/dashboard/doctors" },
-    { key: "patients", label: "Patients", icon: <MailPlus />, to: "/admin/dashboard/patient" },
+    {
+      key: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard />,
+      to: "/doctor/dashboard",
+    },
+    {
+      key: "appointments",
+      label: "My Appointments",
+      icon: <Calendar />,
+      to: "/doctor/dashboard/appointments",
+    },
+    {
+      key: "patients",
+      label: "Patients List",
+      icon: <User2Icon />,
+      to: "/doctor/dashboard/patients",
+    },
+    {
+      key: "profile",
+      label: "Profile Settings",
+      icon: <UserCogIcon />,
+      to: "/doctor/dashboard/profile",
+    },
   ];
 
   return (
@@ -28,7 +46,7 @@ const Dashboard = () => {
           MediBook
         </div>
         <div className="flex justify-center mb-8 text-xl font-semibold text-emerald-600">
-          Admin
+          {doctorName}
         </div>
         <div className="flex flex-col gap-3 flex-1">
           {links.map(({ key, label, icon, to }) => (
@@ -65,4 +83,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DoctorDashboard;
