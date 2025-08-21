@@ -1,23 +1,48 @@
-import React, { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { AuthContextProvider } from "../../context/AuthContext";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AppContextProvider } from "../../context/AppContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Signup = () => {
-  const { signupUser } = useContext(AuthContextProvider);
+  const { backendUri, setToken, token } = useContext(AppContextProvider);
   const Fullname = useRef();
   const Email = useRef();
   const Password = useRef();
-  const [userType, setUserType] = useState("patient");
+  const nav = useNavigate();
 
-  const submitData = (e) => {
+  useEffect(() => {
+    if (localStorage.getItem("token") || token) {
+      nav("/doctors");
+    }
+  }, [token]);
+
+  const submitData = async (e) => {
     e.preventDefault();
     let dataObj = {
-      Email: Email.current.value,
-      Passowrd: Password.current.value,
-      Fullname: Fullname.current.value,
-      Type: userType,
+      email: Email.current.value,
+      password: Password.current.value,
+      name: Fullname.current.value,
     };
-    signupUser(dataObj);
+    try {
+      const { data } = await axios.post(
+        backendUri + "/api/user/register",
+        dataObj
+      );
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+
+      Email.current.value = "";
+      Password.current.value = "";
+      Fullname.current.value = "";
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
 
   return (
@@ -59,32 +84,6 @@ const Signup = () => {
               id="password"
               className="border outline-none p-2 rounded w-full"
             />
-          </div>
-
-          {/* Doctor/Patient buttons just above Create Account */}
-          <div className="flex  gap-2 mt-2 mb-2">
-            <button
-              type="button"
-              onClick={() => setUserType("doctor")}
-              className={`px-3 py-1 rounded text-sm font-semibold border ${
-                userType === "doctor"
-                  ? "bg-emerald-600 text-white border-emerald-600"
-                  : "text-emerald-600 border-emerald-400"
-              }`}
-            >
-              Doctor
-            </button>
-            <button
-              type="button"
-              onClick={() => setUserType("patient")}
-              className={`px-3 py-1 rounded text-sm font-semibold border ${
-                userType === "patient"
-                  ? "bg-emerald-600 text-white border-emerald-600"
-                  : "text-emerald-600 border-emerald-400"
-              }`}
-            >
-              Patient
-            </button>
           </div>
 
           <div className="field text-slate-600 flex flex-col">

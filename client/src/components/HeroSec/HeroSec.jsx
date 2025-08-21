@@ -6,7 +6,7 @@ const HeroSec = () => {
     <div className=" w-full  flex p-10  md:my-20 justify-center lg:justify-evenly items-center flex-col lg:flex-row overflow-hidden">
       <div className="leftSide w-[400px] lg:hidden ">
         <img
-          src={images[2].hero}
+          src={images.hero}
           className=" w-full h-full object-cover  rounded-xl shadow-sm"
           alt="not found"
         />
@@ -26,14 +26,14 @@ const HeroSec = () => {
 
         <Link
           to={"#"}
-          className=" p-3 px-5 rounded-md bg-emerald-500 text-slate-50 font-bold text-sm w-fit hover:bg-emerald-600"
+          className=" p-3 px-5 rounded-md bg-emerald-800 text-slate-50 font-bold text-sm w-fit hover:bg-emerald-600"
         >
           Quick Appointment
         </Link>
       </div>
       <div className="leftSide lg:w-[400px]  xl:w-[600px]  lg:flex hidden ">
         <img
-          src={images[2].hero}
+          src={images.hero}
           className=" w-full h-full object-cover  rounded-xl shadow-sm"
           alt="not found"
         />

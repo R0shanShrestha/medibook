@@ -3,7 +3,7 @@ import { CgClose } from "react-icons/cg";
 
 const AppointmentCard = () => {
   return (
-    <div className="items flex items-center  justify-between p-2 border">
+    <div className="items flex items-center  justify-between p-2 hover:shadow-md">
       <div className="flex items-center gap-4">
         <div className="userIco">
           <img

@@ -1,5 +1,5 @@
 import React from "react";
-import DoctorLists from "../../components/Doctors/DoctorLists";
+import DoctorLists from "../../components/Doctors/DocCard";
 
 const DoctorList = ({ selectedTab, Data }) => {
   return (

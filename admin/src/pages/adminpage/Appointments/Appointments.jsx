@@ -26,7 +26,7 @@ const Appointments = () => {
             <AppointmentList
               doctorName={"Roshan Shrestha"}
               patientName={"Cristina Shrestha"}
-              doctorImg={""}
+              doctorImg={"#"}
               patientImg={"#"}
               fees={"Rs.5000"}
               sn={1}

@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SpecListBtn from "./SpecListBtn";
-import { speciality, AllDoctors } from "../../utils/constant";
+import { speciality } from "../../utils/constant";
 import DoctorList from "./DoctorList";
 import { BiMenu } from "react-icons/bi";
+import { AppContextProvider } from "../../context/AppContext";
 
 const Doctor = () => {
   const [selectlist, setSelectlist] = useState(true);
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const { Doctors, } = useContext(AppContextProvider);
+
+  useEffect(() => {
+    
+  }, [Doctors]);
 
   const handleSpecialityClick = (spec) => {
     if (spec === "All Doctors") {
@@ -18,12 +24,12 @@ const Doctor = () => {
 
   const FilterDoctorData =
     selectedSpeciality && selectedSpeciality !== "All Doctors"
-      ? AllDoctors.filter(
+      ? Doctors.filter(
           (doctor) =>
-            doctor.specilizedIn.toLowerCase() ===
+            doctor.specializedIn.toLowerCase() ===
             selectedSpeciality.toLowerCase()
         )
-      : AllDoctors;
+      : Doctors;
 
   return (
     <div className="md:p-5 md:ps-10 md:pr-10 flex flex-col justify-center overflow-hidden">

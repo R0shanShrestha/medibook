@@ -3,48 +3,42 @@ import React from "react";
 const AppointmentCard = ({
   DocImg,
   name,
-  speclistIn,
+  specializedIn,
   address,
   appointmentDate,
+  bookingDate,
   onCancel,
   onPay,
 }) => {
   return (
-    <div className="flex-shrink-0 w-72 bg-white rounded-3xl shadow-md hover:shadow-xl transition-shadow p-5 flex flex-col gap-4">
-      
-      {/* Doctor Image */}
-      <div className="flex items-center gap-4">
+    <div className="w-full bg-white rounded-3xl shadow-md hover:shadow-xl transition-shadow p-5 flex flex-col md:flex-row gap-4 items-start md:items-center">
+      <div className="flex-shrink-0">
         <img
           src={DocImg}
           alt={name}
-          className="w-16 h-16 object-cover rounded-full border-2 border-emerald-300"
+          className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-full border-2 border-emerald-300"
         />
-        <div className="flex flex-col">
+      </div>
+
+      <div className="flex-1 flex flex-col md:flex-row md:justify-between w-full gap-4">
+        <div className="flex flex-col flex-1 gap-1">
           <h3 className="text-emerald-800 font-bold text-lg">{name}</h3>
-          <p className="text-slate-600 text-sm">{speclistIn}</p>
+          <p className="text-slate-600 text-sm">{specializedIn}</p>
+          <p className="text-slate-600 text-sm">Clinic: {address}</p>
+          <p className="text-gray-500 text-sm">
+            Appointment: {appointmentDate}
+          </p>
+          <p className="text-gray-500 text-sm">Booking Date: {bookingDate}</p>
         </div>
-      </div>
 
-      {/* Appointment Info */}
-      <div className="text-slate-600 text-sm">
-        <p>{address}</p>
-        <p className="text-gray-500 text-xs">{appointmentDate}</p>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex gap-3 mt-3">
-        <button
-          onClick={onPay}
-          className="flex-1 bg-emerald-600 text-white rounded-xl py-2 text-sm font-medium hover:bg-emerald-700 transition-colors"
-        >
-          Pay Online
-        </button>
-        <button
-          onClick={onCancel}
-          className="flex-1 border-2 border-red-500 text-red-500 rounded-xl py-2 text-sm font-medium hover:bg-red-500 hover:text-white transition-colors"
-        >
-          Cancel
-        </button>
+        <div className="flex flex-col md:flex-row gap-3 mt-3 md:mt-0 items-start">
+          <button className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-2 px-6 rounded-2xl text-center hover:from-green-600 hover:to-emerald-700 transition-all duration-300">
+            Pay Online
+          </button>
+          <button className="border-2 border-red-500 text-red-500 font-semibold py-2 px-6 rounded-2xl text-center hover:bg-red-500 hover:text-white transition-all duration-300">
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

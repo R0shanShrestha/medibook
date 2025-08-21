@@ -46,7 +46,7 @@ const About = () => {
               </h2>
             </div>
 
-            <div className="flex w-full flex-col lg:flex-row justify-center gap-4">
+            <div className="flex w-full text-center flex-col lg:flex-row justify-center gap-4">
               
               <div className="bg-white border rounded-xl shadow-md lg:w-[28%] flex flex-col items-center hover:shadow-xl transform hover:scale-105 transition-all duration-300 m-2 p-3">
                 <h3 className="uppercase font-extrabold text-sm md:text-base text-emerald-800">

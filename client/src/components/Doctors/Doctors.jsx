@@ -1,16 +1,17 @@
-import React from "react";
-import DoctorLists from "./DoctorLists";
-import { TopDoctors } from "../../utils/constant";
+import React, { useContext } from "react";
+import DoctorLists from "./DocCard";
+import { AllDoctors } from "../../utils/constant";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
+import { AppContextProvider } from "../../context/AppContext";
 
 const Doctors = () => {
+  const { Doctors } = useContext(AppContextProvider);
   return (
     <div className="justify-center flex md:p-10 md:my-20 overflow-hidden">
       <div className="w-full md:w-[90%] md:ps-10 md:pr-10 flex flex-col gap-6">
-        
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
           <div className="flex flex-col gap-2">
@@ -18,7 +19,8 @@ const Doctors = () => {
               Top Doctor Recommendations
             </h1>
             <p className="text-gray-600 text-sm md:text-base hidden md:block">
-              Browse our trusted doctors and schedule your appointments hassle-free.
+              Browse our trusted doctors and schedule your appointments
+              hassle-free.
             </p>
           </div>
 
@@ -41,7 +43,7 @@ const Doctors = () => {
           modules={[Autoplay]}
           className="w-full"
         >
-          {TopDoctors.map((doctor, idx) => (
+          {Doctors.map((doctor, idx) => (
             <SwiperSlide key={idx} style={{ width: "220px" }}>
               <div className="bg-white rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center p-4">
                 <DoctorLists doctor={doctor} />
@@ -59,7 +61,6 @@ const Doctors = () => {
             Show More
           </Link>
         </div>
-
       </div>
     </div>
   );

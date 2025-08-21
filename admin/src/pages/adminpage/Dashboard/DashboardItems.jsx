@@ -42,21 +42,6 @@ const DashboardItems = () => {
         </div>
         <div className="appointmentsList no-scroller  overflow-hidden pt-2 gap-3 flex flex-col overflow-y-scroll h-[60%] md:h-[70%]  p-1">
           <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
-          <AppointmentCard />
         </div>
       </div>
     </div>

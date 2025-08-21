@@ -1,25 +1,45 @@
-import React, { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
-import { AuthContextProvider } from "../../context/AuthContext";
+import React, { useContext, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AppContextProvider } from "../../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const { loginUser } = useContext(AuthContextProvider);
-  // Form Variables
+  const nav = useNavigate();
+  const { backendUri, setToken, token } = useContext(AppContextProvider);
+
   const Email = useRef();
   const Password = useRef();
-
-  //   Form handler func
-  const submitData = (e) => {
-    // Form data obj
-
+  useEffect(() => {
+    if (localStorage.getItem("token") || token) {
+      nav("/doctors");
+    }
+  }, [token]);
+  const submitData = async (e) => {
+    e.preventDefault();
     let dataObj = {
-      Email: Email.current.value,
-      Passowrd: Password.current.value,
+      email: Email.current.value,
+      password: Password.current.value,
     };
-    Email.current.value = "";
-    Password.current.value = "";
 
-    loginUser(dataObj);
+    try {
+      const { data } = await axios.post(
+        backendUri + "/api/user/login",
+        dataObj
+      );
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+
+      Email.current.value = "";
+      Password.current.value = "";
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
 
   return (
