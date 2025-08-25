@@ -14,7 +14,8 @@ app.use(
     credentials: true,
   })
 );
-app.options("*", cors());
+// app.options("*", cors());
+app.use(cors())
 app.use(express.json());
 
 // API endpoints
@@ -29,5 +30,4 @@ app.use("/api/admin/", adminRouter);
 app.use("/api/doctor/", doctorRoutes);
 app.use("/api/user/", userRoutes);
 
-// Export app for Vercel serverless
 export default app;
