@@ -7,18 +7,24 @@ import doctorRoutes from "./routes/doctor.routes.js";
 const app = express();
 
 // Middlewares
-app.use(cors({
-  origin: "*", // or whitelist array
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    credentials: true,
+  })
+);
 
-app.options("*", cors()); // handle preflight requests
+app.use(cors());
 app.use(express.json());
 
 // API endpoints
-app.get("/", (req, res) => res.send("<h1>Welcome to Server</h1>"));
-app.get("/test", (req, res) => res.send("Welcome to test"));
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to Server</h1>");
+});
+app.get("/test", (req, res) => {
+  res.send("Welcome to test");
+});
 
 app.use("/api/admin/", adminRouter);
 app.use("/api/doctor/", doctorRoutes);

@@ -1,17 +1,24 @@
-import app from "./backend/src/app.js";
-import { dbConection } from "./backend/src/db/dbCon.js";
-import { CloudConnect } from "./backend/src/config/cloudinary.js";
+import http from "http";
+import { conf } from "./src/config/config.js";
+import dbConection from "./src/db/dbCon.js";
+import { CloudConnect } from "./src/config/cloudinary.js";
+import app from "./src/app.js";
 
-// Initialize DB and Cloudinary
-const init = async () => {
-  try {
-    await dbConection();  // wait for DB connection
-    CloudConnect();        // initialize Cloudinary
-    console.log("✅ Server initialized successfully");
-  } catch (err) {
-    console.error("❌ Initialization error:", err.message);
-  }
-};
-
-init();
-app()
+const server = http.createServer(app);
+try {
+  CloudConnect();
+  dbConection().then((res) => {
+    if (res) {
+      server.listen(conf.port, (err) => {
+        if (err) {
+          throw new Error("Server:", "Server Error");
+        }
+        console.log("Db Connected !");
+        console.log("Running on port: " + conf.port);
+      });
+    } else {
+    }
+  });
+} catch (error) {
+  console.log("Server:", error);
+}
