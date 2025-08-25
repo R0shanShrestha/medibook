@@ -12,7 +12,6 @@ import Signup from "./pages/Signup/Signup.jsx";
 import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
 import AppContext from "./context/AppContext.jsx";
 import Doctors from "./pages/Doctor/Doctor.jsx";
-import Error from "./pages/error/Error.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -58,10 +57,7 @@ const routes = createBrowserRouter([
     ],
   },
 
-  {
-    path: "*",
-    element: <Error />,
-  },
+  
 ]);
 
 createRoot(document.getElementById("root")).render(
