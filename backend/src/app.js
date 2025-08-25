@@ -14,8 +14,7 @@ app.use(
     credentials: true,
   })
 );
-
-app.use(cors());
+app.options("*", cors());
 app.use(express.json());
 
 // API endpoints
