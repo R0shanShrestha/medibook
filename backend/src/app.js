@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://medibook-admin.vercel.app/", "http://192.168.1.68:1236"],
+    origin: ["https://medibook-admin.vercel.app", "http://192.168.1.68:1236"],
   })
 );
 app.use(cors());
