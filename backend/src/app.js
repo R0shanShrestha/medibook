@@ -17,9 +17,12 @@ app.use(
       "https://medibook-admin.vercel.app",
       "https://medibook-roshan.vercel.app",
     ],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+
     credentials: true,
   })
 );
+
 app.use(cors());
 app.use(express.json());
 
