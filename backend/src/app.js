@@ -15,6 +15,7 @@ app.use(
       "http://localhost:3000",
       "http://192.168.1.68:1235",
       "https://medibook-admin.vercel.app",
+      "https://medibook-roshan.vercel.app",
     ],
     credentials: true,
   })
