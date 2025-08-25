@@ -1,24 +1,29 @@
-import http from "http";
+import app from "./src/app.js";
 import { conf } from "./src/config/config.js";
 import dbConection from "./src/db/dbCon.js";
 import { CloudConnect } from "./src/config/cloudinary.js";
-import app from "./src/app.js";
 
-const server = http.createServer(app);
-try {
-  CloudConnect();
-  dbConection().then((res) => {
-    if (res) {
-      server.listen(conf.port, (err) => {
-        if (err) {
-          throw new Error("Server:", "Server Error");
-        }
-        console.log("Db Connected !");
-        console.log("Running on port: " + conf.port);
-      });
-    } else {
-    }
+// Async initialization
+const init = async () => {
+  try {
+    await dbConection(); // wait for DB
+    console.log("✅ Database connected");
+
+    CloudConnect(); // initialize Cloudinary
+    console.log("✅ Cloudinary ready");
+  } catch (err) {
+    console.error("❌ Initialization error:", err.stack || err.message);
+  }
+};
+
+init();
+
+// ✅ Run locally only
+if (process.env.NODE_ENV !== "production") {
+  app.listen(conf.port, () => {
+    console.log(`Server running locally on port ${conf.port}`);
   });
-} catch (error) {
-  console.log("Server:", error);
 }
+
+// ✅ Export app for Vercel serverless
+export default app;
