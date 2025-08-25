@@ -30,6 +30,10 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to Server</h1>");
 });
+app.get("/test", (req, res) => {
+  res.send("WElcome to test");
+});
+
 
 app.use("/api/admin/", adminRouter);
 app.use("/api/doctor/", doctorRoutes);
