@@ -14,7 +14,7 @@ app.use(
     origin: [
       "https://medibook-admin.vercel.app",
       "http://192.168.1.68:1236",
-      "http://192.168.1.68:1235/",
+      "http://192.168.1.68:1235",
     ],
   })
 );
