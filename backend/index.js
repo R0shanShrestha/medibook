@@ -14,6 +14,4 @@ const init = async () => {
 };
 
 init();
-
-// Export app for Vercel
-export default app;
+app()

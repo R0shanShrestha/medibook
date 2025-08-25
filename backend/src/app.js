@@ -4,26 +4,25 @@ import adminRouter from "./routes/Admin.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import doctorRoutes from "./routes/doctor.routes.js";
 
-// initilization
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: "*", methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS" }));
+app.use(cors({
+  origin: "*", // or whitelist array
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  credentials: true
+}));
 
-app.use(cors());
+app.options("*", cors()); // handle preflight requests
 app.use(express.json());
 
-// Api endpoints
-app.get("/", (req, res) => {
-  res.send("<h1>Welcome to Server</h1>");
-});
-app.get("/test", (req, res) => {
-  res.send("WElcome to test");
-});
+// API endpoints
+app.get("/", (req, res) => res.send("<h1>Welcome to Server</h1>"));
+app.get("/test", (req, res) => res.send("Welcome to test"));
 
 app.use("/api/admin/", adminRouter);
 app.use("/api/doctor/", doctorRoutes);
 app.use("/api/user/", userRoutes);
 
-// 👇 Vercel needs default export
+// Export app for Vercel serverless
 export default app;
