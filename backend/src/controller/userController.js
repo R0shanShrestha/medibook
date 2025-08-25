@@ -1,9 +1,12 @@
 import validator from "validator";
+import razorpay from "razorpay";
 import bcrypt from "bcrypt";
 import userModel from "../model/userModel.js";
 import jwt from "jsonwebtoken";
 import { conf } from "../config/config.js";
 import { v2 as cloud } from "cloudinary";
+import doctorModel from "../model/doctorModel.js";
+import appointmentModel from "../model/appointmentModel.js";
 // register user
 const register = async (req, res) => {
   try {
@@ -15,6 +18,10 @@ const register = async (req, res) => {
 
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: "Enter a valid Email" });
+    }
+    const isuser = await userModel.findOne({ email });
+    if (isuser) {
+      return res.json({ success: false, message: "Email Already Exists" });
     }
 
     if (password.length < 3) {
@@ -31,7 +38,7 @@ const register = async (req, res) => {
     const newUser = new userModel(userData);
     const user = await newUser.save();
 
-    const token = jwt.sign({ id: user._id }, conf.jwtKey);
+    const token = jwt.sign({ id: user._id }, conf.jwtKey, { expiresIn: "30d" });
 
     res.json({ success: true, message: "user Registered", token });
   } catch (error) {
@@ -64,7 +71,7 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.json({ success: false, message: "Invalid credientials" });
     }
-    const token = jwt.sign({ id: user._id }, conf.jwtKey);
+    const token = jwt.sign({ id: user._id }, conf.jwtKey, { expiresIn: "30d" });
 
     res.json({ success: true, message: "Logged In", token });
   } catch (error) {
@@ -94,7 +101,6 @@ const updateProfile = async (req, res) => {
     const { userId } = req;
     const imageFile = req.file;
 
-    console.log(userId, name, phone, address, dob, gender, bloodGroup, imageFile);
     if (
       !userId ||
       !name ||
@@ -123,11 +129,128 @@ const updateProfile = async (req, res) => {
       await userModel.findByIdAndUpdate(userId, { image: imageUrl });
     }
 
-    return res.json({ success: true, message: "Profile Updated",  });
+    return res.json({ success: true, message: "Profile Updated" });
   } catch (error) {
     console.log(error);
     return res.json({ success: false, message: error.message });
   }
 };
 
-export { register, login, getUser, updateProfile };
+// Booked Appointment
+const bookedAppointment = async (req, res) => {
+  try {
+    const { docId, slotDate, slotTime } = req.body;
+    const { userId } = req;
+
+    const docData = await doctorModel.findById(docId).select("-password");
+    // checking available
+    if (!docData.available) {
+      return res.json({ success: false, message: "Doctor Not available" });
+    }
+    let slots_booked = docData.slots_booked;
+
+    if (slots_booked[slotDate]) {
+      if (slots_booked[slotDate].includes(slotTime)) {
+        return res.json({ success: false, message: "Slots Not available" });
+      } else {
+        slots_booked[slotDate].push(slotTime);
+      }
+    } else {
+      slots_booked[slotDate] = [];
+      slots_booked[slotDate].push(slotTime);
+    }
+
+    const userData = await userModel.findById(userId).select("-password");
+    delete docData.slots_booked;
+    const appointmentData = {
+      userId,
+      docId,
+      userData,
+      docData,
+      amount: docData.fees,
+      slotTime,
+      slotDate,
+      date: Date.now(),
+    };
+    const newAppointment = new appointmentModel(appointmentData);
+    await newAppointment.save();
+
+    // save new slots data in doc data
+    await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    res.json({ success: true, message: "Appointment Booked" });
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+// getUserAppointments for frontend
+const getUserAppointments = async (req, res) => {
+  try {
+    const { userId } = req;
+    const appointments = await appointmentModel.find({ userId: userId });
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+// cancel appointment
+const cancleAppointment = async (req, res) => {
+  try {
+    const { appointId } = req.body;
+    const { userId } = req;
+
+    const appointmentData = await appointmentModel.findById(appointId);
+    // verification appoint user
+    if (appointmentData.userId !== userId) {
+      return res.json({ success: false, message: "Unauthorized Action" });
+    }
+    await appointmentModel.findByIdAndUpdate(appointId, { cancelled: true });
+    // Realising Doc Slot
+    const { docId, slotDate, slotTime } = appointmentData;
+
+    const docData = await doctorModel.findById(docId);
+    let slots_booked = docData.slots_booked;
+    slots_booked[slotDate] = slots_booked[slotDate].filter(
+      (e) => e !== slotTime
+    );
+    await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    res.json({ success: true, message: "Appointment Cancelled" });
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+// payment System khalti
+const paymentSystemKhalti = async (req, res) => {
+  const { appointId } = req.body;
+  const appointmentData = await appointmentModel.findById(appointId);
+
+  if (!appointmentData || appointmentData.cancelled) {
+    return res.json({
+      success: false,
+      message: "Appointment Cancelled or not found",
+    });
+  }
+  const options = {
+    amount: appointmentData.amount,
+    receipt: appointId,
+  };
+  res.json({ success: true, message: "Online Payment is Desable Now " });
+};
+
+export {
+  register,
+  login,
+  getUser,
+  updateProfile,
+  bookedAppointment,
+  getUserAppointments,
+  cancleAppointment,
+  paymentSystemKhalti,
+};

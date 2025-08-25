@@ -8,7 +8,7 @@ import { AppContextProvider } from "../../context/AppContext";
 const Doctor = () => {
   const [selectlist, setSelectlist] = useState(true);
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
-  const { Doctors, } = useContext(AppContextProvider);
+  const { Doctors } = useContext(AppContextProvider);
 
   useEffect(() => {
     

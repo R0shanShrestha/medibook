@@ -12,7 +12,6 @@ import { AppContextProvider } from "../../context/AppContext";
 
 const Profile = () => {
   const { user } = useContext(AppContextProvider);
-  console.log(user)
   const [isEdit, setEdit] = useState(false);
   return (
     user && (
@@ -25,7 +24,7 @@ const Profile = () => {
             <img
               src={user.image}
               alt="Profile"
-              className="w-36 h-36 md:w-44 md:h-44 object-cover rounded-md border shadow-md"
+              className="w-36 h-36 md:w-44 md:h-44 object-cover object-top rounded-md border shadow-md"
             />
             <div className="flex flex-col gap-2 md:gap-4 md:items-start items-center">
               <h1 className="text-2xl md:text-3xl font-bold text-emerald-800">

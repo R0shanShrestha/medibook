@@ -1,221 +1,234 @@
-import { User2Icon } from "lucide-react";
-import React, { useState } from "react";
-import { useContext } from "react";
-import { AdminContextProvider } from "../../../context/AdminContext";
-import { toast } from "react-toastify";
+import { useState, useContext, useRef } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { AdminContextProvider } from "../../../context/AdminContext";
+import { DoctorContextProvider } from "../../../context/DoctorContext";
+import { AppContextProvider } from "../../../context/AppContext";
+import { useEffect } from "react";
 
-const AddDoctor = ({ onClose }) => {
-  const [doctorName, setDoctorName] = useState("");
-  const [speciality, setSpeciality] = useState("");
-  const [email, setEmail] = useState("");
-  const [education, setEducation] = useState("");
-  const [password, setPassword] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [experience, setExperience] = useState("");
-  const [fees, setFees] = useState("");
-  const [bio, setAbout] = useState("");
-  const [image, setImage] = useState(null);
-  const [picturePreview, setPicturePreview] = useState(null);
+const AddDoctor = () => {
   const { backendUrl, adminToken } = useContext(AdminContextProvider);
+  const { doctorToken } = useContext(DoctorContextProvider);
+  const { settab } = useContext(AppContextProvider);
+  useEffect(() => {
+    if (adminToken) {
+      settab("addDoctor");
+    }
+    if (doctorToken) {
+      settab("addDoctor");
+    }
+  }, [adminToken, doctorToken]);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [specializedIn, setSpecializedIn] = useState("");
+  const [experience, setExperience] = useState("");
+  const [bio, setBio] = useState("");
+  const [education, setEducation] = useState("");
+  const [phone, setPhone] = useState("");
+  const [fee, setFee] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePre, setImagePre] = useState(null);
+
+  const fileRef = useRef(null);
+
+  const onPickImage = (e) => {
+    const f = e.target.files?.[0];
+    if (f) {
+      setImage(f);
+      setImagePre(URL.createObjectURL(f));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      if (!image) return toast.error("Image Not Selected");
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append("name", doctorName);
-      formData.append("specializedIn", speciality);
-      formData.append("email", email);
-      formData.append("education", education);
-      formData.append("password", password);
-      formData.append(
+      const fd = new FormData();
+      fd.append("name", name);
+      fd.append("email", email);
+      fd.append("password", password);
+      fd.append("specializedIn", specializedIn);
+      fd.append("experience", experience);
+      fd.append("bio", bio);
+      fd.append("education", education);
+      fd.append("phone", phone);
+      fd.append("fee", fee);
+      fd.append(
         "address",
-        JSON.stringify({ line1: address1, line2: address2 })
+        JSON.stringify({ line1: addressLine1, line2: addressLine2 })
       );
-      formData.append("experience", experience);
-      formData.append("fees", fees);
-      formData.append("bio", bio);
+      if (image) fd.append("image", image);
 
       const { data } = await axios.post(
         backendUrl + "/api/admin/add-doctor",
-        formData,
+        fd,
         {
-          headers: {
-            token: adminToken,
-          },
+          headers: { token: adminToken },
         }
       );
+
       if (data.success) {
-        toast.success(data.message);
-        setPicturePreview(null);
-        setImage("")
-        e.target.reset()
+        toast.success("Doctor added successfully");
+        setName("");
+        setEmail("");
+        setPassword("");
+        setSpecializedIn("");
+        setExperience("");
+        setBio("");
+        setEducation("");
+        setPhone("");
+        setFee("");
+        setAddressLine1("");
+        setAddressLine2("");
+        setImage(null);
+        setImagePre(null);
+        if (fileRef.current) fileRef.current.value = "";
       } else {
-        toast.error(data.message);
+        toast.error(data.message || "Failed to add doctor");
       }
-    } catch (error) {}
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
-    <div className="p-2 w-fit h-full overflow-y-scroll no-scroller">
-      <div className="flex w-full p-5 pb-3 border-b-2">
-        <h1 className="text-xl text-slate-800">Add Doctor</h1>
-      </div>
-      <div className="flex flex-col p-2">
-        <form
-          onSubmit={handleSubmit}
-          className="w-fit rounded-md shadow-md p-2"
+    <div className="w-full min-h-screen flex justify-center items-center bg-gray-100 px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-xl p-6 w-full max-w-2xl flex flex-col gap-4"
+      >
+        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
+          Add Doctor
+        </h2>
+
+        <div className="flex flex-col items-start gap-2">
+          <label className="text-gray-700 text-sm font-medium">
+            Upload Image
+          </label>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            onChange={onPickImage}
+            className="border border-gray-300 p-2 rounded-lg bg-gray-50"
+          />
+          {imagePre && (
+            <img
+              src={imagePre}
+              alt="Preview"
+              className="w-24 h-24 object-cover rounded-full mt-2 border"
+            />
+          )}
+        </div>
+
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Full Name"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <select
+          value={specializedIn}
+          onChange={(e) => setSpecializedIn(e.target.value)}
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
         >
-          <div className="field flex flex-col md:flex-row p-1 md:items-center gap-2">
-            <div className="w-20 h-20 flex items-center justify-center border rounded-full bg-slate-100 text-slate-400">
-              {picturePreview ? (
-                <img
-                  src={picturePreview}
-                  alt="Preview"
-                  className="w-full h-full rounded-full object-cover"
-                />
-              ) : (
-                <User2Icon size={32} />
-              )}
-            </div>
-            <label className="flex flex-col gap-2 text-slate-400">
-              <span className="text-xl">Upload doctor picture</span>
-              <input
-                type="file"
-                className="text-sm"
-                onChange={(e) => {
-                  setImage(e.target.files[0]);
-                  setPicturePreview(
-                    e.target.files[0]
-                      ? URL.createObjectURL(e.target.files[0])
-                      : null
-                  );
-                }}
-              />
-            </label>
-          </div>
+          <option value="">Select Specialization</option>
+          <option value="General Physician">General Physician</option>
+          <option value="Cardiologist">Cardiologist</option>
+          <option value="Dermatologist">Dermatologist</option>
+          <option value="Neurologist">Neurologist</option>
+          <option value="Pediatrician">Pediatrician</option>
+          <option value="Psychiatrist">Psychiatrist</option>
+          <option value="Orthopedic">Orthopedic</option>
+          <option value="Dentist">Dentist</option>
+          <option value="Gynecologist">Gynecologist</option>
+          <option value="Surgeon">Surgeon</option>
+        </select>
 
-          <div className="flex w-full pt-3 flex-wrap gap-3 md:p-2">
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Doctor Name</label>
-              <input
-                type="text"
-                placeholder="Name"
-                value={doctorName}
-                onChange={(e) => setDoctorName(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Speciality</label>
-              <select
-                name="speciality"
-                id="speciality"
-                value={speciality}
-                onChange={(e) => setSpeciality(e.target.value)}
-                className="border p-2"
-              >
-                <option value="General physican">General physican</option>
-                <option value="Gynecologist">Gynecologist</option>
-                <option value="Dermatologist">Dermatologist</option>
-                <option value="Pediatricians">Pediatricians</option>
-                <option value="Neurologist">Neurologist</option>
-                <option value="Gastroenterologist">Gastroenterologist</option>
-              </select>
-            </div>
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Doctor Email</label>
-              <input
-                type="email"
-                placeholder="Your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
+        <input
+          type="text"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
+          placeholder="Experience (e.g., 5 Years)"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
 
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Education</label>
-              <input
-                type="text"
-                placeholder="Education"
-                value={education}
-                onChange={(e) => setEducation(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-            <div className="field p-2 md:w-[35%] justify-center flex flex-col text-slate-500 font-light">
-              <label>Doctor password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Address</label>
-              <input
-                type="text"
-                placeholder="Address 1"
-                value={address1}
-                onChange={(e) => setAddress1(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-              <input
-                type="text"
-                placeholder="Address 2"
-                value={address2}
-                onChange={(e) => setAddress2(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Experience</label>
-              <input
-                type="text"
-                placeholder="Experience"
-                value={experience}
-                onChange={(e) => setExperience(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-            <div className="field p-2 md:w-[35%] flex flex-col text-slate-500 font-light">
-              <label>Fees</label>
-              <input
-                type="text"
-                placeholder="Your fees"
-                value={fees}
-                onChange={(e) => setFees(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-            <div className="field p-2 w-[70%] flex flex-col text-slate-500 font-light">
-              <label>About me</label>
-              <textarea
-                placeholder="Write bio yourself"
-                value={bio}
-                onChange={(e) => setAbout(e.target.value)}
-                className="border w-full p-2 rounded-md"
-              />
-            </div>
-          </div>
+        <textarea
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Short Bio"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none h-24 resize-none"
+        />
 
-          <div className="field ps-5 pb-5">
-            <button
-              type="submit"
-              className="border cursor-pointer p-3 rounded-md text-sm bg-emerald-400 text-white ps-4 pr-4 hover:bg-emerald-500"
-            >
-              Add Doctor
-            </button>
-          </div>
-        </form>
-      </div>
+        <input
+          type="text"
+          value={education}
+          onChange={(e) => setEducation(e.target.value)}
+          placeholder="Education (e.g., MBBS, MD)"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <input
+          type="text"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Phone"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <input
+          type="number"
+          value={fee}
+          onChange={(e) => setFee(e.target.value)}
+          placeholder="Consultation Fee"
+          className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <input
+            type="text"
+            value={addressLine1}
+            onChange={(e) => setAddressLine1(e.target.value)}
+            placeholder="Address Line 1"
+            className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+          />
+          <input
+            type="text"
+            value={addressLine2}
+            onChange={(e) => setAddressLine2(e.target.value)}
+            placeholder="Address Line 2"
+            className="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+        >
+          Save Doctor
+        </button>
+      </form>
     </div>
   );
 };

@@ -8,6 +8,12 @@ import userRoutes from "./routes/user.routes.js";
 const app = express();
 
 // Middlewares
+
+app.use(
+  cors({
+    origin: ["http://192.168.1.68:1235", "http://192.168.1.68:1236"],
+  })
+);
 app.use(cors());
 app.use(express.json());
 

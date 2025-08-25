@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react"; // for hamburger icons
+import { Menu, X } from "lucide-react"; 
 import { useContext } from "react";
 import { AdminContextProvider } from "../context/AdminContext";
 
@@ -26,7 +26,6 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Desktop Links */}
         <div className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
             <a
@@ -39,7 +38,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Mobile Hamburger */}
         <button
           className="md:hidden text-gray-700 focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}

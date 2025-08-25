@@ -3,7 +3,6 @@ import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home.jsx";
-import Doctor from "./pages/Doctor/Doctor.jsx";
 import Contact from "./pages/Contact/Contact.jsx";
 import Error from "./pages/error/Error.jsx";
 import About from "./pages/About/About.jsx";
@@ -13,6 +12,7 @@ import Login from "./pages/Login/Login.jsx";
 import Signup from "./pages/Signup/Signup.jsx";
 import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
 import AppContext from "./context/AppContext.jsx";
+import Doctors from "./pages/Doctor/Doctor.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -25,7 +25,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "/doctors",
-        element: <Doctor />,
+        element: <Doctors />,
       },
       {
         path: "/contact",
@@ -40,7 +40,7 @@ const routes = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/appointment",
+        path: "/my-appointment",
         element: <Appointment />,
       },
       {
@@ -57,30 +57,6 @@ const routes = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/doctor/dashboard/",
-  //   element: <DoctorDashboard />,
-  //   children: [
-  //     {
-  //       path: "/doctor/dashboard/",
-  //       element: <DoctorDashboardItems />,
-  //     },
-
-  //     {
-  //       path: "/doctor/dashboard/appointments",
-  //       element: <MyAppointmentpage />,
-  //     },
-
-  //     {
-  //       path: "/doctor/dashboard/patients",
-  //       element: <Patient />,
-  //     },
-  //     {
-  //       path: "/doctor/dashboard/profile",
-  //       element: <DoctorProfile />,
-  //     },
-  //   ],
-  // },
 
   {
     path: "*",

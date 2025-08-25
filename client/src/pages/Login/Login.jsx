@@ -11,7 +11,7 @@ const Login = () => {
   const Email = useRef();
   const Password = useRef();
   useEffect(() => {
-    if (localStorage.getItem("token") || token) {
+    if (localStorage.getItem("Usertoken") || token) {
       nav("/doctors");
     }
   }, [token]);
@@ -28,7 +28,7 @@ const Login = () => {
         dataObj
       );
       if (data.success) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("Usertoken", data.token);
         setToken(data.token);
         toast.success(data.message);
       } else {

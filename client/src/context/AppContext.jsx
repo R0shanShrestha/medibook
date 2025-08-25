@@ -19,14 +19,19 @@ const AppContext = ({ children }) => {
   const [Doctors, setDoct] = useState([]);
   const [user, setUserData] = useState(false);
   const [token, setToken] = useState(
-    localStorage.getItem("token") ? localStorage.getItem("token") : false
+    localStorage.getItem("Usertoken")
+      ? localStorage.getItem("Usertoken")
+      : false
   );
 
   const getDoctorsData = async () => {
     try {
       const { data } = await axios.get(backendUri + "/api/doctor/list");
       if (data.success) {
-        setDoct(data.doctors);
+        const filterAvailableDoc = data.doctors.filter(
+          (doc) => doc.available && doc
+        );
+        setDoct(filterAvailableDoc);
       } else {
         toast.error(data.message);
       }
@@ -42,7 +47,7 @@ const AppContext = ({ children }) => {
         headers: { token: token },
       });
       if (data.success) {
-        console.log(data.user);
+        // console.log(data.user);
         setUserData(data.user);
       } else {
         toast.error(data.message);
@@ -59,7 +64,7 @@ const AppContext = ({ children }) => {
   useEffect(() => {
     if (token) {
       loadUserData();
-      console.log(user);
+      // console.log(user);
     } else {
       setUserData(false);
     }
@@ -75,7 +80,7 @@ const AppContext = ({ children }) => {
         backendUri,
         user,
         setUserData,
-        loadUserData
+        loadUserData,
       }}
     >
       {children}

@@ -1,18 +1,26 @@
 import { CheckCircle } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { FcAbout } from "react-icons/fc";
-import { AllDoctors } from "../../utils/constant";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppContextProvider } from "../../context/AppContext";
-import RelatedDoc from "../../components/Doctors/RelatedDoc";
+import { toast } from "react-toastify";
+import axios from "axios";
+import RelatedDoc from "../Doctor/RelatedDoc";
 
 const AppointmentPage = () => {
-
   // Doctor info with param
   const { doctorId } = useParams();
-  const { Doctors } = useContext(AppContextProvider);
+  const nav = useNavigate();
+  const { Doctors, backendUri, getDoctorsData, token } =
+    useContext(AppContextProvider);
   const [docDetails, setDocDetails] = useState([]);
+
   const fetchDocInfo = async () => {
+    if (!Doctors.length) {
+      // Fetch doctors if not already loaded
+      getDoctorsData();
+      return;
+    }
     const docDetails = Doctors.find((doc) => doc._id == doctorId);
     setDocDetails(docDetails);
   };
@@ -24,18 +32,19 @@ const AppointmentPage = () => {
   const daysofWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   const getAvailableSlots = async () => {
+    if (!docDetails || !docDetails.slots_booked) return; // ⬅️ prevent crash
+
     setDocSlots([]);
     let today = new Date();
 
     for (let i = 0; i < 7; i++) {
-      // getting date with index
       let currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i);
-      // Setting end time of the date with index
+
       let endTime = new Date();
       endTime.setDate(today.getDate() + i);
       endTime.setHours(21, 0, 0, 0);
-      //setting hours
+
       if (today.getDate() === currentDate.getDate()) {
         currentDate.setHours(
           currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10
@@ -54,16 +63,68 @@ const AppointmentPage = () => {
           minute: "2-digit",
         });
 
-        // add slot to arry
-        timeslots.push({
-          datetime: new Date(currentDate),
-          time: timeFormat,
-        });
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
 
-        //increment current time by 30 min
+        const slotDate = day + "_" + month + "_" + year;
+        const slotTime = timeFormat;
+
+        const isSlotAvailable = docDetails.slots_booked?.[slotDate]?.includes(
+          slotTime
+        )
+          ? false
+          : true;
+
+        if (isSlotAvailable) {
+          timeslots.push({
+            datetime: new Date(currentDate),
+            time: timeFormat,
+          });
+        }
+
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
+
       setDocSlots((pre) => [...pre, timeslots]);
+    }
+  };
+
+
+  const bookAppointment = async () => {
+    if (!token) {
+      toast.warn("Login required to Book Appointment");
+      return nav("/login");
+    }
+
+    try {
+      const date = doctorSlots[slotIndex][0].datetime;
+
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+
+      const slotDate = day + "_" + month + "_" + year;
+      const { data } = await axios.post(
+        backendUri + "/api/user/book-appointment",
+        {
+          docId: doctorId,
+          slotDate,
+          slotTime,
+        },
+        {
+          headers: { token },
+        }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        getDoctorsData();
+        nav("/my-appointment");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -96,7 +157,9 @@ const AppointmentPage = () => {
                 </span>
               </h1>
               <div className="font-medium text-slate-500  items-center text-sm flex gap-3">
-                <p className="">MBBS-{docDetails.specializedIn}</p>
+                <p className="">
+                  {docDetails.education}-{docDetails.specializedIn}
+                </p>
                 <span className="p-2 text-sm rounded-xl">
                   {docDetails.experience}
                 </span>
@@ -107,11 +170,16 @@ const AppointmentPage = () => {
               <h4 className="flex font-bold text-slate-700 items-center gap-5">
                 About <FcAbout />
               </h4>
-              <p className="text-sm font-light text-gray-800">{docDetails.bio}</p>
+              <p className="text-sm font-light text-gray-800">
+                {docDetails.bio}
+              </p>
             </div>
 
             <div className="text-slate-700 font-medium">
-              <p>Appointment fee: <span className="font-bold text-red-400">{docDetails.fee}</span></p>
+              <p>
+                Appointment fee:{" "}
+                <span className="font-bold text-red-400">{docDetails.fee}</span>
+              </p>
             </div>
           </div>
         </div>
@@ -170,12 +238,14 @@ const AppointmentPage = () => {
             </div>
 
             <div className="bookingBtn w-full p-5">
-              <Link
-                to={"#"}
+              <button
+                onClick={() => {
+                  bookAppointment();
+                }}
                 className="p-4 font-medium w-full md:w-fit rounded-xl ps-6 pr-6 text-sm bg-emerald-800 text-white hover:bg-emerald-900"
               >
                 Book an appointment
-              </Link>
+              </button>
             </div>
           </div>
         </div>

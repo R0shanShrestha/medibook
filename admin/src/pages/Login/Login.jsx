@@ -1,18 +1,31 @@
 import React, { useContext, useRef } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AdminContextProvider } from "../../context/AdminContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { AppContextProvider } from "../../context/AppContext";
+import { DoctorContextProvider } from "../../context/DoctorContext";
+import { useEffect } from "react";
 
 const Login = () => {
-  const [state, setState] = useState("Admin");
-
+  const { state, setstate } = useContext(AppContextProvider);
+  const nav = useNavigate();
   const { backendUrl, adminToken, setAdminToken } =
     useContext(AdminContextProvider);
+  const { doctorToken, setDoctorToken } = useContext(DoctorContextProvider);
 
   const Email = useRef();
   const Password = useRef();
+
+  useEffect(() => {
+    if (adminToken) {
+      nav("/admin/dashboard");
+    }
+    if (doctorToken) {
+      nav("/doctor/dashboard");
+    }
+  }, [doctorToken, adminToken]);
 
   const submitData = async (e) => {
     e.preventDefault();
@@ -28,21 +41,42 @@ const Login = () => {
       );
 
       if (data.success) {
-        localStorage.setItem("token", data.token);
+        setstate("Admin");
+        localStorage.setItem("adminToken", data.token);
         setAdminToken(data.token);
-        console.log(data.token);
+        toast.success(data.success);
+        nav("/admin/dashboard");
       } else {
         toast.error(data.message);
       }
 
-      // Email.current.value = "";
-      // Password.current.value = "";
+      Email.current.value = "";
+      Password.current.value = "";
     } else {
+      let dataObj = {
+        email: Email.current.value,
+        password: Password.current.value,
+      };
+
+      const { data } = await axios.post(
+        backendUrl + "/api/doctor/login",
+        dataObj
+      );
+
+      if (data.success) {
+        localStorage.setItem("doctorToken", data.token);
+        setstate("Doctor");
+        setDoctorToken(data.token);
+        toast.success(data.success);
+        nav("/doctor/dashboard");
+      } else {
+        toast.error(data.message);
+      }
     }
   };
 
   return (
-    <div className="flex justify-center p-1 border h-[80vh] items-center">
+    <div className="flex justify-center p-1  h-[80vh] items-center">
       <div className="flex border w-[400px] border-emerald-200 shadow-md p-10 flex-col gap-4 rounded-xl h-fit">
         <div className="head">
           <h1 className="text-2xl font-semibold text-emerald-600">
@@ -72,22 +106,23 @@ const Login = () => {
               className="border outline-none  p-2 rounded w-full "
             />
           </div>
-          <div className="field text-slate-600 flex flex-col">
+          <div className="field z-20 relative text-slate-600 flex flex-col">
             <button
               onClick={(e) => {
                 submitData(e);
               }}
-              className="cursor-pointer hover:bg-emerald-900 transition-all duration-300 p-2 rounded bg-emerald-400 text-white font-semibold"
+           
+              className="cursor-pointer hover:bg-emerald-900  transition-all duration-300 p-2 rounded bg-emerald-400 text-white font-semibold"
             >
               Login
             </button>
           </div>
-          <div className="field text-slate-600 flex flex-col pt-3 text-sm mt-3 border-t-2">
+          <div className="field z10 text-slate-600 flex flex-col pt-3 text-sm mt-3 border-t-2">
             {state == "Admin" ? (
               <p>
                 Doctor Login{" "}
                 <span
-                  onClick={() => setState("Doctor")}
+                  onClick={() => setstate("Doctor")}
                   className="font-semibold cursor-pointer  hover:text-blue-800 text-blue-500"
                 >
                   Click here
@@ -97,7 +132,7 @@ const Login = () => {
               <p>
                 Admin Login{" "}
                 <span
-                  onClick={() => setState("Admin")}
+                  onClick={() => setstate("Admin")}
                   className="font-semibold cursor-pointer  hover:text-blue-800 text-blue-500"
                 >
                   Click here

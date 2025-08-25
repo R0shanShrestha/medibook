@@ -1,47 +1,98 @@
-import { BookText, BookUserIcon, Cross } from "lucide-react";
-import React from "react";
+import { BookText, BookUserIcon } from "lucide-react";
+import React, { useContext, useEffect } from "react";
 import { FaUserDoctor, FaUserInjured } from "react-icons/fa6";
 import AppointmentCard from "../Appointments/AppointmentCard";
+import { AdminContextProvider } from "../../../context/AdminContext";
+import { DoctorContextProvider } from "../../../context/DoctorContext";
+import { AppContextProvider } from "../../../context/AppContext";
 
 const DashboardItems = () => {
+  const {
+    adminDashboardDetails,
+    DashboardDetails,
+    slotDateFormat,
+    cancelAppointment,
+    adminToken,
+  } = useContext(AdminContextProvider);
+
+  const { doctorToken } = useContext(DoctorContextProvider);
+  const { settab } = useContext(AppContextProvider);
+  useEffect(() => {
+    if (adminToken) {
+      settab("dashboard");
+      adminDashboardDetails();
+    }
+    if (doctorToken) {
+      settab("dashboard");
+    }
+  }, [adminToken, doctorToken]);
+
   return (
-    <div className="md:ps-10 flex flex-col gap-10  h-full overflow-hidden overflow-y-scroll no-scroller ">
-      <div className=" flex gap-10 p-2 flex-wrap  items-center  ">
-        <div className="cards flex gap-3 border items-center p-5 rounded-md shadow-md w-fit ">
-          <div className="ico text-3xl text-emerald-800">
+    <div className="flex flex-col gap-10 h-full w-full overflow-hidden">
+      {/* Top Cards */}
+      <div className="flex flex-wrap gap-6 justify-start">
+        {/* Doctors Card */}
+        <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow-md min-w-[180px] transform transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
+          <div className="text-3xl text-emerald-700">
             <FaUserDoctor />
           </div>
-          <div className="detls flex text-sm text-emerald-700 flex-col justify-center">
-            <span className="font-bold text-xl">14</span>
-            <span>Doctors</span>
+          <div className="flex flex-col">
+            <span className="text-sm text-gray-500">Doctors</span>
+            <span className="font-bold text-2xl text-emerald-800">
+              {DashboardDetails.totalDoctors || 0}
+            </span>
           </div>
         </div>
-        <div className="cards flex gap-3 border items-center p-5 rounded-md shadow-md w-fit ">
-          <div className="ico text-3xl text-emerald-800">
+
+        {/* Appointments Card */}
+        <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow-md min-w-[180px] transform transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
+          <div className="text-3xl text-emerald-700">
             <BookUserIcon />
           </div>
-          <div className="detls flex text-sm text-emerald-700 flex-col justify-center">
-            <span className="font-bold text-xl">2</span>
-            <span>Appointments</span>
+          <div className="flex flex-col">
+            <span className="text-sm text-gray-500">Appointments</span>
+            <span className="font-bold text-2xl text-emerald-800">
+              {DashboardDetails.totalAppointment || 0}
+            </span>
           </div>
         </div>
-        <div className="cards flex gap-3 border items-center p-5 rounded-md shadow-md w-fit ">
-          <div className="ico text-3xl text-emerald-800">
+
+        {/* Patients Card */}
+        <div className="flex items-center gap-4 bg-white p-5 rounded-xl shadow-md min-w-[180px] transform transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
+          <div className="text-3xl text-emerald-700">
             <FaUserInjured />
           </div>
-          <div className="detls flex text-sm text-emerald-700 flex-col justify-center">
-            <span className="font-bold text-xl">5</span>
-            <span>Patients</span>
+          <div className="flex flex-col">
+            <span className="text-sm text-gray-500">Patients</span>
+            <span className="font-bold text-2xl text-emerald-800">
+              {DashboardDetails.totalUsers || 0}
+            </span>
           </div>
         </div>
       </div>
+
       {/* Latest Appointments */}
-      <div className="latest  p-5   h-[80%] md:h-full">
-        <div className="title flex pb-5 border-b-2 items-center font-medium gap-3 text-emerald-800">
-          <BookText size={30} /> <span>Latest Appointment</span>
+      <div className="bg-white rounded-xl shadow-md p-5 flex flex-col h-full overflow-hidden transform transition-all duration-300 hover:shadow-xl">
+        <div className="flex items-center gap-3 pb-3 text-emerald-800 font-medium text-lg">
+          <BookText size={28} />
+          <span>Latest Appointments</span>
         </div>
-        <div className="appointmentsList no-scroller  overflow-hidden pt-2 gap-3 flex flex-col overflow-y-scroll h-[60%] md:h-[70%]  p-1">
-          <AppointmentCard />
+
+        <div className="mt-4 flex flex-col gap-3 overflow-y-auto h-[400px] md:h-[500px] pr-2">
+          {DashboardDetails?.latestAppointments?.length > 0 ? (
+            DashboardDetails.latestAppointments.map((details, idx) => (
+              <AppointmentCard
+                key={idx}
+                data={details}
+                slotDateFormat={slotDateFormat}
+                cancelAppointment={cancelAppointment}
+              />
+            ))
+          ) : (
+            <div className="text-gray-400 text-center py-10">
+              No recent appointments
+            </div>
+          )}
         </div>
       </div>
     </div>

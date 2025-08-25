@@ -1,30 +1,66 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import DoctorCard from "./DoctorCard";
-import { useContext } from "react";
 import { AdminContextProvider } from "../../../context/AdminContext";
-import { useEffect } from "react";
-// import { AllDoctors } from "../../utils/constant";
+import DoctorDetail from "../../../components/DoctorDetail";
+import { DoctorContextProvider } from "../../../context/DoctorContext";
+import { AppContextProvider } from "../../../context/AppContext";
 
 const Doctors = () => {
-  const { getAllDoctors, adminToken, Doctors, changeAvailability } =
-    useContext(AdminContextProvider);
+  const {
+    getAllDoctors,
+    adminToken,
+    delDoctorAcc,
+    Doctors,
+    changeAvailability,
+  } = useContext(AdminContextProvider);
 
-  useEffect(() => {
-    if (adminToken) {
-      getAllDoctors();
-    }
-  }, [adminToken]);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+   const { doctorToken } = useContext(DoctorContextProvider);
+    const { settab } = useContext(AppContextProvider);
+    useEffect(() => {
+      if (adminToken) {
+        settab("doctors");
+        getAllDoctors();
+      }
+      if (doctorToken) {
+        settab("doctors");
+      }
+    }, [adminToken, doctorToken]);
+
   return (
-    <div className="flex flex-col w-full h-[100%]   p-2  overflow-hidden overflow-y-scroll no-scroller ">
-      <div className="flex w-full p-5 pb-3 border-b-2 ">
-        <h1 className="text-xl text-slate-800">All Doctors</h1>
+    <div className="flex flex-col w-full min-h-screen p-2 overflow-hidden">
+      <div className="flex w-full p-5 pb-3">
+        <h1 className="text-2xl md:text-3xl font-semibold text-slate-800">
+          All Doctors
+        </h1>
       </div>
-      {/* All doctors lists */}
-      <div className=" flex flex-wrap gap-5  h-[30%] md:h-[85%] p-2 border  overflow-hidden overflow-y-scroll no-scroller">
-        {Doctors.map((doct) => (
-          <DoctorCard doctor={doct} changeAvailability={changeAvailability} />
-        ))}
+
+      <div className="flex flex-wrap gap-5 p-2 overflow-y-auto h-[calc(100vh-100px)] md:h-[calc(100vh-120px)]">
+        {Doctors.length > 0 ? (
+          Doctors.map((doct, id) => (
+            <DoctorCard
+              key={id}
+              doctor={doct}
+              onDelete={delDoctorAcc}
+              changeAvailability={changeAvailability}
+              onClick={() => setSelectedDoctor(doct)}
+            />
+          ))
+        ) : (
+          <p className="text-gray-500 text-center w-full mt-10">
+            No doctors found.
+          </p>
+        )}
       </div>
+
+      {/* Doctor Details Modal */}
+      {selectedDoctor && (
+        <DoctorDetail
+          doctor={selectedDoctor}
+          onClose={() => setSelectedDoctor(null)}
+        />
+      )}
     </div>
   );
 };

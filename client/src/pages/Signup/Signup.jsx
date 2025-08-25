@@ -30,7 +30,7 @@ const Signup = () => {
         dataObj
       );
       if (data.success) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("Usertoken", data.token);
         setToken(data.token);
         toast.success(data.message);
       } else {

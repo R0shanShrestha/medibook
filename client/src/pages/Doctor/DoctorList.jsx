@@ -1,5 +1,5 @@
 import React from "react";
-import DoctorLists from "../../components/Doctors/DocCard";
+import DocCard from "./DocCard";
 
 const DoctorList = ({ selectedTab, Data }) => {
   return (
@@ -14,7 +14,7 @@ const DoctorList = ({ selectedTab, Data }) => {
       </div>
       <div className="doclist flex  flex-wrap gap-5  mt-3 h-[600px] overflow-hidden  overflow-y-scroll">
         {Data.map((doct, id) => {
-          return <DoctorLists doctor={doct} key={id} />;
+          return <DocCard  doctor={doct} key={id} />;
         })}
       </div>
     </>

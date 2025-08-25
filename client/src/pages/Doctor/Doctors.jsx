@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import DoctorLists from "./DocCard";
-import { AllDoctors } from "../../utils/constant";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

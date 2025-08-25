@@ -10,8 +10,12 @@ import Login from "./pages/Login/Login.jsx";
 import Dashboard from "./pages/adminpage/Dashboard/Dashboard.jsx";
 import DashboardItems from "./pages/adminpage/Dashboard/DashboardItems.jsx";
 import Appointments from "./pages/adminpage/Appointments/Appointments.jsx";
-import AddDoctor from "./pages/adminpage/Doctor/AddDoctor.jsx";
 import Doctors from "./pages/adminpage/Doctor/Doctors.jsx";
+import DoctorDashboardItems from "./pages/Doctor/DoctorDashboardItems.jsx";
+import MyAppointmentpage from "./pages/Doctor/MyAppointmentpage.jsx";
+import AddDoctor from "./pages/adminpage/Doctor/AddDoctor.jsx";
+import Patients from "./pages/Doctor/Patient/Patients.jsx";
+import DoctorProfile from "./pages/Doctor/DoctorProfile.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -27,6 +31,8 @@ const routes = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+      //Admin Routes
+
       {
         path: "/admin/dashboard",
         element: <Dashboard />,
@@ -46,6 +52,29 @@ const routes = createBrowserRouter([
           {
             path: "/admin/dashboard/doctors",
             element: <Doctors />,
+          },
+        ],
+      },
+      //Doctor Routes
+      {
+        path: "/doctor/dashboard",
+        element: <Dashboard />,
+        children: [
+          {
+            path: "/doctor/dashboard",
+            element: <DoctorDashboardItems />,
+          },
+          {
+            path: "/doctor/dashboard/appointment",
+            element: <MyAppointmentpage />,
+          },
+          {
+            path: "/doctor/dashboard/patients",
+            element: <Patients />,
+          },
+          {
+            path: "/doctor/dashboard/profile",
+            element: <DoctorProfile />,
           },
         ],
       },
