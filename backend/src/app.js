@@ -8,18 +8,7 @@ import doctorRoutes from "./routes/doctor.routes.js";
 const app = express();
 
 // Middlewares
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://192.168.1.68:1235",
-      "https://medibook-admin.vercel.app",
-      "https://medibook-roshan.vercel.app",
-    ],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-  })
-);
+app.use(cors({ origin: "*", methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS" }));
 
 app.use(cors());
 app.use(express.json());
