@@ -16,7 +16,12 @@ const doctorRoutes = express.Router();
 
 doctorRoutes.get("/list", doctorlist);
 doctorRoutes.post("/login", doctorLogin);
-doctorRoutes.post("/doctor-update-profile", upload.single('image') ,authDoctor, updateDoctorProfile);
+doctorRoutes.post(
+  "/doctor-update-profile",
+  upload.single("image"),
+  authDoctor,
+  updateDoctorProfile
+);
 doctorRoutes.get("/doctor-profile", authDoctor, docProfile);
 doctorRoutes.get("/doctor-dashboard", authDoctor, doctorDashboard);
 doctorRoutes.get("/doctor-appointment", authDoctor, doctorAppointment);
