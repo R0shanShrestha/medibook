@@ -4,7 +4,6 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home.jsx";
 import Contact from "./pages/Contact/Contact.jsx";
-import Error from "./pages/error/Error.jsx";
 import About from "./pages/About/About.jsx";
 import Profile from "./pages/UserPage/Profile.jsx";
 import Appointment from "./pages/Appointment/Appointment.jsx";
@@ -13,6 +12,7 @@ import Signup from "./pages/Signup/Signup.jsx";
 import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
 import AppContext from "./context/AppContext.jsx";
 import Doctors from "./pages/Doctor/Doctor.jsx";
+import Error from "./pages/error/Error.jsx";
 
 const routes = createBrowserRouter([
   {
