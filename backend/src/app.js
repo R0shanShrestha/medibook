@@ -14,7 +14,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://192.168.1.68:1235",
-      "https://your-production-frontend.vercel.app",
+      "https://medibook-admin.vercel.app",
     ],
   })
 );
