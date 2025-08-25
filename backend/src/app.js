@@ -28,7 +28,7 @@ app.use(express.json());
 
 // Api endpoints
 app.get("/", (req, res) => {
-  res.send("Welcome to Server");
+  res.send("<h1>Welcome to Server</h1>");
 });
 
 app.use("/api/admin/", adminRouter);
