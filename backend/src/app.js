@@ -16,6 +16,7 @@ app.use(
       "http://192.168.1.68:1235",
       "https://medibook-admin.vercel.app",
     ],
+    credentials: true,
   })
 );
 app.use(cors());
