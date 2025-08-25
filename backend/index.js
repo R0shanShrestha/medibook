@@ -7,7 +7,7 @@ import { CloudConnect } from "./src/config/cloudinary.js";
 const server = http.createServer(app);
 CloudConnect();
 if (dbConection()) {
-  server.listen(conf.port, "0.0.0.0", () => {
+  server.listen(conf.port, () => {
     console.log("Running on port: " + conf.port);
   });
 } else {
