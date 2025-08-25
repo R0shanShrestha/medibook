@@ -8,7 +8,6 @@ import doctorRoutes from "./routes/doctor.routes.js";
 const app = express();
 
 // Middlewares
-
 app.use(
   cors({
     origin: [
@@ -18,7 +17,6 @@ app.use(
       "https://medibook-roshan.vercel.app",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-
     credentials: true,
   })
 );
@@ -34,9 +32,9 @@ app.get("/test", (req, res) => {
   res.send("WElcome to test");
 });
 
-
 app.use("/api/admin/", adminRouter);
 app.use("/api/doctor/", doctorRoutes);
 app.use("/api/user/", userRoutes);
 
-export { app };
+// 👇 Vercel needs default export
+export default app;
