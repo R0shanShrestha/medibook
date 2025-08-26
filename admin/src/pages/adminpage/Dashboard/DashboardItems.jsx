@@ -3,8 +3,8 @@ import React, { useContext, useEffect } from "react";
 import { FaUserDoctor, FaUserInjured } from "react-icons/fa6";
 import AppointmentCard from "../Appointments/AppointmentCard";
 import { AdminContextProvider } from "../../../context/AdminContext";
-import { DoctorContextProvider } from "../../../context/DoctorContext";
 import { AppContextProvider } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const DashboardItems = () => {
   const {
@@ -15,19 +15,22 @@ const DashboardItems = () => {
     adminToken,
   } = useContext(AdminContextProvider);
 
-  const { doctorToken } = useContext(DoctorContextProvider);
   const { settab } = useContext(AppContextProvider);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!adminToken) {
+      nav("/login");
+    }
+  }, [adminToken]);
   useEffect(() => {
     if (adminToken) {
       settab("dashboard");
       adminDashboardDetails();
     }
-    if (doctorToken) {
-      settab("dashboard");
-    }
-  }, [adminToken, doctorToken]);
+  }, [adminToken]);
 
-  return (
+  return adminToken ? (
     <div className="flex flex-col gap-10 h-full w-full overflow-hidden">
       {/* Top Cards */}
       <div className="flex flex-wrap gap-6 justify-start">
@@ -96,6 +99,8 @@ const DashboardItems = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <div className="w-full text-center items-center ">Login Required</div>
   );
 };
 

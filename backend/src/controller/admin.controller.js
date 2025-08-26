@@ -130,7 +130,10 @@ const allDoctor = async (req, res) => {
 
 const allAppointmentsAdmin = async (req, res) => {
   try {
-    const appointments = await appointmentModel.find();
+    const appointments = await appointmentModel
+      .find()
+      .populate("docId")
+      .populate("userId");
     // console.log(appointments);
     res.json({ success: true, appointments });
   } catch (error) {
@@ -167,7 +170,10 @@ const adminDashboardDetails = async (req, res) => {
   try {
     const doctors = await doctorModel.find();
     const users = await userModel.find();
-    const appointment = await appointmentModel.find();
+    const appointment = await appointmentModel
+      .find()
+      .populate("userId")
+      .populate("docId");
     const dashData = {
       totalDoctors: doctors.length,
       totalUsers: users.length,

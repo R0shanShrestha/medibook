@@ -118,7 +118,6 @@ const DoctorContext = ({ children }) => {
         cancelAppointment,
         backendUrl,
         appointments,
-        setDoctorToken,
         getAppointments,
         completeAppointment,
         dashboardData,

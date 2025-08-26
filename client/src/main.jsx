@@ -3,7 +3,6 @@ import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home.jsx";
-import Contact from "./pages/Contact/Contact.jsx";
 import About from "./pages/About/About.jsx";
 import Profile from "./pages/UserPage/Profile.jsx";
 import Appointment from "./pages/Appointment/Appointment.jsx";
@@ -12,6 +11,8 @@ import Signup from "./pages/Signup/Signup.jsx";
 import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
 import AppContext from "./context/AppContext.jsx";
 import Doctors from "./pages/Doctor/Doctor.jsx";
+import Wrapper from "./wrapper/wrapper.jsx";
+import HelpLine from "./pages/Contact/HelpLine.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -27,8 +28,8 @@ const routes = createBrowserRouter([
         element: <Doctors />,
       },
       {
-        path: "/contact",
-        element: <Contact />,
+        path: "/helpLine",
+        element: <HelpLine />,
       },
       {
         path: "/about",
@@ -36,11 +37,19 @@ const routes = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <Wrapper>
+            <Profile />
+          </Wrapper>
+        ),
       },
       {
         path: "/my-appointment",
-        element: <Appointment />,
+        element: (
+          <Wrapper>
+            <Appointment />
+          </Wrapper>
+        ),
       },
       {
         path: "/login",
@@ -56,8 +65,6 @@ const routes = createBrowserRouter([
       },
     ],
   },
-
-  
 ]);
 
 createRoot(document.getElementById("root")).render(

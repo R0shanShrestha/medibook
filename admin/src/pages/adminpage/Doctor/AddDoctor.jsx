@@ -2,22 +2,26 @@ import { useState, useContext, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AdminContextProvider } from "../../../context/AdminContext";
-import { DoctorContextProvider } from "../../../context/DoctorContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddDoctor = () => {
   const { backendUrl, adminToken } = useContext(AdminContextProvider);
-  const { doctorToken } = useContext(DoctorContextProvider);
   const { settab } = useContext(AppContextProvider);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!adminToken) {
+      nav("/login");
+    }
+  }, [adminToken]);
+
   useEffect(() => {
     if (adminToken) {
       settab("addDoctor");
     }
-    if (doctorToken) {
-      settab("addDoctor");
-    }
-  }, [adminToken, doctorToken]);
+  }, [adminToken]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -94,7 +98,7 @@ const AddDoctor = () => {
     }
   };
 
-  return (
+  return adminToken ? (
     <div className="w-full min-h-screen flex justify-center items-center bg-gray-100 px-4">
       <form
         onSubmit={handleSubmit}
@@ -230,6 +234,8 @@ const AddDoctor = () => {
         </button>
       </form>
     </div>
+  ) : (
+    <div className="w-full text-center items-center ">Login Required</div>
   );
 };
 

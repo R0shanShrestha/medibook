@@ -9,14 +9,17 @@ export const AppContextProvider = createContext({
   token: "",
   setToken: () => {},
   user: "",
+  tab: "",
   setUserData: () => {},
-  loadUserData: () => {},
   backendUri: "",
+  loadUserData: () => {},
+  setTab: () => {},
 });
 
 const AppContext = ({ children }) => {
   const backendUri = import.meta.env.VITE_BACKEND_URL;
   const [Doctors, setDoct] = useState([]);
+  const [tab, setTab] = useState("home");
   const [user, setUserData] = useState(false);
   const [token, setToken] = useState(
     localStorage.getItem("Usertoken")
@@ -80,6 +83,8 @@ const AppContext = ({ children }) => {
         user,
         setUserData,
         loadUserData,
+        tab,
+        setTab,
       }}
     >
       {children}

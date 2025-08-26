@@ -1,14 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Calendar,
-  User,
-  Clock,
-  CheckCircle,
-  XCircle,
-  CheckCircle2,
-} from "lucide-react";
+import { Calendar, User, Clock, CheckCircle, XCircle } from "lucide-react";
 import { DoctorContextProvider } from "../../context/DoctorContext";
 import { AppContextProvider } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const DoctorDashboardItems = () => {
   const {
@@ -20,6 +14,13 @@ const DoctorDashboardItems = () => {
   } = useContext(DoctorContextProvider);
   const { slotDateFormat } = useContext(AppContextProvider);
 
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!doctorToken) {
+      nav("/login");
+    }
+  }, [doctorToken]);
   useEffect(() => {
     if (doctorToken) {
       dashboardData();
@@ -53,6 +54,8 @@ const DoctorDashboardItems = () => {
     },
   ];
 
+  console.log(dashboard)
+
   return (
     <div className="flex flex-col gap-8">
       {/* Stats */}
@@ -75,58 +78,65 @@ const DoctorDashboardItems = () => {
           Latest Appointments
         </h2>
         <div className="flex flex-col gap-3 max-h-72 overflow-y-auto">
-          {dashboard?.latestAppoint?.map((appointment, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors"
-            >
-              {/* Patient Info */}
-              <div className="flex items-center gap-3">
-                <img
-                  src={appointment.userData.image}
-                  alt={appointment.userData.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div className="flex flex-col">
-                  <span className="font-medium text-slate-800">
-                    {appointment.userData.name}
-                  </span>
-                  <span className="text-sm text-slate-500">
-                    {slotDateFormat(appointment.slotDate)} ||{" "}
-                    {appointment.slotTime}
-                  </span>
+          {dashboard?.latestAppoint &&
+            dashboard?.latestAppoint?.map((appointment, idx) => (
+              <div
+                key={idx}
+                className="flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors"
+              >
+                {/* Patient Info */}
+                <div className="flex items-center gap-3">
+                  <img
+                    src={appointment.userId.image}
+                    alt={appointment.userId.name}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div className="flex flex-col">
+                    <span className="font-medium text-slate-800">
+                      {appointment.userId.name}
+                    </span>
+                    <span className="text-sm text-slate-500">
+                      {slotDateFormat(appointment.slotDate)} ||{" "}
+                      {appointment.slotTime}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Time + Actions */}
-              {appointment?.cancelled ? (
-                <p className="text-red-600 font-medium">Cancelled</p>
-              ) : appointment?.iscompleted ? (
-                <p className="text-green-600 font-medium">Completed</p>
-              ) : (
-                <div className="flex flex-col sm:flex-row gap-2 justify-end w-fit md:w-auto">
-                  <button
-                    onClick={() => {
-                      cancelAppointment(appointment?._id);
-                    }}
-                    className="flex items-center justify-center gap-1 px-3 py-1 text-xs sm:text-sm border border-red-500 text-red-600 rounded-lg 
+                {/* Time + Actions */}
+                {appointment?.cancelled ? (
+                  <p className="text-red-600 font-medium">Cancelled</p>
+                ) : appointment?.iscompleted ? (
+                  <p className="text-green-600 font-medium">Completed</p>
+                ) : (
+                  <div className="flex flex-col sm:flex-row gap-2 justify-end w-fit md:w-auto">
+                    <button
+                      onClick={() => {
+                        cancelAppointment(appointment?._id);
+                      }}
+                      className="flex items-center justify-center gap-1 px-3 py-1 text-xs sm:text-sm border border-red-500 text-red-600 rounded-lg 
                                hover:bg-red-50 hover:scale-105 transition-transform duration-200 w-fit sm:w-auto"
-                  >
-                    <XCircle size={16} /> Cancel
-                  </button>
-                  <button
-                    onClick={() => {
-                      completeAppointment(appointment?._id);
-                    }}
-                    className="flex items-center justify-center gap-1 px-3 py-1 text-xs sm:text-sm border border-emerald-500 text-emerald-600 rounded-lg 
+                    >
+                      <XCircle size={16} /> Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        completeAppointment(appointment?._id);
+                      }}
+                      className="flex items-center justify-center gap-1 px-3 py-1 text-xs sm:text-sm border border-emerald-500 text-emerald-600 rounded-lg 
                                                 hover:bg-emerald-50 hover:scale-105 transition-transform duration-200 w-fit sm:w-auto"
-                  >
-                    <CheckCircle size={16} /> Accept
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+                    >
+                      <CheckCircle size={16} /> Accept
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+
+          {dashboard?.latestAppoint == "" && (
+            <h1 className="w-full text-center pt-2 text-slate-600 ">
+              No Appointments yet
+            </h1>
+          )}
         </div>
       </div>
     </div>

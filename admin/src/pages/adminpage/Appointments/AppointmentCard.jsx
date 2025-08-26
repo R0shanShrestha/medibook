@@ -7,13 +7,13 @@ const AppointmentCard = ({ data, slotDateFormat, cancelAppointment }) => {
       <div className="flex items-center gap-4">
         <div className="userIco">
           <img
-            src={data.userData.image}
+            src={data.userId.image}
             alt="Not found"
             className="w-[50px] h-[50px] object-cover object-top rounded-full border"
           />
         </div>
         <div className="Detls text-slate-700">
-          <h2 className="font-medium">{data.userData.name}</h2>
+          <h2 className="font-medium">{data.userId.name}</h2>
           <p className="text-sm text-slate-500">
             Booked on: {slotDateFormat(data.slotDate)} || {data.slotTime}
           </p>

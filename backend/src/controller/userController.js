@@ -117,6 +117,7 @@ const updateProfile = async (req, res) => {
       phone,
       address: JSON.parse(address),
       dob,
+      gender,
       bloodGroup,
     });
 

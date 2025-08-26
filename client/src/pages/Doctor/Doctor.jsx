@@ -6,13 +6,10 @@ import { BiMenu } from "react-icons/bi";
 import { AppContextProvider } from "../../context/AppContext";
 
 const Doctor = () => {
-  const [selectlist, setSelectlist] = useState(true);
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
   const { Doctors } = useContext(AppContextProvider);
 
-  useEffect(() => {
-    
-  }, [Doctors]);
+  useEffect(() => {}, [Doctors]);
 
   const handleSpecialityClick = (spec) => {
     if (spec === "All Doctors") {
@@ -42,44 +39,30 @@ const Doctor = () => {
             Select a specialty or view all doctors.
           </p>
 
-          <div className="docCard bg-white rounded-lg shadow-md p-4 flex flex-col gap-4 text-emerald-400">
-            <div className="flex justify-between items-center font-semibold">
-              <h2>Specialists</h2>
-              <p
-                className="cursor-pointer lg:hidden"
-                onClick={() => setSelectlist((prev) => !prev)}
-              >
-                <BiMenu size={24} />
-              </p>
-            </div>
-
-            <div className="mb-1">
-              <SpecListBtn
-                custom="All Doctors"
-                func={handleSpecialityClick}
-                isAllDoctors={true}
-                selected={selectedSpeciality === ""}
-              />
-            </div>
-
-            <div
-              className={`flex gap-2 flex-wrap lg:flex-col mt-2 ${
-                selectlist ? "flex" : "hidden"
-              }`}
+          <div className="docCard bg-white rounded-lg shadow-md p-4 flex flex-col gap-4 text-emerald-400 w-full max-w-sm">
+            <label
+              className="font-semibold text-lg mb-2"
+              htmlFor="specialist-select"
             >
-              {speciality.map((spec, id) => (
-                <SpecListBtn
-                  detail={spec}
-                  key={id}
-                  func={handleSpecialityClick}
-                  selected={selectedSpeciality === spec}
-                />
+              Specialists
+            </label>
+            <select
+              id="specialist-select"
+              value={selectedSpeciality}
+              onChange={(e) => handleSpecialityClick(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-2 text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 w-full"
+            >
+              <option value="">All Doctors</option>
+              {speciality.map((spec, idx) => (
+                <option key={idx} value={spec.label}>
+                  {spec.label}
+                </option>
               ))}
-            </div>
+            </select>
           </div>
         </div>
 
-        <div className="leftItem flex flex-col lg:w-[800px] overflow-hidden p-2">
+        <div className="leftItem flex flex-col mt-5 lg:w-[800px] overflow-hidden p-2">
           <DoctorList
             selectedTab={
               selectedSpeciality !== "" ? selectedSpeciality : "All Doctors"

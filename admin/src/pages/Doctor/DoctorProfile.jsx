@@ -14,6 +14,7 @@ import { DoctorContextProvider } from "../../context/DoctorContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AppContextProvider } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const DoctorProfile = () => {
   const { settab } = useContext(AppContextProvider);
@@ -27,6 +28,14 @@ const DoctorProfile = () => {
   } = useContext(DoctorContextProvider);
 
   const [open, setOpen] = useState(false);
+
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!doctorToken) {
+      nav("/login");
+    }
+  }, [doctorToken]);
 
   // Separate states for each field
   const [name, setName] = useState("");

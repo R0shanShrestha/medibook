@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BiEdit,
   BiHeart,
@@ -11,13 +11,14 @@ import EditModel from "./EditModel";
 import { AppContextProvider } from "../../context/AppContext";
 
 const Profile = () => {
-  const { user } = useContext(AppContextProvider);
+  const { user, token } = useContext(AppContextProvider);
   const [isEdit, setEdit] = useState(false);
+  const today = new Date();
+
   return (
     user && (
       <div className="flex flex-col p-4 mt-20">
-        {isEdit && <EditModel  user={user} />}{" "}
-        {/* spacing from navbar */}
+        {isEdit && <EditModel user={user} />} {/* spacing from navbar */}
         <div className="md:w-[70%] w-full mx-auto flex flex-col gap-8">
           {/* Profile Header */}
           <div className="flex flex-col md:flex-row items-center gap-6">
@@ -61,7 +62,9 @@ const Profile = () => {
               <h2 className="text-emerald-800 font-bold mb-2">
                 Basic Information
               </h2>
-              <p>Age: {user.age} </p>
+              <p>
+                Age:{user.dob && today.getFullYear() - user.dob.split("-")[0]}
+              </p>
               <p>Gender: {user.gender} </p>
               <p>Birthday: {user.dob}</p>
               <p>Blood Group: {user.bloodGroup}</p>

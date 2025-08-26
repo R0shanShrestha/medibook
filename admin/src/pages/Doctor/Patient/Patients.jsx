@@ -6,12 +6,19 @@ import { Search, User, Mail, Phone, Calendar } from "lucide-react";
 
 const Patients = () => {
   const [search, setSearch] = useState("");
-  const nav = useNavigate();
 
   const { doctorToken, dashboard, dashboardData } = useContext(
     DoctorContextProvider
   );
   const { settab } = useContext(AppContextProvider);
+
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!doctorToken) {
+      nav("/login");
+    }
+  }, [doctorToken]);
 
   useEffect(() => {
     if (doctorToken) {
@@ -62,9 +69,7 @@ const Patients = () => {
                 <span>{item.phone}</span>
               </div>
 
-              <button
-                className="mt-3 hidden bg-emerald-700 text-white py-2 px-4 rounded-xl text-sm hover:bg-emerald-800 transition"
-              >
+              <button className="mt-3 hidden bg-emerald-700 text-white py-2 px-4 rounded-xl text-sm hover:bg-emerald-800 transition">
                 View Profile
               </button>
             </div>

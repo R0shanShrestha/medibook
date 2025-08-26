@@ -14,7 +14,8 @@ MediBook is a full-featured **Doctor Booking Application** built with **React.js
 - View booking history and upcoming appointments
 
 ### Doctor Side
-- Login as **Doctor**
+- Login as **Doctor** 
+- testCredientials of Admin page = Email: nisha.shrestha@medibook.com | Password: Doctor123! 
 - Manage appointments (accept/cancel)
 - Set availability and booking slots
 - View patient details

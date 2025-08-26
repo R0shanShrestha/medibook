@@ -10,7 +10,6 @@ import RelatedDoc from "../Doctor/RelatedDoc";
 const AppointmentPage = () => {
   // Doctor info with param
   const { doctorId } = useParams();
-  const nav = useNavigate();
   const { Doctors, backendUri, getDoctorsData, token } =
     useContext(AppContextProvider);
   const [docDetails, setDocDetails] = useState([]);
@@ -90,11 +89,9 @@ const AppointmentPage = () => {
     }
   };
 
-
   const bookAppointment = async () => {
     if (!token) {
       toast.warn("Login required to Book Appointment");
-      return nav("/login");
     }
 
     try {
@@ -105,23 +102,27 @@ const AppointmentPage = () => {
       let year = date.getFullYear();
 
       const slotDate = day + "_" + month + "_" + year;
-      const { data } = await axios.post(
-        backendUri + "/api/user/book-appointment",
-        {
-          docId: doctorId,
-          slotDate,
-          slotTime,
-        },
-        {
-          headers: { token },
-        }
-      );
-      if (data.success) {
-        toast.success(data.message);
-        getDoctorsData();
-        nav("/my-appointment");
+      if (!slotDate || !slotTime) {
+        toast.warn("Date & Time Must Selected");
       } else {
-        toast.error(data.message);
+        const { data } = await axios.post(
+          backendUri + "/api/user/book-appointment",
+          {
+            docId: doctorId,
+            slotDate,
+            slotTime,
+          },
+          {
+            headers: { token },
+          }
+        );
+        if (data.success) {
+          toast.success(data.message);
+          getDoctorsData();
+          nav("/my-appointment");
+        } else {
+          toast.error(data.message);
+        }
       }
     } catch (error) {
       console.log(error.message);

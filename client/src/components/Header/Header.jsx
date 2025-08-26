@@ -4,23 +4,19 @@ import { Link } from "react-router-dom";
 import { AppContextProvider } from "../../context/AppContext";
 
 const Header = () => {
-  const { token, setToken, user, } =
-    useContext(AppContextProvider);
+  const { token, setToken, user, tab, setTab } = useContext(AppContextProvider);
   const [userMenu, setUserMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false); // mobile menu state
-  const [tab, setTab] = useState("home");
 
   const tabHandler = (seltab) => {
     setTab(seltab);
     setMobileMenu(false); // close mobile menu on tab click
   };
-
+  
   const logout = () => {
     localStorage.removeItem("Usertoken");
     setToken("");
   };
-
-
 
   return (
     <div className="flex lg:justify-around shadow-md justify-between p-5 ps-10 items-center sticky top-0 z-50 bg-white">
@@ -33,7 +29,7 @@ const Header = () => {
         {[
           { key: "home", label: "Home", to: "/" },
           { key: "doctor", label: "Doctors", to: "/doctors" },
-          { key: "contact", label: "Contact Us", to: "/contact" },
+          { key: "helpLine", label: "helpLine", to: "/helpLine" },
           { key: "about", label: "About", to: "/about" },
         ].map(({ key, label, to }) => (
           <Link
@@ -120,7 +116,7 @@ const Header = () => {
           {[
             { key: "home", label: "Home", to: "/" },
             { key: "doctor", label: "Doctors", to: "/doctors" },
-            { key: "contact", label: "Contact Us", to: "/contact" },
+            { key: "contact", label: "helpLine", to: "/contact" },
             { key: "about", label: "About", to: "/about" },
           ].map(({ key, label, to }) => (
             <Link

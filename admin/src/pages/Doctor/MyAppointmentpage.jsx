@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { DoctorContextProvider } from "../../context/DoctorContext";
 import { AppContextProvider } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const MyAppointmentPage = () => {
   const {
@@ -19,6 +20,14 @@ const MyAppointmentPage = () => {
     completeAppointment,
   } = useContext(DoctorContextProvider);
   const { settab, slotDateFormat } = useContext(AppContextProvider);
+
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (!doctorToken) {
+      nav("/login");
+    }
+  }, [doctorToken]);
 
   useEffect(() => {
     if (doctorToken) {
@@ -63,7 +72,7 @@ const MyAppointmentPage = () => {
                     <span className="flex items-center gap-1">
                       <Wallet size={14} /> Rs. {appt?.docData?.fee || 0}
                     </span>
-                    <span
+                    {/* <span
                       className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${
                         appt?.payment
                           ? "bg-green-100 text-green-600"
@@ -71,7 +80,7 @@ const MyAppointmentPage = () => {
                       }`}
                     >
                       {appt?.payment ? "Paid" : "Unpaid"}
-                    </span>
+                    </span> */}
                     <span
                       className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${
                         appt?.payment
