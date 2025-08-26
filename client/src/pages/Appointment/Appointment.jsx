@@ -106,11 +106,11 @@ const Appointment = () => {
               <div key={idx} className="w-full">
                 <AppointmentCard
                   appointId={doc._id}
-                  DocImg={doc.docData.image}
-                  name={doc.docData.name}
-                  education={doc.docData.education}
-                  specializedIn={doc.docData.specializedIn}
-                  address={doc.docData.address}
+                  DocImg={doc.docId.image}
+                  name={doc.docId.name}
+                  education={doc.docId.education}
+                  specializedIn={doc.docId.specializedIn}
+                  address={doc.docId.address}
                   appointmentDate={{
                     date: slotDateFormat(doc.slotDate),
                     time: doc.slotTime,
