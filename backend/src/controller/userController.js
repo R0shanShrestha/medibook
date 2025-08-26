@@ -204,16 +204,21 @@ const cancleAppointment = async (req, res) => {
     const { appointId } = req.body;
     const { userId } = req;
 
-    const appointmentData = await appointmentModel.findById(appointId);
+    const appointmentData = await appointmentModel
+      .findById(appointId)
+      .populate("userId")
+      .populate("docId");
+    // console.log()
     // verification appoint user
-    if (appointmentData.userId._id !== userId) {
+    if (appointmentData.userId._id != userId) {
       return res.json({ success: false, message: "Unauthorized Action" });
     }
     await appointmentModel.findByIdAndUpdate(appointId, { cancelled: true });
     // Realising Doc Slot
     const { docId, slotDate, slotTime } = appointmentData;
+    console.log(docId)
 
-    const docData = await doctorModel.findById(docId);
+    const docData = await doctorModel.findById(docId._id);
     let slots_booked = docData.slots_booked;
     slots_booked[slotDate] = slots_booked[slotDate].filter(
       (e) => e !== slotTime
