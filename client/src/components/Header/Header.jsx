@@ -116,7 +116,7 @@ const Header = () => {
           {[
             { key: "home", label: "Home", to: "/" },
             { key: "doctor", label: "Doctors", to: "/doctors" },
-            { key: "contact", label: "helpLine", to: "/contact" },
+            { key: "contact", label: "helpLine", to: "/helpLine" },
             { key: "about", label: "About", to: "/about" },
           ].map(({ key, label, to }) => (
             <Link
