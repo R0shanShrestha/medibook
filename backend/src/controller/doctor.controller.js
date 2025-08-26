@@ -76,7 +76,10 @@ const doctorAppointmentComplete = async (req, res) => {
   try {
     const { appointId } = req.body;
     const { docId } = req;
-    const appointments = await appointmentModel.findById(appointId);
+    const appointments = await appointmentModel
+      .findById(appointId)
+      .populate("docId")
+      .populate("userId");
     if (appointments && appointments.docId._id == docId) {
       await appointmentModel.findByIdAndUpdate(appointId, {
         iscompleted: true,
@@ -96,7 +99,10 @@ const cancleAppointment = async (req, res) => {
   try {
     const { appointId } = req.body;
     const { docId } = req;
-    const appointments = await appointmentModel.findById(appointId).populate("userId").populate("docId");
+    const appointments = await appointmentModel
+      .findById(appointId)
+      .populate("userId")
+      .populate("docId");
     if (appointments && appointments.docId._id == docId) {
       await appointmentModel.findByIdAndUpdate(appointId, {
         cancelled: true,
@@ -122,7 +128,7 @@ const doctorDashboard = async (req, res) => {
     let earnings = 0;
     appointments.map((item) => {
       if (item.iscompleted || item.payment) {
-        earnings += item.docData.fee;
+        earnings += item.docId.fee;
       }
     });
 
@@ -130,10 +136,10 @@ const doctorDashboard = async (req, res) => {
     let Dubpatients = [];
     let patients = [];
     appointments.map((item) => {
-      if (!Dubpatients.includes(item.userId)) {
+      if (!Dubpatients.includes(item.userId._id)) {
         patientsCount += 1;
-        Dubpatients.push(item.userId);
-        patients.push(item.userData);
+        Dubpatients.push(item.userId._id);
+        patients.push(item.userId);
       }
     });
 
