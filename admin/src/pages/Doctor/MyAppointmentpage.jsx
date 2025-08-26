@@ -54,13 +54,13 @@ const MyAppointmentPage = () => {
             >
               <div className="flex items-center gap-3 md:gap-4 flex-1">
                 <img
-                  src={appt?.userData?.image}
-                  alt={appt?.userData?.name}
+                  src={appt?.userId?.image}
+                  alt={appt?.userId?.name}
                   className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border"
                 />
                 <div className="min-w-0">
                   <h2 className="font-semibold text-slate-800 text-sm sm:text-lg truncate">
-                    {appt?.userData?.name}
+                    {appt?.userId?.name}
                   </h2>
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-slate-600 mt-1 sm:mt-2">
                     <span className="flex items-center gap-1">

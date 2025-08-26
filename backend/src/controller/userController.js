@@ -247,7 +247,7 @@ const paymentSystemKhalti = async (req, res) => {
     amount: appointmentData.amount,
     receipt: appointId,
   };
-  res.json({ success: true, message: "Online Payment is Desable Now " });
+  res.json({ success: true, message: "Online Payment is disable Now " });
 };
 
 export {
