@@ -59,7 +59,10 @@ const doctorLogin = async (req, res) => {
 const doctorAppointment = async (req, res) => {
   try {
     const { docId } = req;
-    const appointments = await appointmentModel.find({ docId });
+    const appointments = await appointmentModel
+      .find({ docId })
+      .populate("userId")
+      .populate("docId");
     if (!appointments) {
       return res.json({ success: false, message: "No Appointments" });
     }
@@ -74,7 +77,7 @@ const doctorAppointmentComplete = async (req, res) => {
     const { appointId } = req.body;
     const { docId } = req;
     const appointments = await appointmentModel.findById(appointId);
-    if (appointments && appointments.docId == docId) {
+    if (appointments && appointments.docId._id == docId) {
       await appointmentModel.findByIdAndUpdate(appointId, {
         iscompleted: true,
       });
@@ -95,7 +98,7 @@ const cancleAppointment = async (req, res) => {
     const { appointId } = req.body;
     const { docId } = req;
     const appointments = await appointmentModel.findById(appointId);
-    if (appointments && appointments.docId == docId) {
+    if (appointments && appointments.docId._id == docId) {
       await appointmentModel.findByIdAndUpdate(appointId, {
         cancelled: true,
       });

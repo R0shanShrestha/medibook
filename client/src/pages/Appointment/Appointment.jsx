@@ -94,7 +94,6 @@ const Appointment = () => {
     }
   }, [token]);
 
-  console.log(appointments)
   return (
     <div className="flex flex-col w-full p-4 pt-24 bg-gradient-to-b from-[#e6f7f4] to-white min-h-screen">
       <div className="flex md:w-[90%] w-full p-8 flex-col gap-8 mx-auto  md:px-20 text-slate-800">
