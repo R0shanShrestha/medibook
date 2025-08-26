@@ -70,7 +70,7 @@ const MyAppointmentPage = () => {
                       <Clock size={14} /> {appt?.slotTime}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Wallet size={14} /> Rs. {appt?.docData?.fee || 0}
+                      <Wallet size={14} /> Rs. {appt?.docId?.fee || 0}
                     </span>
                     {/* <span
                       className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${
