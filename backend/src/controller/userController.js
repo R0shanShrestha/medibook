@@ -190,7 +190,10 @@ const bookedAppointment = async (req, res) => {
 const getUserAppointments = async (req, res) => {
   try {
     const { userId } = req;
-    const appointments = await appointmentModel.find({ userId: userId });
+    const appointments = await appointmentModel
+      .find({ userId: userId })
+      .populate("userId")
+      .populate("docId");
     res.json({ success: true, appointments });
   } catch (error) {
     console.log(error);

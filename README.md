@@ -49,6 +49,10 @@ dummy screenshots only here
 
 ---
 
+## Site links
+Patient: [https://medibook-ten.vercel.app/]
+Admin&Doctor: [https://adminmedibook.vercel.app/login]
+
 ## Installation 🚀
 
 1. Clone the repository:
