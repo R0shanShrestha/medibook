@@ -21,7 +21,7 @@ const Footer = () => {
             Providing the best services for your health. Stay connected with us!
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            © {new Date().getFullYear()} Your Company. All rights reserved.
+            © {new Date().getFullYear()} Medibook. All rights reserved.
           </p>
         </div>
 
@@ -48,13 +48,13 @@ const Footer = () => {
               <User className="w-4 h-4" /> Doctors
             </Link>
             <Link
-              to="/privacy"
+              // to="/privacy"
               className="flex items-center gap-2 hover:text-emerald-600 transition-colors"
             >
               <Shield className="w-4 h-4" /> Privacy Policy
             </Link>
             <Link
-              to="/contact"
+              to="/helpLine"
               className="flex items-center gap-2 hover:text-emerald-600 transition-colors"
             >
               <PhoneCall className="w-4 h-4" /> Contact Us
