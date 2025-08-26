@@ -94,10 +94,9 @@ const doctorAppointmentComplete = async (req, res) => {
 // cancel appointment
 const cancleAppointment = async (req, res) => {
   try {
-    console.log(req.body.appointId);
     const { appointId } = req.body;
     const { docId } = req;
-    const appointments = await appointmentModel.findById(appointId);
+    const appointments = await appointmentModel.findById(appointId).populate("userId").populate("docId");
     if (appointments && appointments.docId._id == docId) {
       await appointmentModel.findByIdAndUpdate(appointId, {
         cancelled: true,
