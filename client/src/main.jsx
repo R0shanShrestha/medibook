@@ -11,7 +11,7 @@ import Signup from "./pages/Signup/Signup.jsx";
 import AppointmentPage from "./pages/Appointment/AppointmentPage.jsx";
 import AppContext from "./context/AppContext.jsx";
 import Doctors from "./pages/Doctor/Doctor.jsx";
-import Wrapper from "./wrapper/wrapper.jsx";
+import Wrapper from "./wrapper/Wrapper.jsx";
 import HelpLine from "./pages/Contact/HelpLine.jsx";
 
 const routes = createBrowserRouter([
