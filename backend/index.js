@@ -18,7 +18,7 @@ const init = async () => {
 
 init();
 
-if (process.env.NODE_ENV !== "production") {
+if (NodeEnv !== "production") {
   const server = http.createServer(app);
   server.listen(conf.port, () => {
     console.log(`Server running locally on port ${conf.port}`);

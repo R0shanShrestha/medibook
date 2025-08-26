@@ -9,4 +9,5 @@ export const conf = {
   adminEmail: process.env.ADMIN_EMAIL,
   adminPass: process.env.ADMIN_PASS,
   jwtKey: process.env.JWT_SECRET,
+  NodeEnv: process.env.NODE_ENV,
 };
