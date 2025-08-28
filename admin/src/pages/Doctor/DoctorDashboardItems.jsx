@@ -52,7 +52,6 @@ const DoctorDashboardItems = () => {
     },
   ];
 
-  // console.log(dashboard)
 
   return (
     <div className="flex flex-col gap-8">
