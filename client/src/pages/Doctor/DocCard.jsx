@@ -28,9 +28,9 @@ const DocCard = ({ doctor }) => {
         </div>
         <Link
           to={`/appointment/doctor/${_id}`}
-          className=" mt-3 p-2 px-5 w-fit rounded-md tracking-wider bg-emerald-800 font-bold hover:bg-emerald-900 text-white"
+          className=" mt-3 p-2 px-5 w-fit rounded-md tracking-wider border border-emerald-900 text-emerald-900 hover:text-white hover:transition-all duration-300  font-bold hover:bg-emerald-900"
         >
-          View
+          Book
         </Link>
       </div>
     </div>

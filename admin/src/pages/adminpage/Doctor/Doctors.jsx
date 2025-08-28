@@ -5,15 +5,12 @@ import DoctorDetail from "../../../components/DoctorDetail";
 import { DoctorContextProvider } from "../../../context/DoctorContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { images } from "../../../constant";
+import Loading from "../../../../../client/src/components/Loading/Loading";
 
 const Doctors = () => {
-  const {
-    getAllDoctors,
-    adminToken,
-    delDoctorAcc,
-    Doctors,
-    changeAvailability,
-  } = useContext(AdminContextProvider);
+  const { getAllDoctors, adminToken, Doctors, isLoading } =
+    useContext(AdminContextProvider);
 
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
@@ -37,7 +34,7 @@ const Doctors = () => {
   }, [adminToken, doctorToken]);
 
   return adminToken ? (
-    <div className="flex flex-col w-full min-h-screen p-2 overflow-hidden">
+    <div className="flex flex-col w-full min-h-screen bg-white p-2 overflow-hidden">
       <div className="flex w-full p-5 pb-3">
         <h1 className="text-2xl md:text-3xl font-semibold text-slate-800">
           All Doctors
@@ -45,15 +42,11 @@ const Doctors = () => {
       </div>
 
       <div className="flex flex-wrap gap-5 p-2 overflow-y-auto h-[calc(100vh-100px)] md:h-[calc(100vh-120px)]">
-        {Doctors.length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : Doctors.length > 0 ? (
           Doctors.map((doct, id) => (
-            <DoctorCard
-              key={id}
-              doctor={doct}
-              onDelete={delDoctorAcc}
-              changeAvailability={changeAvailability}
-              infoDoc={setSelectedDoctor}
-            />
+            <DoctorCard key={id} doctor={doct} infoDoc={setSelectedDoctor} />
           ))
         ) : (
           <p className="text-gray-500 text-center w-full mt-10">

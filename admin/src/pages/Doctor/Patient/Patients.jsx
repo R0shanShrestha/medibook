@@ -3,11 +3,12 @@ import { AppContextProvider } from "../../../context/AppContext";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, User, Mail, Phone, Calendar } from "lucide-react";
+import Loading from "../../../components/Loading";
 
 const Patients = () => {
   const [search, setSearch] = useState("");
 
-  const { doctorToken, dashboard, dashboardData } = useContext(
+  const { doctorToken, dashboard, isLoading, dashboardData } = useContext(
     DoctorContextProvider
   );
   const { settab } = useContext(AppContextProvider);
@@ -52,28 +53,32 @@ const Patients = () => {
         {/* Table / Cards */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {dashboard?.patients?.map((item) => (
-            <div className="bg-white rounded-2xl shadow p-5 flex flex-col gap-3 hover:shadow-md transition">
-              <div className="flex items-center gap-3">
-                <User className="text-emerald-600" />
-                <h2 className="font-semibold text-lg">{item.name}</h2>
-              </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            dashboard?.patients?.map((item) => (
+              <div className="bg-white rounded-2xl shadow p-5 flex flex-col gap-3 hover:shadow-md transition">
+                <div className="flex items-center gap-3">
+                  <User className="text-emerald-600" />
+                  <h2 className="font-semibold text-lg">{item.name}</h2>
+                </div>
 
-              <div className="flex items-center gap-2 text-gray-600 text-sm">
-                <Mail size={16} />
-                <span>{item.email}</span>
-              </div>
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <Mail size={16} />
+                  <span>{item.email}</span>
+                </div>
 
-              <div className="flex items-center gap-2 text-gray-600 text-sm">
-                <Phone size={16} />
-                <span>{item.phone}</span>
-              </div>
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <Phone size={16} />
+                  <span>{item.phone}</span>
+                </div>
 
-              <button className="mt-3 hidden bg-emerald-700 text-white py-2 px-4 rounded-xl text-sm hover:bg-emerald-800 transition">
-                View Profile
-              </button>
-            </div>
-          ))}
+                <button className="mt-3 hidden bg-emerald-700 text-white py-2 px-4 rounded-xl text-sm hover:bg-emerald-800 transition">
+                  View Profile
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

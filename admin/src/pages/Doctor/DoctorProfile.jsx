@@ -15,6 +15,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AppContextProvider } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const DoctorProfile = () => {
   const { settab } = useContext(AppContextProvider);
@@ -36,6 +37,7 @@ const DoctorProfile = () => {
       nav("/login");
     }
   }, [doctorToken]);
+  const [isUpdate, setUpdate] = useState(false);
 
   // Separate states for each field
   const [name, setName] = useState("");
@@ -86,7 +88,6 @@ const DoctorProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const frm = new FormData();
     frm.append("name", name);
     frm.append("email", email);
@@ -102,6 +103,7 @@ const DoctorProfile = () => {
     if (image) frm.append("image", image);
 
     try {
+      setUpdate(true);
       const { data } = await axios.post(
         backendUrl + "/api/doctor/doctor-update-profile",
         frm,
@@ -116,11 +118,15 @@ const DoctorProfile = () => {
       if (data.success) {
         toast.success(data.message);
         getDoctorData();
+        setUpdate(false);
+
         setOpen(false);
       } else {
+        setUpdate(false);
         toast.error(data.message);
       }
     } catch (err) {
+      setUpdate(false);
       toast.error(err.message);
     }
   };
@@ -318,19 +324,28 @@ const DoctorProfile = () => {
                 />
 
                 <div className="flex justify-end col-span-2 gap-3 mt-4">
-                  <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    className="px-4 py-2 bg-gray-300/70 rounded-lg hover:bg-gray-400/90 transition-all duration-200"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200"
-                  >
-                    Save Changes
-                  </button>
+                  {isUpdate ? (
+                    <div className="absolute z-10 top-0">
+                      <Loading type={1} />
+                    </div>
+                  ) : (
+                    <>
+                      {" "}
+                      <button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        className="px-4 py-2 bg-gray-300/70 rounded-lg hover:bg-gray-400/90 transition-all duration-200"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200"
+                      >
+                        Save Changes
+                      </button>
+                    </>
+                  )}
                 </div>
               </form>
             </div>

@@ -5,9 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { AppContextProvider } from "../../context/AppContext";
+import Loading from "../../components/Loading/Loading";
 
 const Doctors = () => {
-  const { Doctors } = useContext(AppContextProvider);
+  const { Doctors, isLoading } = useContext(AppContextProvider);
   return (
     <div className="justify-center flex md:p-10 md:my-20 overflow-hidden">
       <div className="w-full md:w-[90%] md:ps-10 md:pr-10 flex flex-col gap-6">
@@ -42,13 +43,18 @@ const Doctors = () => {
           modules={[Autoplay]}
           className="w-full"
         >
-          {Doctors.map((doctor, idx) => (
-            <SwiperSlide key={idx} style={{ width: "220px" }}>
-              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center p-4">
-                <DoctorLists doctor={doctor} />
-              </div>
-            </SwiperSlide>
-          ))}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            Doctors &&
+            Doctors.map((doctor, idx) => (
+              <SwiperSlide key={idx} style={{ width: "220px" }}>
+                <div className="bg-white rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center p-4">
+                  <DoctorLists doctor={doctor} />
+                </div>
+              </SwiperSlide>
+            ))
+          )}
         </Swiper>
 
         {/* Mobile Show More Button */}

@@ -5,9 +5,12 @@ import { AdminContextProvider } from "../../../context/AdminContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { images } from "../../../constant";
+import Loading from "../../../../../client/src/components/Loading/Loading";
 
 const AddDoctor = () => {
-  const { backendUrl, adminToken } = useContext(AdminContextProvider);
+  const { backendUrl, adminToken, setLoading, isLoading } =
+    useContext(AdminContextProvider);
   const { settab } = useContext(AppContextProvider);
   const nav = useNavigate();
 
@@ -66,6 +69,7 @@ const AddDoctor = () => {
       );
       if (image) fd.append("image", image);
 
+      setLoading(true);
       const { data } = await axios.post(
         backendUrl + "/api/admin/add-doctor",
         fd,
@@ -89,11 +93,14 @@ const AddDoctor = () => {
         setAddressLine2("");
         setImage(null);
         setImagePre(null);
+        setLoading(false);
         if (fileRef.current) fileRef.current.value = "";
       } else {
         toast.error(data.message || "Failed to add doctor");
+        setLoading(false);
       }
     } catch (err) {
+      setLoading(false);
       toast.error(err?.response?.data?.message || "Something went wrong");
     }
   };
@@ -119,13 +126,16 @@ const AddDoctor = () => {
             onChange={onPickImage}
             className="border border-gray-300 p-2 rounded-lg bg-gray-50"
           />
-          {imagePre && (
-            <img
-              src={imagePre}
-              alt="Preview"
-              className="w-24 h-24 object-cover rounded-full mt-2 border"
-            />
-          )}
+          <div className="flex justify-between w-full pr-20 items-center">
+            {imagePre && (
+              <img
+                src={imagePre}
+                alt="Preview"
+                className="w-24 h-24 object-cover rounded-full mt-2 border"
+              />
+            )}
+            {isLoading && <Loading type={1} />}
+          </div>
         </div>
 
         <input
@@ -226,12 +236,14 @@ const AddDoctor = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          className="mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
-        >
-          Save Doctor
-        </button>
+        {isLoading != true && (
+          <button
+            type="submit"
+            className="mt-4 cursor-pointer bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+          >
+            Save Doctor
+          </button>
+        )}
       </form>
     </div>
   ) : (

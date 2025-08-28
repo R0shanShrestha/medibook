@@ -9,16 +9,20 @@ import {
 import { Link } from "react-router-dom";
 import EditModel from "./EditModel";
 import { AppContextProvider } from "../../context/AppContext";
+import { images } from "../../utils/constant";
+import Loading from "../../components/Loading/Loading";
 
 const Profile = () => {
-  const { user, token } = useContext(AppContextProvider);
+  const { user, token, isLoading } = useContext(AppContextProvider);
   const [isEdit, setEdit] = useState(false);
   const today = new Date();
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     user && (
       <div className="flex flex-col p-4 mt-20">
-        {isEdit && <EditModel user={user} />} {/* spacing from navbar */}
+        {isEdit && <EditModel setEdit={setEdit} user={user} />} {/* spacing from navbar */}
         <div className="md:w-[70%] w-full mx-auto flex flex-col gap-8">
           {/* Profile Header */}
           <div className="flex flex-col md:flex-row items-center gap-6">

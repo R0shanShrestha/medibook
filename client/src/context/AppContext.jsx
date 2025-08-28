@@ -14,11 +14,14 @@ export const AppContextProvider = createContext({
   backendUri: "",
   loadUserData: () => {},
   setTab: () => {},
+  isLoading: false,
+  setLoading: () => {},
 });
 
 const AppContext = ({ children }) => {
   const backendUri = import.meta.env.VITE_BACKEND_URL;
   const [Doctors, setDoct] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const [tab, setTab] = useState("home");
   const [user, setUserData] = useState(false);
   const [token, setToken] = useState(
@@ -29,32 +32,40 @@ const AppContext = ({ children }) => {
 
   const getDoctorsData = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(backendUri + "/api/doctor/list");
       if (data.success) {
         const filterAvailableDoc = data.doctors.filter(
           (doc) => doc.available && doc
         );
+        setLoading(false);
         setDoct(filterAvailableDoc);
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
 
   const loadUserData = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get(backendUri + "/api/user/profile", {
         headers: { token: token },
       });
       if (data.success) {
+        setLoading(false);
         // console.log(data.user);
         setUserData(data.user);
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
       toast.error(error.message);
     }
@@ -85,6 +96,8 @@ const AppContext = ({ children }) => {
         loadUserData,
         tab,
         setTab,
+        isLoading,
+        setLoading,
       }}
     >
       {children}

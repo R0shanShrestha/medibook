@@ -3,16 +3,14 @@ import { Calendar, User, Clock, CheckCircle, XCircle } from "lucide-react";
 import { DoctorContextProvider } from "../../context/DoctorContext";
 import { AppContextProvider } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { images } from "../../constant";
+import AppointmentCard from "./Appointment/AppointmentCard";
+import Loading from "../../components/Loading";
 
 const DoctorDashboardItems = () => {
-  const {
-    doctorToken,
-    dashboard,
-    dashboardData,
-    cancelAppointment,
-    completeAppointment,
-  } = useContext(DoctorContextProvider);
-  const { slotDateFormat } = useContext(AppContextProvider);
+  const { doctorToken, dashboard, dashboardData, isLoading } = useContext(
+    DoctorContextProvider
+  );
 
   const nav = useNavigate();
 
@@ -30,31 +28,31 @@ const DoctorDashboardItems = () => {
   const stats = [
     {
       title: "Today's Appointments",
-      value: dashboard.totalAppoint,
+      value: isLoading ? <Loading type={1} /> : dashboard.totalAppoint,
       icon: <Calendar />,
       bg: "bg-emerald-500",
     },
     {
       title: "Total Patients",
-      value: dashboard.totalPatients,
+      value: isLoading ? <Loading type={1} /> : dashboard.totalPatients,
       icon: <User />,
       bg: "bg-blue-500",
     },
     {
       title: "Earning ",
-      value: dashboard.earnings || 0,
+      value: isLoading ? <Loading type={1} /> : dashboard.earnings || 0,
       icon: <Clock />,
       bg: "bg-yellow-400",
     },
     {
       title: "Completed Appointments",
-      value: dashboard.CompletedAppointments,
+      value: isLoading ? <Loading type={1} /> : dashboard.CompletedAppointments,
       icon: <CheckCircle />,
       bg: "bg-gray-400",
     },
   ];
 
-  console.log(dashboard)
+  // console.log(dashboard)
 
   return (
     <div className="flex flex-col gap-8">
@@ -73,64 +71,25 @@ const DoctorDashboardItems = () => {
       </div>
 
       {/* Latest Appointments */}
-      <div className="bg-white p-4 rounded-xl shadow-md">
+      <div className="bg-white p-4 rounded-xl shadow-md h-full">
         <h2 className="text-emerald-700 font-bold text-lg mb-3">
           Latest Appointments
         </h2>
-        <div className="flex flex-col gap-3 max-h-72 overflow-y-auto">
-          {dashboard?.latestAppoint &&
+        <div className="flex flex-col gap-3  overflow-y-auto">
+          {isLoading ? (
+            <div className="w-full  items-center justify-center flex">
+              <img
+                src={images.loading}
+                alt="Loading ..."
+                className="max-w-[400px] object-cover "
+              />
+            </div>
+          ) : (
+            dashboard?.latestAppoint &&
             dashboard?.latestAppoint?.map((appointment, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors"
-              >
-                {/* Patient Info */}
-                <div className="flex items-center gap-3">
-                  <img
-                    src={appointment.userId.image}
-                    alt={appointment.userId.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div className="flex flex-col">
-                    <span className="font-medium text-slate-800">
-                      {appointment.userId.name}
-                    </span>
-                    <span className="text-sm text-slate-500">
-                      {slotDateFormat(appointment.slotDate)} ||{" "}
-                      {appointment.slotTime}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Time + Actions */}
-                {appointment?.cancelled ? (
-                  <p className="text-red-600 font-medium">Cancelled</p>
-                ) : appointment?.iscompleted ? (
-                  <p className="text-green-600 font-medium">Completed</p>
-                ) : (
-                  <div className="flex flex-col sm:flex-row gap-2 justify-end w-fit md:w-auto">
-                    <button
-                      onClick={() => {
-                        cancelAppointment(appointment?._id);
-                      }}
-                      className="flex items-center justify-center gap-1 px-3 py-1 text-xs sm:text-sm border border-red-500 text-red-600 rounded-lg 
-                               hover:bg-red-50 hover:scale-105 transition-transform duration-200 w-fit sm:w-auto"
-                    >
-                      <XCircle size={16} /> Cancel
-                    </button>
-                    <button
-                      onClick={() => {
-                        completeAppointment(appointment?._id);
-                      }}
-                      className="flex items-center justify-center gap-1 px-3 py-1 text-xs sm:text-sm border border-emerald-500 text-emerald-600 rounded-lg 
-                                                hover:bg-emerald-50 hover:scale-105 transition-transform duration-200 w-fit sm:w-auto"
-                    >
-                      <CheckCircle size={16} /> Accept
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
+              <AppointmentCard key={idx} appointment={appointment} />
+            ))
+          )}
 
           {dashboard?.latestAppoint == "" && (
             <h1 className="w-full text-center pt-2 text-slate-600 ">

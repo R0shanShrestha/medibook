@@ -4,10 +4,12 @@ import { AppContextProvider } from "../../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { images } from "../../utils/constant";
+import Loading from "../../components/Loading/Loading";
 
 const Appointment = () => {
-  const { backendUri, token, getDoctorsData } = useContext(AppContextProvider);
-
+  const { backendUri, token, getDoctorsData, isLoading, setLoading } =
+    useContext(AppContextProvider);
 
   const [appointments, setAppointments] = useState([]);
   const months = [
@@ -32,23 +34,28 @@ const Appointment = () => {
 
   const getAppointments = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         backendUri + "/api/user/list-appointment",
         { headers: { token } }
       );
 
       if (data.success) {
+        setLoading(false);
         setAppointments(data.appointments.reverse());
       } else {
+        setLoading(false);
         console.log(data.message);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
       toast.error(error.message);
     }
   };
 
   const cancelAppointment = async (appointId) => {
+    setLoading(true);
     try {
       const { data } = await axios.post(
         backendUri + "/api/user/cancel-appointment",
@@ -57,19 +64,23 @@ const Appointment = () => {
       );
 
       if (data.success) {
-        toast.success(data.message);
         getAppointments();
         getDoctorsData();
+        setLoading(false);
+        toast.success(data.message);
       } else {
+        setLoading(false);
         console.log(data.message);
       }
     } catch (error) {
+      setLoading(false);
       toast.error(error.message);
     }
   };
 
   const onPay = async (appointId) => {
     try {
+      setLoading(true);
       const { data } = await axios.post(
         backendUri + "/api/user/pay-appointment",
         { appointId },
@@ -80,11 +91,14 @@ const Appointment = () => {
         toast.warn(data.message);
         getAppointments();
         getDoctorsData();
+        setLoading(false);
       } else {
         console.log(data.message);
+        setLoading(false);
       }
     } catch (error) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
 
@@ -101,7 +115,16 @@ const Appointment = () => {
           My Appointments
         </div>
         <div className="AppointmentList flex flex-col gap-6 py-4">
-          {appointments &&
+          {isLoading ? (
+            <div className="w-full  items-center justify-center flex">
+              <img
+                src={images?.loading}
+                alt="Loading ..."
+                className="max-w-[400px] object-cover "
+              />
+            </div>
+          ) : (
+            appointments &&
             appointments?.map((doc, idx) => (
               <div key={idx} className="w-full">
                 <AppointmentCard
@@ -121,10 +144,15 @@ const Appointment = () => {
                   onCancel={cancelAppointment}
                 />
               </div>
-            ))}
+            ))
+          )}
 
-          {appointments == "" && (
-            <p className="text-slate-600 ">No Appointment yet</p>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            appointments == "" && (
+              <p className="text-slate-600 ">No Appointment yet</p>
+            )
           )}
         </div>
       </div>

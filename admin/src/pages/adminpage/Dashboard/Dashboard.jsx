@@ -97,7 +97,14 @@ const Dashboard = () => {
     <div className="flex min-h-screen bg-gray-50">
       {/* Mobile Top Navbar */}
       <div className="fixed top-0 left-0 w-full flex justify-between items-center p-4 bg-white shadow-md z-50 lg:hidden">
-        <Link to={`${state === 'Admin' ? "/admin/dashboard/" : "/doctor/dashboard/"}`}  className="text-2xl font-bold text-emerald-700">MediBook</Link>
+        <Link
+          to={`${
+            state === "Admin" ? "/admin/dashboard/" : "/doctor/dashboard/"
+          }`}
+          className="text-2xl font-bold text-emerald-700"
+        >
+          MediBook
+        </Link>
         <Menu
           size={28}
           className="cursor-pointer"
@@ -147,7 +154,7 @@ const Dashboard = () => {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 pt-20 overflow-y-auto min-h-screen p-6">
+      <main className="flex-1 lg:ml-64 mt-16 lg:mt-0  overflow-y-auto min-h-screen p-6">
         <Outlet />
       </main>
     </div>

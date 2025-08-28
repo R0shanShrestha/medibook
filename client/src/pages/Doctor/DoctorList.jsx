@@ -13,9 +13,15 @@ const DoctorList = ({ selectedTab, Data }) => {
         /> */}
       </div>
       <div className="doclist flex  flex-wrap gap-5  mt-3 h-[600px] overflow-hidden  overflow-y-scroll">
-        {Data.map((doct, id) => {
-          return <DocCard  doctor={doct} key={id} />;
-        })}
+        {Data ? (
+          Data.map((doct, id) => {
+            return <DocCard doctor={doct} key={id} />;
+          })
+        ) : (
+          <div>
+            <h1>Doctor not found.</h1>
+          </div>
+        )}
       </div>
     </>
   );

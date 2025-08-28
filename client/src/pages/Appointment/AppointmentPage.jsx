@@ -6,6 +6,7 @@ import { AppContextProvider } from "../../context/AppContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import RelatedDoc from "../Doctor/RelatedDoc";
+import Loading from "../../components/Loading/Loading";
 
 const AppointmentPage = () => {
   // Doctor info with param
@@ -13,7 +14,7 @@ const AppointmentPage = () => {
   const { Doctors, backendUri, getDoctorsData, token } =
     useContext(AppContextProvider);
   const [docDetails, setDocDetails] = useState([]);
-
+  const [isLoading, setLoading] = useState(false);
   const fetchDocInfo = async () => {
     if (!Doctors.length) {
       // Fetch doctors if not already loaded
@@ -105,6 +106,8 @@ const AppointmentPage = () => {
       if (!slotDate || !slotTime) {
         toast.warn("Date & Time Must Selected");
       } else {
+        setLoading(true);
+
         const { data } = await axios.post(
           backendUri + "/api/user/book-appointment",
           {
@@ -119,12 +122,16 @@ const AppointmentPage = () => {
         if (data.success) {
           toast.success(data.message);
           getDoctorsData();
+          setLoading(false);
+
           nav("/my-appointment");
         } else {
+          setLoading(false);
           toast.error(data.message);
         }
       }
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
@@ -143,7 +150,7 @@ const AppointmentPage = () => {
         <div className="md:p-10 flex md:flex-row flex-col gap-5 md:w-full w-full ">
           <div className="imgBox w-full md:w-[300px] h-[250px] rounded-md ">
             <img
-              src={docDetails.image}
+              src={docDetails?.image}
               alt="Not found"
               className="w-full h-full object-cover object-top"
             />
@@ -152,17 +159,17 @@ const AppointmentPage = () => {
           <div className="DocInfo flex border flex-col w-full p-5 rounded-md gap-4 justify-center">
             <div className="text-emerald-800 ">
               <h1 className="font-semibold text-xl flex items-center gap-5">
-                {docDetails.name}
+                {docDetails?.name}
                 <span className="text-emerald-600">
                   <CheckCircle size={15} />
                 </span>
               </h1>
               <div className="font-medium text-slate-500  items-center text-sm flex gap-3">
                 <p className="">
-                  {docDetails.education}-{docDetails.specializedIn}
+                  {docDetails?.education}-{docDetails?.specializedIn}
                 </p>
                 <span className="p-2 text-sm rounded-xl">
-                  {docDetails.experience}
+                  {docDetails?.experience}
                 </span>
               </div>
             </div>
@@ -172,84 +179,105 @@ const AppointmentPage = () => {
                 About <FcAbout />
               </h4>
               <p className="text-sm font-light text-gray-800">
-                {docDetails.bio}
+                {docDetails?.bio}
               </p>
             </div>
 
             <div className="text-slate-700 font-medium">
               <p>
                 Appointment fee:{" "}
-                <span className="font-bold text-red-400">{docDetails.fee}</span>
+                <span className="font-bold text-red-400">
+                  {docDetails?.fee}
+                </span>
               </p>
             </div>
           </div>
         </div>
 
-        <div className="lg:p-10 flex flex-col lg:items-end">
-          <div className="p-5 lg:w-[80%] flex flex-col gap-2">
-            <div className="title">
-              <h1 className="text-slate-500 font-medium text-xl">
-                Booking Slots
-              </h1>
-            </div>
+        {!isLoading && (
+          <div className="lg:p-10 flex flex-col lg:items-end">
+            <div className="p-5 lg:w-[80%] flex flex-col gap-2">
+              <div className="title">
+                <h1 className="text-slate-500 font-medium text-xl">
+                  Booking Slots
+                </h1>
+              </div>
 
-            <div className="DateBlock w-full flex items-center flex-wrap">
-              {doctorSlots.length &&
-                doctorSlots.map((item, idx) => {
-                  return (
-                    <div className="dateB p-2 w-fit cursor-pointer" key={idx}>
-                      <p
-                        className={`rounded-xl border text-sm flex flex-col justify-center "bg-emerald-300  items-center p-2.5 ${
-                          slotIndex === idx
-                            ? "bg-emerald-800 text-white"
-                            : "hover:bg-emerald-800 hover:text-white"
-                        } `}
-                        onClick={() => setSlotIndex(idx)}
-                      >
-                        {/*  */}
-                        <span>
-                          {item[0] && daysofWeek[item[0].datetime.getDay()]}
-                        </span>
-                        <span>{item[0] && item[0].datetime.getDate()}</span>
-                      </p>
-                    </div>
-                  );
-                })}
-            </div>
-
-            <div className=" flex TimeBlock w-full  flex-wrap gap-3 flex-col">
-              <h1 className="font-medium text-slate-500">Time</h1>
-              <div className="flex flex-wrap">
+              <div className="DateBlock w-full flex items-center flex-wrap">
                 {doctorSlots.length &&
-                  doctorSlots[slotIndex].map((item, idx) => (
-                    <div className="dateB p-2 w-fit cursor-pointer" key={idx}>
-                      <p
-                        className={`rounded-3xl border text-sm flex flex-col justify-center items-center p-2 ps-4 pr-4 ${
-                          item.time === slotTime
-                            ? "bg-emerald-800 text-white"
-                            : "hover:bg-emerald-800 hover:text-white"
-                        }`}
-                        onClick={() => setSlotTIme(item.time)}
-                      >
-                        <span>{item.time.toLowerCase()}</span>
-                      </p>
-                    </div>
-                  ))}
+                  doctorSlots.map((item, idx) => {
+                    return (
+                      <div className="dateB p-2 w-fit cursor-pointer" key={idx}>
+                        <p
+                          className={`rounded-xl border text-sm flex flex-col justify-center "bg-emerald-300  items-center p-2.5 ${
+                            slotIndex === idx
+                              ? "bg-emerald-800 text-white"
+                              : "hover:bg-emerald-800 hover:text-white"
+                          } `}
+                          onClick={() => setSlotIndex(idx)}
+                        >
+                          {/*  */}
+                          <span>
+                            {item[0] && daysofWeek[item[0].datetime.getDay()]}
+                          </span>
+                          <span>{item[0] && item[0].datetime.getDate()}</span>
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <div className=" flex TimeBlock w-full  flex-wrap gap-3 flex-col">
+                <h1 className="font-medium text-slate-500">Time</h1>
+                <div className="flex flex-wrap">
+                  {doctorSlots.length &&
+                    doctorSlots[slotIndex].map((item, idx) => (
+                      <div className="dateB p-2 w-fit cursor-pointer" key={idx}>
+                        <p
+                          className={`rounded-3xl border text-sm flex flex-col justify-center items-center p-2 ps-4 pr-4 ${
+                            item.time === slotTime
+                              ? "bg-emerald-800 text-white"
+                              : "hover:bg-emerald-800 hover:text-white"
+                          }`}
+                          onClick={() => setSlotTIme(item.time)}
+                        >
+                          <span>{item.time.toLowerCase()}</span>
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              <div className="bookingBtn w-full p-5">
+                {!isLoading && (
+                  <button
+                    onClick={() => {
+                      bookAppointment();
+                    }}
+                    className="p-4 font-medium w-full md:w-fit rounded-xl ps-6 pr-6 text-sm bg-emerald-800 text-white hover:bg-emerald-900"
+                  >
+                    Book an appointment
+                  </button>
+                )}
               </div>
             </div>
+          </div>
+        )}
 
-            <div className="bookingBtn w-full p-5">
-              <button
-                onClick={() => {
-                  bookAppointment();
-                }}
-                className="p-4 font-medium w-full md:w-fit rounded-xl ps-6 pr-6 text-sm bg-emerald-800 text-white hover:bg-emerald-900"
-              >
-                Book an appointment
-              </button>
+        {isLoading && (
+          <div className="lg:p-10 flex flex-col lg:items-end">
+            <div className="p-5 lg:w-[80%] items-center justify-center flex flex-col gap-2 ">
+              <div className="title">
+                <h1 className="text-slate-500 font-medium text-xl">
+                  Making A booking Request
+                </h1>
+              </div>
+              <div>
+                <Loading />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="relateDoctors">
           <div className="p-5 lg:w-[80%] flex flex-col gap-2">
@@ -260,7 +288,7 @@ const AppointmentPage = () => {
             </div>
             <RelatedDoc
               docId={doctorId}
-              specialize={docDetails.specializedIn}
+              specialize={docDetails?.specializedIn}
             />
           </div>
         </div>

@@ -9,12 +9,15 @@ import speciality3 from "../assets/SpecialityImgs/3.jpg";
 import speciality4 from "../assets/SpecialityImgs/4.webp";
 import speciality5 from "../assets/SpecialityImgs/5.jpg";
 import speciality6 from "../assets/SpecialityImgs/6.jpg";
-
+import loadingimg from "../assets/loading2.gif";
+import loadingImage from "../assets/loading3.gif";
 export const images = {
   logo,
   doctors: [doctor1, doctor2],
   hero: heroImg,
   adv: advbanner,
+  loading: loadingImage,
+  loading2: loadingimg,
 };
 
 export const speciality = [
@@ -25,5 +28,3 @@ export const speciality = [
   { label: "Pediatrician", img: speciality5 },
   { label: "Cardiologist", img: speciality4 },
 ];
-
-

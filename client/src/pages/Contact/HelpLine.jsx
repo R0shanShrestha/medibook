@@ -59,10 +59,10 @@ const HelpLine = () => {
             <div>
               <h3 className="font-semibold text-gray-700">Help Line (24/7)</h3>
               <a
-                href="tel:+9779763299634"
+                href="tel:+9779807960410"
                 className="text-emerald-600 hover:text-emerald-700 font-medium"
               >
-                +977 9763299634
+                +977 9807960410
               </a>
             </div>
           </div>
@@ -72,10 +72,10 @@ const HelpLine = () => {
             <div>
               <h3 className="font-semibold text-gray-700">Email Support</h3>
               <a
-                href="mailto:commail@gmail.com"
+                href="mailto:roshanstha401@gmail.com"
                 className="text-emerald-600 hover:text-emerald-700 font-medium"
               >
-                commail@gmail.com
+                roshanstha401@gmail.com
               </a>
             </div>
           </div>
@@ -83,8 +83,8 @@ const HelpLine = () => {
           <div className="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-lg hover:shadow-xl transition">
             <MessageCircle className="text-emerald-600 w-6 h-6" />
             <div>
-              <h3 className="font-semibold text-gray-700">Live Chat</h3>
-              <p className="text-emerald-600 font-medium">Chat with our support team</p>
+              <h3 className="font-semibold text-gray-700">Submit Your Problem</h3>
+              <p className="text-emerald-600 font-medium">Fill the from bellow</p>
             </div>
           </div>
         </div>

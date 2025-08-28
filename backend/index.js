@@ -6,11 +6,14 @@ import { CloudConnect } from "./src/config/cloudinary.js";
 
 const init = async () => {
   try {
-    await dbConection();
-    console.log("✅ Database connected");
-
-    CloudConnect();
-    console.log("✅ Cloudinary ready");
+    const isCon = await dbConection();
+    if (isCon) {
+      console.log("✅ Database connected");
+      await CloudConnect();
+      console.log("✅ Cloudinary ready");
+    } else {
+      console.log("Failed to Connection");
+    }
   } catch (err) {
     console.error("❌ Initialization error:", err.stack || err.message);
   }

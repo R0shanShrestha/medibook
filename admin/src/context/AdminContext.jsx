@@ -8,20 +8,24 @@ export const AdminContextProvider = createContext({
   DashboardDetails: "",
   backendUrl: "",
   adminDashboardDetails: () => {},
-  changeAvailability: () => {},
   cancelAppointment: () => {},
+  changeAvailability: () => {},
   getAllDoctors: () => {},
   ageCalculator: () => {},
   slotDateFormat: () => {},
   appointments: "",
   getAppointments: () => {},
   setAdminToken: () => {},
+  isLoading: "",
+  setLoading: () => {},
   delDoctorAcc: () => {},
 });
 const AdminContext = ({ children }) => {
   const [adminToken, setAdminToken] = useState(
     localStorage.getItem("adminToken") ? localStorage.getItem("adminToken") : ""
   );
+  const [isLoading, setLoading] = useState(false);
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [Doctors, setDoctors] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -29,6 +33,7 @@ const AdminContext = ({ children }) => {
 
   const getAllDoctors = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(backendUrl + "/api/admin/all-doctors", {
         headers: {
           token: adminToken,
@@ -37,16 +42,20 @@ const AdminContext = ({ children }) => {
 
       if (data.success) {
         setDoctors(data.doctors);
+        setLoading(false);
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       toast.error(error.message);
     }
   };
 
-  const changeAvailability = async (id) => {
+  const changeAvailability = async (id, setinsideLoading) => {
     try {
+      setinsideLoading(true);
       const { data } = await axios.post(
         backendUrl + "/api/admin/change-availability",
         { doctId: id },
@@ -56,16 +65,44 @@ const AdminContext = ({ children }) => {
       if (data.success) {
         toast.success(data.message);
         getAllDoctors();
+        setinsideLoading(false);
       } else {
+        setinsideLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
+      setinsideLoading(false);
+      toast.error(error.message);
+    }
+  };
+
+  const cancelAppointment = async (appointId, setinsideLoading) => {
+    try {
+      setinsideLoading(true);
+      const { data } = await axios.post(
+        backendUrl + "/api/admin/cancel-appointment",
+        { appointId },
+        { headers: { token: adminToken } }
+      );
+
+      if (data.success) {
+        getAppointments();
+        adminDashboardDetails();
+        toast.success(data.message);
+        setinsideLoading(false);
+      } else {
+        setinsideLoading(false);
+        toast.error(data.message);
+      }
+    } catch (error) {
+      setinsideLoading(false);
       toast.error(error.message);
     }
   };
 
   const getAppointments = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         backendUrl + "/api/admin/all-appointments",
         { headers: { token: adminToken } }
@@ -74,10 +111,13 @@ const AdminContext = ({ children }) => {
       if (data.success) {
         setAppointments(data.appointments.reverse());
         toast.success(data.message);
+        setLoading(false);
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       toast.error(error.message);
     }
   };
@@ -107,28 +147,10 @@ const AdminContext = ({ children }) => {
     let age = today.getFullYear() - brdt.getFullYear();
     return age;
   };
-  const cancelAppointment = async (appointId) => {
-    try {
-      const { data } = await axios.post(
-        backendUrl + "/api/admin/cancel-appointment",
-        { appointId },
-        { headers: { token: adminToken } }
-      );
-
-      if (data.success) {
-        getAppointments();
-        adminDashboardDetails();
-        toast.success(data.message);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
 
   const adminDashboardDetails = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         backendUrl + "/api/admin/admin-dashboard",
         {
@@ -137,20 +159,24 @@ const AdminContext = ({ children }) => {
           },
         }
       );
-      
+
       if (data.success) {
         setDashBoardDetails(data.dashData);
+        setLoading(false);
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
-  const delDoctorAcc = async (docId) => {
+  const delDoctorAcc = async (docId, setinsideLoading) => {
     const alertPrompt = confirm("You really to Want to delete ?");
     if (alertPrompt) {
       try {
+        setinsideLoading(true);
         const { data } = await axios.post(
           backendUrl + "/api/admin/del-doctor",
           { docId },
@@ -165,10 +191,13 @@ const AdminContext = ({ children }) => {
           getAllDoctors();
           adminDashboardDetails();
           toast.success(data.message);
+          setinsideLoading(false);
         } else {
           toast.error(data.message);
+          setinsideLoading(false);
         }
       } catch (error) {
+        setinsideLoading(false);
         toast.error(error.message);
       }
     }
@@ -189,8 +218,10 @@ const AdminContext = ({ children }) => {
         changeAvailability,
         getAppointments,
         appointments,
-        cancelAppointment,
         ageCalculator,
+        isLoading,
+        setLoading,
+        cancelAppointment
       }}
     >
       {children}

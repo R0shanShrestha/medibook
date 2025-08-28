@@ -2,8 +2,9 @@ import { useContext, useState } from "react";
 import { AppContextProvider } from "../../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading/Loading";
 
-const EditModel = ({ user }) => {
+const EditModel = ({ user , setEdit}) => {
   const [open, setOpen] = useState(true);
   const { backendUri, token, loadUserData } = useContext(AppContextProvider);
 
@@ -16,7 +17,7 @@ const EditModel = ({ user }) => {
   const [addressLine2, setAddressLine2] = useState(user?.address?.line2 || "");
   const [imagePre, setImagePre] = useState(user?.image || null);
   const [image, setImage] = useState(user?.image || null);
-
+  const [isLoading, setLoading] = useState(false);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -40,6 +41,7 @@ const EditModel = ({ user }) => {
       );
       image && formData.append("image", image);
 
+      setLoading(true);
       const { data } = await axios.post(
         backendUri + "/api/user/update-profile",
         formData,
@@ -49,14 +51,17 @@ const EditModel = ({ user }) => {
       );
 
       if (data.success) {
+        setOpen(false);
         toast.success(data.message);
         loadUserData();
-        setOpen(false);
+        setLoading(false);
+        setEdit(false)
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
       toast.error(error.message);
     }
   };
@@ -70,97 +75,110 @@ const EditModel = ({ user }) => {
           Edit Profile
         </h2>
 
-        <form onSubmit={updateProfile} className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2">
-            {image && (
-              <img
-                src={imagePre}
-                alt="Preview"
-                className="w-24 h-24 object-cover rounded-full border"
+        {isLoading && (
+          <div>
+            <div>
+              <h1>Saving your details</h1>
+            </div>
+            <div>
+              <Loading />
+            </div>
+          </div>
+        )}
+
+        {!isLoading && (
+          <form onSubmit={updateProfile} className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              {image && (
+                <img
+                  src={imagePre}
+                  alt="Preview"
+                  className="w-24 h-24 object-cover rounded-full border"
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="border p-2 rounded-md"
               />
-            )}
+            </div>
             <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full Name"
               className="border p-2 rounded-md"
             />
-          </div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Full Name"
-            className="border p-2 rounded-md"
-          />
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Phone"
-            className="border p-2 rounded-md"
-          />
-          <input
-            type="date"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            className="border p-2 rounded-md"
-          />
-          <select
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            className="border p-2 rounded-md"
-          >
-            <option value="">Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-          <select
-            value={bloodGroup}
-            onChange={(e) => setBloodGroup(e.target.value)}
-            className="border p-2 rounded-md"
-          >
-            <option value="">Select Blood Group</option>
-            <option>O+</option>
-            <option>O-</option>
-            <option>A+</option>
-            <option>A-</option>
-            <option>B+</option>
-            <option>B-</option>
-            <option>AB+</option>
-            <option>AB-</option>
-          </select>
-          <input
-            type="text"
-            value={addressLine1}
-            onChange={(e) => setAddressLine1(e.target.value)}
-            placeholder="Address Line 1"
-            className="border p-2 rounded-md"
-          />
-          <input
-            type="text"
-            value={addressLine2}
-            onChange={(e) => setAddressLine2(e.target.value)}
-            placeholder="Address Line 2"
-            className="border p-2 rounded-md"
-          />
-          <div className="flex gap-3 mt-4">
-            <button
-              type="submit"
-              className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Phone"
+              className="border p-2 rounded-md"
+            />
+            <input
+              type="date"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              className="border p-2 rounded-md"
+            />
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="border p-2 rounded-md"
             >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="flex-1 bg-gray-200 py-2 rounded-md hover:bg-gray-300"
+              <option value="">Select Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+            <select
+              value={bloodGroup}
+              onChange={(e) => setBloodGroup(e.target.value)}
+              className="border p-2 rounded-md"
             >
-              Cancel
-            </button>
-          </div>
-        </form>
+              <option value="">Select Blood Group</option>
+              <option>O+</option>
+              <option>O-</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B+</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+            </select>
+            <input
+              type="text"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              placeholder="Address Line 1"
+              className="border p-2 rounded-md"
+            />
+            <input
+              type="text"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              placeholder="Address Line 2"
+              className="border p-2 rounded-md"
+            />
+            <div className="flex gap-3 mt-4">
+              <button
+                type="submit"
+                className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="flex-1 bg-gray-200 py-2 rounded-md hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

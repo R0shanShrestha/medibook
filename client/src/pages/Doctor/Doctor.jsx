@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import SpecListBtn from "./SpecListBtn";
-import { speciality } from "../../utils/constant";
+import { images, speciality } from "../../utils/constant";
 import DoctorList from "./DoctorList";
 import { BiMenu } from "react-icons/bi";
 import { AppContextProvider } from "../../context/AppContext";
+import Loading from "../../components/Loading/Loading";
 
 const Doctor = () => {
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
-  const { Doctors } = useContext(AppContextProvider);
-
-  useEffect(() => {}, [Doctors]);
+  const { Doctors, isLoading } = useContext(AppContextProvider);
 
   const handleSpecialityClick = (spec) => {
     if (spec === "All Doctors") {
@@ -63,12 +62,16 @@ const Doctor = () => {
         </div>
 
         <div className="leftItem flex flex-col mt-5 lg:w-[800px] overflow-hidden p-2">
-          <DoctorList
-            selectedTab={
-              selectedSpeciality !== "" ? selectedSpeciality : "All Doctors"
-            }
-            Data={FilterDoctorData}
-          />
+          {isLoading ? (
+            <Loading/>
+          ) : (
+            <DoctorList
+              selectedTab={
+                selectedSpeciality !== "" ? selectedSpeciality : "All Doctors"
+              }
+              Data={FilterDoctorData}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ const HeroSec = () => {
         </div>
 
         <Link
-          to={"#"}
+          to={"/doctors"}
           className=" p-3 px-5 rounded-md bg-emerald-800 text-slate-50 font-bold text-sm w-fit hover:bg-emerald-600"
         >
           Book Today

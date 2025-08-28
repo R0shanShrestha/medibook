@@ -67,10 +67,10 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-2">Reach Out to Us</h3>
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 hover:text-emerald-600 transition-colors">
-              <Phone className="w-4 h-4" /> +977-9703299634
+              <Phone className="w-4 h-4" /> +977-9807960410
             </div>
             <div className="flex items-center gap-2 hover:text-emerald-600 transition-colors">
-              <Mail className="w-4 h-4" /> fakemail@gmail.com
+              <Mail className="w-4 h-4" /> roshanstha401@gmail.com
             </div>
           </div>
         </div>

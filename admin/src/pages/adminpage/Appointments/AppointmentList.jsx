@@ -1,56 +1,71 @@
 import React from "react";
 import { CgClose } from "react-icons/cg";
+import axios from "axios";
+import { useState } from "react";
+import { useContext } from "react";
+import { AdminContextProvider } from "../../../context/AdminContext";
+import { toast } from "react-toastify";
+import { images } from "../../../constant";
+import Loading from "../../../../../client/src/components/Loading/Loading";
 
-const AppointmentList = ({
-  iscompleted,
-  sn,
-  patientImg,
-  patientName,
-  doctorName,
-  doctorImg,
-  id,
-  age,
-  fees,
-  datetime,
-  cancelAppointment,
-  isCancel,
-}) => {
+const AppointmentList = ({ doc }) => {
+  const [insideLoading, setinsideLoading] = useState(false);
+  const { ageCalculator, slotDateFormat, cancelAppointment } =
+    useContext(AdminContextProvider);
+
   return (
-    <tr className="text-[10px] md:text-sm text-center hover:border">
-      <td className=" p-1 md:p-5  w-fit">{sn}</td>
-      <td className=" p-1 md:p-5  mx-auto w-[80%] my-auto  flex items-center gap-3">
+    <tr
+      // key={doc._id}
+      className="text-center bg-white rounded-xl shadow hover:shadow-lg transition-all"
+    >
+      <td className="p-3">{1}</td>
+      <td className="p-3 flex items-center gap-2 justify-center">
         <img
-          src={patientImg}
-          alt="not found"
-          className="rounded-full md:w-[40px] w-[30%] h-[30px] object-cover md:h-[40px] border "
+          src={doc.userId?.image}
+          alt="Patient"
+          className="w-10 h-10 rounded-full object-top object-cover"
         />
-        <span>{patientName}</span>
+        <div className="flex flex-col">
+          <span className="text-slate-600 text-xs">Patient</span>
+          <span className="font-semibold text-slate-800">
+            {doc.userId?.name}
+          </span>
+        </div>
       </td>
-      <td className=" p-1 md:p-5  w-fit">{String(age)}</td>
-      <td className=" p-1 md:p-5 text-left  w-fit">{datetime}</td>
-      <td className=" p-1 md:p-5  mx-auto w-[80%] my-auto  flex items-center gap-3">
+      <td className="p-3">{ageCalculator(doc.userId?.dob)}</td>
+      <td className="p-3">
+        {slotDateFormat(doc.slotDate)} || {doc.slotTime}
+      </td>
+      <td className="p-3 flex items-center gap-2 justify-center">
         <img
-          src={doctorImg}
-          alt="not found"
-          className="rounded-full md:w-[40px] w-[30%] h-[30px] object-cover  md:h-[40px] border "
+          src={doc?.docId?.image}
+          alt="Doctor"
+          className="w-10 h-10 rounded-full object-top object-cover"
         />
-        <span>{doctorName}</span>
+        <div className="flex flex-col">
+          <span className="text-slate-600 text-xs">Doctor</span>
+          <span className="font-semibold text-slate-800">{doc.docId?.name}</span>
+        </div>
       </td>
-      <td className=" p-1 md:p-5  w-fit">{fees}</td>
-      <td
-        onClick={() => {
-          cancelAppointment(id);
-        }}
-        className=" p-1 md:p-5 cursor-pointer w-fit"
-      >
-        {iscompleted ? (
-          <p className="  font-semibold rounded text-green-500 px-2">
+      <td className="p-3">Rs. {doc.docId?.fee}</td>
+      <td className="p-3">
+        {insideLoading ? (
+          <Loading type={1} />
+        ) : doc.iscompleted ? (
+          <span className="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold">
             Completed
-          </p>
-        ) : isCancel ? (
-          <p className="text-red-500">Cancelled</p>
+          </span>
+        ) : doc.cancelled ? (
+          <span className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold">
+            Cancelled
+          </span>
         ) : (
-          <span className=" p-2 rounded-full bg-emerald-800 text-white">X</span>
+          <button
+            onClick={() => cancelAppointment(doc._id, setinsideLoading)}
+            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition text-xs"
+          >
+            Cancel
+          </button>
         )}
       </td>
     </tr>

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { AppContextProvider } from "../../context/AppContext";
 import { DoctorContextProvider } from "../../context/DoctorContext";
 import { useEffect } from "react";
+import Loading from "../../components/Loading";
 
 const Login = () => {
   const { state, setstate } = useContext(AppContextProvider);
@@ -17,6 +18,7 @@ const Login = () => {
 
   const Email = useRef();
   const Password = useRef();
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (adminToken) {
@@ -35,6 +37,7 @@ const Login = () => {
         password: Password.current.value,
       };
 
+      setLoading(true);
       const { data } = await axios.post(
         backendUrl + "/api/admin/login",
         dataObj
@@ -45,8 +48,10 @@ const Login = () => {
         localStorage.setItem("adminToken", data.token);
         setAdminToken(data.token);
         toast.success(data.success);
+        setLoading(false);
         nav("/admin/dashboard");
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
 
@@ -58,6 +63,7 @@ const Login = () => {
         password: Password.current.value,
       };
 
+      setLoading(true);
       const { data } = await axios.post(
         backendUrl + "/api/doctor/login",
         dataObj
@@ -68,8 +74,10 @@ const Login = () => {
         setstate("Doctor");
         setDoctorToken(data.token);
         toast.success(data.success);
+        setLoading(false);
         nav("/doctor/dashboard");
       } else {
+        setLoading(false);
         toast.error(data.message);
       }
     }
@@ -87,60 +95,62 @@ const Login = () => {
             login to medibook {state} panel
           </p>
         </div>
-        <form action="#" className="flex flex-col gap-4">
-          <div className="field text-slate-600 flex flex-col">
-            <label htmlFor="Email">Email</label>
-            <input
-              ref={Email}
-              type="email"
-              id="Email"
-              className="border outline-none  p-2 rounded w-full "
-            />
-          </div>
-          <div className="field text-slate-600 flex flex-col">
-            <label htmlFor="password">Password</label>
-            <input
-              ref={Password}
-              type="password"
-              id="password"
-              className="border outline-none  p-2 rounded w-full "
-            />
-          </div>
-          <div className="field z-20 relative text-slate-600 flex flex-col">
-            <button
-              onClick={(e) => {
-                submitData(e);
-              }}
-           
-              className="cursor-pointer hover:bg-emerald-900  transition-all duration-300 p-2 rounded bg-emerald-400 text-white font-semibold"
-            >
-              Login
-            </button>
-          </div>
-          <div className="field z10 text-slate-600 flex flex-col pt-3 text-sm mt-3 border-t-2">
-            {state == "Admin" ? (
-              <p>
-                Doctor Login{" "}
-                <span
-                  onClick={() => setstate("Doctor")}
-                  className="font-semibold cursor-pointer  hover:text-blue-800 text-blue-500"
-                >
-                  Click here
-                </span>
-              </p>
-            ) : (
-              <p>
-                Admin Login{" "}
-                <span
-                  onClick={() => setstate("Admin")}
-                  className="font-semibold cursor-pointer  hover:text-blue-800 text-blue-500"
-                >
-                  Click here
-                </span>
-              </p>
-            )}
-          </div>
-        </form>
+        {isLoading && <Loading />}
+        {!isLoading && (
+          <form action="#" className="flex flex-col gap-4">
+            <div className="field text-slate-600 flex flex-col">
+              <label htmlFor="Email">Email</label>
+              <input
+                ref={Email}
+                type="email"
+                id="Email"
+                className="border outline-none  p-2 rounded w-full "
+              />
+            </div>
+            <div className="field text-slate-600 flex flex-col">
+              <label htmlFor="password">Password</label>
+              <input
+                ref={Password}
+                type="password"
+                id="password"
+                className="border outline-none  p-2 rounded w-full "
+              />
+            </div>
+            <div className="field z-20 relative text-slate-600 flex flex-col">
+              <button
+                onClick={(e) => {
+                  submitData(e);
+                }}
+                className="cursor-pointer hover:bg-emerald-900  transition-all duration-300 p-2 rounded bg-emerald-400 text-white font-semibold"
+              >
+                Login
+              </button>
+            </div>
+            <div className="field z10 text-slate-600 flex flex-col pt-3 text-sm mt-3 border-t-2">
+              {state == "Admin" ? (
+                <p>
+                  Doctor Login{" "}
+                  <span
+                    onClick={() => setstate("Doctor")}
+                    className="font-semibold cursor-pointer  hover:text-blue-800 text-blue-500"
+                  >
+                    Click here
+                  </span>
+                </p>
+              ) : (
+                <p>
+                  Admin Login{" "}
+                  <span
+                    onClick={() => setstate("Admin")}
+                    className="font-semibold cursor-pointer  hover:text-blue-800 text-blue-500"
+                  >
+                    Click here
+                  </span>
+                </p>
+              )}
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

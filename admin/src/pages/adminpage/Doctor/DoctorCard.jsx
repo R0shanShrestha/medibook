@@ -1,15 +1,16 @@
 import React from "react";
 import { MdDelete } from "react-icons/md";
 import { FcAbout } from "react-icons/fc";
+import { useState } from "react";
+import { useContext } from "react";
+import { AdminContextProvider } from "../../../context/AdminContext";
+import Loading from "../../../../../client/src/components/Loading/Loading";
 
-const DoctorCard = ({
-  doctor,
-  changeAvailability,
-  onDelete,
-  onClick,
-  infoDoc,
-}) => {
+const DoctorCard = ({ doctor, onClick, infoDoc }) => {
   let { image, name, specializedIn, available, _id } = doctor;
+  const [isLoading, setLoading] = useState(false);
+
+  const { changeAvailability, delDoctorAcc } = useContext(AdminContextProvider);
 
   return (
     <div
@@ -25,7 +26,7 @@ const DoctorCard = ({
       <div
         className="absolute top-2 left-2 bg-white p-1 rounded-full shadow-md text-red-500 hover:bg-red-100 transition-colors duration-200"
         onClick={() => {
-          infoDoc(doctor)
+          infoDoc(doctor);
         }}
       >
         <FcAbout size={24} />
@@ -33,10 +34,10 @@ const DoctorCard = ({
       <div
         className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md text-red-500 hover:bg-red-100 transition-colors duration-200"
         onClick={() => {
-          onDelete(_id);
+          delDoctorAcc(_id, setLoading);
         }}
       >
-        <MdDelete size={24} />
+        {isLoading ? <Loading type={1} /> : <MdDelete size={24} />}
       </div>
 
       {/* Info Section */}
@@ -46,16 +47,18 @@ const DoctorCard = ({
             {name}
           </p>
           <p className="text-slate-700">{specializedIn}</p>
-          <p className="p-1 flex items-center gap-2">
-            <input
-              onChange={() => changeAvailability(_id)}
-              type="checkbox"
-              name="available"
-              id={`available-${_id}`}
-              checked={available}
-            />
-            <label htmlFor={`available-${_id}`}>Available</label>
-          </p>
+          {isLoading != true && (
+            <p className="p-1 flex items-center gap-2">
+              <input
+                onChange={() => changeAvailability(_id, setLoading)}
+                type="checkbox"
+                name="available"
+                id={`available-${_id}`}
+                checked={available}
+              />
+              <label htmlFor={`available-${_id}`}>Available</label>
+            </p>
+          )}
         </div>
       </div>
     </div>

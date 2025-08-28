@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContextProvider } from "../../context/AppContext";
 import DocCard from "./DocCard";
-import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
+import { images } from "../../utils/constant";
 const RelatedDoc = ({ specialize, docId }) => {
-  const { Doctors } = useContext(AppContextProvider);
+  const { Doctors, isLoading } = useContext(AppContextProvider);
 
   const [relDoc, setRelDoc] = useState([]);
 
@@ -22,7 +22,15 @@ const RelatedDoc = ({ specialize, docId }) => {
   }, [specialize, Doctors, docId]);
   return (
     <div className=" flex gap-30 flex-wrap">
-      {relDoc ? (
+      {isLoading ? (
+        <div className="w-full  items-center justify-center flex">
+          <img
+            src={images.loading}
+            alt="Loading ..."
+            className="max-w-[400px] object-cover "
+          />
+        </div>
+      ) : relDoc ? (
         <Swiper
           slidesPerView={"auto"}
           spaceBetween={20}
