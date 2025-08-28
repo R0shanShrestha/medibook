@@ -12,7 +12,7 @@ const Header = () => {
     setTab(seltab);
     setMobileMenu(false); // close mobile menu on tab click
   };
-  
+
   const logout = () => {
     localStorage.removeItem("Usertoken");
     setToken("");
@@ -121,7 +121,9 @@ const Header = () => {
           ].map(({ key, label, to }) => (
             <Link
               key={key}
-              onClick={() => tabHandler(key)}
+              onClick={() => {
+                tabHandler(key), setMobileMenu(false);
+              }}
               to={to}
               className={`${
                 tab === key
@@ -140,18 +142,26 @@ const Header = () => {
           >
             <Link
               to="/profile"
+              onClick={() => {
+                setMobileMenu(false);
+              }}
               className="px-3 py-2 text-sm text-emerald-800 border rounded hover:bg-emerald-50"
             >
               My Profile
             </Link>
             <Link
               to="/my-appointment"
+              onClick={() => {
+                setMobileMenu(false);
+              }}
               className="px-3 py-2 text-sm text-emerald-800 border rounded hover:bg-emerald-50"
             >
               My Appointments
             </Link>
             <Link
-              onClick={() => logout()}
+              onClick={() => {
+                logout(), setMobileMenu(false);
+              }}
               className="px-3 py-2 text-sm text-emerald-800 border rounded hover:bg-emerald-50"
             >
               Logout
