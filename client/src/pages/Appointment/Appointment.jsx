@@ -4,12 +4,10 @@ import { AppContextProvider } from "../../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../utils/constant";
 import Loading from "../../components/Loading/Loading";
 
 const Appointment = () => {
-  const { backendUri, token, getDoctorsData, isLoading, setLoading } =
-    useContext(AppContextProvider);
+  const { backendUri, token, getDoctorsData } = useContext(AppContextProvider);
 
   const [appointments, setAppointments] = useState([]);
   const months = [
@@ -31,6 +29,7 @@ const Appointment = () => {
     // console.log(datea)
     return dateArr[0] + " " + months[Number(dateArr[1]) - 1] + " " + dateArr[2];
   };
+  const [isLoading, setLoading] = useState(true);
 
   const getAppointments = async () => {
     try {
@@ -54,8 +53,8 @@ const Appointment = () => {
     }
   };
 
-  const cancelAppointment = async (appointId) => {
-    setLoading(true);
+  const cancelAppointment = async (appointId, setAppState) => {
+    setAppState(true);
     try {
       const { data } = await axios.post(
         backendUri + "/api/user/cancel-appointment",
@@ -66,21 +65,21 @@ const Appointment = () => {
       if (data.success) {
         getAppointments();
         getDoctorsData();
-        setLoading(false);
+        setAppState(false);
         toast.success(data.message);
       } else {
-        setLoading(false);
+        setAppState(false);
         console.log(data.message);
       }
     } catch (error) {
-      setLoading(false);
+      setAppState(false);
       toast.error(error.message);
     }
   };
 
-  const onPay = async (appointId) => {
+  const onPay = async (appointId, setAppState) => {
     try {
-      setLoading(true);
+      setAppState(true);
       const { data } = await axios.post(
         backendUri + "/api/user/pay-appointment",
         { appointId },
@@ -91,14 +90,14 @@ const Appointment = () => {
         toast.warn(data.message);
         getAppointments();
         getDoctorsData();
-        setLoading(false);
+        setAppState(false);
       } else {
         console.log(data.message);
-        setLoading(false);
+        setAppState(false);
       }
     } catch (error) {
       toast.error(error.message);
-      setLoading(false);
+      setAppState(false);
     }
   };
 
@@ -116,31 +115,25 @@ const Appointment = () => {
         </div>
         <div className="AppointmentList flex flex-col gap-6 py-4">
           {isLoading ? (
-            <div className="w-full  items-center justify-center flex">
-              <img
-                src={images?.loading}
-                alt="Loading ..."
-                className="max-w-[400px] object-cover "
-              />
-            </div>
+            <Loading />
           ) : (
             appointments &&
             appointments?.map((doc, idx) => (
               <div key={idx} className="w-full">
                 <AppointmentCard
-                  appointId={doc._id}
-                  DocImg={doc.docId.image}
-                  name={doc.docId.name}
-                  education={doc.docId.education}
-                  specializedIn={doc.docId.specializedIn}
-                  address={doc.docId.address}
+                  appointId={doc?._id}
+                  DocImg={doc?.docId?.image}
+                  name={doc?.docId?.name}
+                  education={doc?.docId?.education}
+                  specializedIn={doc?.docId?.specializedIn}
+                  address={doc?.docId?.address}
                   appointmentDate={{
-                    date: slotDateFormat(doc.slotDate),
-                    time: doc.slotTime,
+                    date: slotDateFormat(doc?.slotDate),
+                    time: doc?.slotTime,
                   }}
-                  iscompleted={doc.iscompleted}
+                  iscompleted={doc?.iscompleted}
                   onPay={onPay}
-                  isCancel={doc.cancelled}
+                  isCancel={doc?.cancelled}
                   onCancel={cancelAppointment}
                 />
               </div>
@@ -148,7 +141,9 @@ const Appointment = () => {
           )}
 
           {isLoading ? (
-            <Loading />
+            <div className=" overflow-hidden">
+              <Loading />
+            </div>
           ) : (
             appointments == "" && (
               <p className="text-slate-600 ">No Appointment yet</p>

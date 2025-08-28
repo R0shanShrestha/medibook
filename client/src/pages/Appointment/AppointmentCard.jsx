@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Loading from "../../components/Loading/Loading";
 
 const AppointmentCard = ({
   DocImg,
@@ -8,12 +9,12 @@ const AppointmentCard = ({
   specializedIn,
   address,
   appointmentDate,
-  bookingDate,
   iscompleted,
   onCancel,
   onPay,
   isCancel,
 }) => {
+  const [isLoading, setLoading] = useState(false);
   return (
     <div className="w-full bg-white rounded-3xl shadow-md hover:shadow-xl transition-shadow p-5 flex flex-col md:flex-row gap-4 items-start md:items-center">
       <div className="flex-shrink-0">
@@ -51,7 +52,11 @@ const AppointmentCard = ({
         </div>
 
         <div className="flex flex-col  gap-3 mt-3 md:mt-0 items-start">
-          {iscompleted ? (
+          {isLoading ? (
+            <div className=" w-[100px] overflow-hidden">
+              <Loading />
+            </div>
+          ) : iscompleted ? (
             <p className="sm:min-w-48 py-2  font-semibold rounded text-green-500 px-2">
               Appointment Completed
             </p>
@@ -62,7 +67,7 @@ const AppointmentCard = ({
           ) : (
             <button
               onClick={() => {
-                onCancel(appointId);
+                onCancel(appointId, setLoading);
               }}
               className="border-2 border-red-500 text-red-500 font-semibold py-2 px-6 rounded-2xl text-center hover:bg-red-500 hover:text-white transition-all duration-300"
             >
@@ -72,7 +77,7 @@ const AppointmentCard = ({
           {!isCancel && (
             <button
               onClick={() => {
-                onPay(appointId);
+                onPay(appointId, setLoading);
               }}
               className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-2 px-6 rounded-2xl text-center hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
             >

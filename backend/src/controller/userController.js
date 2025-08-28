@@ -216,7 +216,7 @@ const cancleAppointment = async (req, res) => {
     await appointmentModel.findByIdAndUpdate(appointId, { cancelled: true });
     // Realising Doc Slot
     const { docId, slotDate, slotTime } = appointmentData;
-    console.log(docId)
+    // console.log(docId)
 
     const docData = await doctorModel.findById(docId._id);
     let slots_booked = docData.slots_booked;

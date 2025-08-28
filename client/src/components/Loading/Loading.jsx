@@ -7,7 +7,7 @@ const Loading = ({ type }) => {
       <img
         src={images.loading}
         alt="Loading ..."
-        className=" border w-full scale-200  object-cover "
+        className="  w-full scale-200  object-cover "
       />
     </div>
   ) : (
@@ -15,7 +15,7 @@ const Loading = ({ type }) => {
       <img
         src={images.loading2}
         alt="Loading ..."
-        className="max-w-[400px] object-cover "
+        className="w-full max-w-[400px] h-full  object-cover "
       />
     </div>
   );
