@@ -14,8 +14,11 @@ MediBook is a full-featured **Doctor Booking Application** built with **React.js
 - View booking history and upcoming appointments
 
 ### Doctor Side
-- Login as **Doctor** 
-- testCredientials of Admin page = Email: nisha.shrestha@medibook.com | Password: Doctor123! 
+- Login as **Doctor**
+- Test credentials of User page:  
+  Email: `testing.medibook@medibook.com` | Password: `testing123`
+- Test credentials of Admin page:  
+  Email: `shreyarana@medibook.com` | Password: `doctor123`
 - Manage appointments (accept/cancel)
 - Set availability and booking slots
 - View patient details
@@ -31,10 +34,13 @@ MediBook is a full-featured **Doctor Booking Application** built with **React.js
 
 ## Screenshots 🖼️
 
-dummy screenshots only here
-<img width="1637" height="860" alt="Screenshot 2025-08-20 154907" src="https://github.com/user-attachments/assets/bc683367-e0c9-431a-9d7f-138010e88b06" />
-<img width="1620" height="889" alt="Screenshot 2025-08-20 154920" src="https://github.com/user-attachments/assets/a9fdecde-5874-45bf-945b-a799d9d1b949" />
+_Add screenshots of your app here, e.g., homepage, doctor profile, appointment list_
 
+<img width="1637" height="860" alt="Screenshot 2025-08-20 154907" src="https://github.com/user-attachments/assets/c2b36dd5-8f85-40ac-86c0-cfc1a63a3198" />
+
+<img width="1620" height="889" alt="Screenshot 2025-08-20 154920" src="https://github.com/user-attachments/assets/4b690c39-8807-477b-8235-2181e5a37c5b" />
+<img width="1627" height="811" alt="Screenshot 2025-08-28 205928" src="https://github.com/user-attachments/assets/2b118b63-a31c-4d90-9f53-1e93ae5a0c9e" />
+<img width="1602" height="833" alt="Screenshot 2025-08-28 204710" src="https://github.com/user-attachments/assets/95101822-236d-4827-b949-b90f54f0230c" />
 
 
 ---
@@ -45,16 +51,21 @@ dummy screenshots only here
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB 
 - **Icons:** Lucide React, React Icons
-- **Others:** Context API for auth, responsive design
+- **State Management:** Context API for auth
+- **Others:** Responsive design
 
 ---
 
-## Site links
-Patient: [https://medibook-ten.vercel.app/]
-Admin&Doctor: [https://adminmedibook.vercel.app/login]
+## Site Links 🌐
+
+- **Patient:** [https://medibook-ten.vercel.app/](https://medibook-ten.vercel.app/)
+- **Admin & Doctor:** [https://adminmedibook.vercel.app/login](https://adminmedibook.vercel.app/login)
+
+---
 
 ## Installation 🚀
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/R0shanShrestha/medibook.git
