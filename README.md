@@ -38,7 +38,8 @@ _Add screenshots of your app here, e.g., homepage, doctor profile, appointment l
 
 <img width="1637" height="860" alt="Screenshot 2025-08-20 154907" src="https://github.com/user-attachments/assets/c2b36dd5-8f85-40ac-86c0-cfc1a63a3198" />
 
-<img width="1620" height="889" alt="Screenshot 2025-08-20 154920" src="https://github.com/user-attachments/assets/4b690c39-8807-477b-8235-2181e5a37c5b" />
+<img width="1592" height="826" alt="Screenshot 2025-08-28 205252" src="https://github.com/user-attachments/assets/272ce5eb-92a1-47ad-b56f-9a406cc155ab" />
+
 <img width="1627" height="811" alt="Screenshot 2025-08-28 205928" src="https://github.com/user-attachments/assets/2b118b63-a31c-4d90-9f53-1e93ae5a0c9e" />
 <img width="1602" height="833" alt="Screenshot 2025-08-28 204710" src="https://github.com/user-attachments/assets/95101822-236d-4827-b949-b90f54f0230c" />
 
