@@ -143,7 +143,7 @@ const DoctorContext = ({ children }) => {
         completeAppointment,
         dashboardData,
         dashboard,
-        doctor,
+        doctor,isLoading,
         setDoctorToken,
       }}
     >

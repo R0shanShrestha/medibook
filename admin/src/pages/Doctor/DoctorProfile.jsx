@@ -26,6 +26,7 @@ const DoctorProfile = () => {
     doctorToken,
     dashboard,
     dashboardData,
+    isLoading,
   } = useContext(DoctorContextProvider);
 
   const [open, setOpen] = useState(false);
@@ -137,8 +138,10 @@ const DoctorProfile = () => {
     }
   }, [doctorToken]);
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex justify-center items-start p-8">
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <div className="min-h-screen bg-gray-50 flex justify-center items-start  lg:p-8">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-6xl relative">
         <div className="flex justify-between items-center border-b pb-4 mb-6">
           <h1 className="text-2xl font-bold text-slate-800">Doctor Profile</h1>
@@ -210,144 +213,144 @@ const DoctorProfile = () => {
               <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
                 Edit Profile
               </h2>
-
-              <form
-                onSubmit={handleSubmit}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-              >
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="text"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Phone"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="text"
-                  value={specializedIn}
-                  onChange={(e) => setSpecializedIn(e.target.value)}
-                  placeholder="Specialization"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="text"
-                  value={experience}
-                  onChange={(e) => setExperience(e.target.value)}
-                  placeholder="Experience"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="text"
-                  value={education}
-                  onChange={(e) => setEducation(e.target.value)}
-                  placeholder="Education"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="number"
-                  value={fee}
-                  onChange={(e) => setFee(e.target.value)}
-                  placeholder="Consultation Fee"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-
-                {/* Available Checkbox */}
-                <div className="col-span-2 flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={available}
-                    onChange={() => setAvailable(!available)}
-                    className="w-4 h-4"
-                  />
-                  <label>Available for Consultation</label>
+              {isUpdate && (
+                <div className="">
+                  <h1 className="font-semibold text-center">
+                    Updating Profile
+                  </h1>
+                  <Loading />
                 </div>
+              )}
+              {!isUpdate && (
+                <form
+                  onSubmit={handleSubmit}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                >
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Name"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="text"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Phone"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="text"
+                    value={specializedIn}
+                    onChange={(e) => setSpecializedIn(e.target.value)}
+                    placeholder="Specialization"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="text"
+                    value={experience}
+                    onChange={(e) => setExperience(e.target.value)}
+                    placeholder="Experience"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="text"
+                    value={education}
+                    onChange={(e) => setEducation(e.target.value)}
+                    placeholder="Education"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
+                  <input
+                    type="number"
+                    value={fee}
+                    onChange={(e) => setFee(e.target.value)}
+                    placeholder="Consultation Fee"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
 
-                {/* Photo Upload */}
-                <div className="col-span-2 flex flex-col items-center gap-2">
-                  {preview && (
-                    <img
-                      src={preview}
-                      alt="Preview"
-                      className="w-32 h-32 object-cover rounded-full border-2 border-emerald-400"
+                  {/* Available Checkbox */}
+                  <div className="col-span-2 flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={available}
+                      onChange={() => setAvailable(!available)}
+                      className="w-4 h-4"
                     />
-                  )}
+                    <label>Available for Consultation</label>
+                  </div>
+
+                  {/* Photo Upload */}
+                  <div className="col-span-2 flex flex-col items-center gap-2">
+                    {preview && (
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className="w-32 h-32 object-cover rounded-full border-2 border-emerald-400"
+                      />
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="border border-white/50 bg-white/40 p-2 rounded-lg w-full"
+                    />
+                  </div>
+
                   <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="border border-white/50 bg-white/40 p-2 rounded-lg w-full"
+                    type="text"
+                    value={line1}
+                    onChange={(e) => setLine1(e.target.value)}
+                    placeholder="Address Line 1"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
                   />
-                </div>
+                  <input
+                    type="text"
+                    value={line2}
+                    onChange={(e) => setLine2(e.target.value)}
+                    placeholder="Address Line 2"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
+                  />
 
-                <input
-                  type="text"
-                  value={line1}
-                  onChange={(e) => setLine1(e.target.value)}
-                  placeholder="Address Line 1"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
-                <input
-                  type="text"
-                  value={line2}
-                  onChange={(e) => setLine2(e.target.value)}
-                  placeholder="Address Line 2"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg focus:ring-2 focus:ring-emerald-400 outline-none"
-                />
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="Short Bio"
+                    className="border border-white/50 bg-white/40 p-2 rounded-lg col-span-2 focus:ring-2 focus:ring-emerald-400 outline-none"
+                    rows="3"
+                  />
 
-                <textarea
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  placeholder="Short Bio"
-                  className="border border-white/50 bg-white/40 p-2 rounded-lg col-span-2 focus:ring-2 focus:ring-emerald-400 outline-none"
-                  rows="3"
-                />
-
-                <div className="flex justify-end col-span-2 gap-3 mt-4">
-                  {isUpdate ? (
-                    <div className="absolute z-10 top-0">
-                      <Loading type={1} />
-                    </div>
-                  ) : (
-                    <>
-                      {" "}
-                      <button
-                        type="button"
-                        onClick={() => setOpen(false)}
-                        className="px-4 py-2 bg-gray-300/70 rounded-lg hover:bg-gray-400/90 transition-all duration-200"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200"
-                      >
-                        Save Changes
-                      </button>
-                    </>
-                  )}
-                </div>
-              </form>
+                  <div className="flex justify-end col-span-2 gap-3 mt-4">
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      className="px-4 py-2 bg-gray-300/70 rounded-lg hover:bg-gray-400/90 transition-all duration-200"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         )}

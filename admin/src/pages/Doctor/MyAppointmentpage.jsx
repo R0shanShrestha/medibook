@@ -39,7 +39,7 @@ const MyAppointmentPage = () => {
       ) : (
         <div className="flex flex-col gap-4">
           {appointments.map((appt, idx) => (
-            <AppointmentCard appointment={appt} />
+            <AppointmentCard appointment={appt} key={idx}/>
           ))}
         </div>
       )}

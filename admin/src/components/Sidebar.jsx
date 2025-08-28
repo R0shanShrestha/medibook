@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
-export const Sidebar = ({ links, tab, settab, state, logout }) => {
+export const Sidebar = ({ links, tab, settab, state, logout, closeMobile }) => {
   return (
     <div className="flex flex-col h-fit lg:min-h-screen  bg-white shadow-lg w-64">
       {/* Logo */}
       <div className="flex flex-col items-center py-6">
-        <Link  to={`${state === 'Admin' ? "/admin/dashboard/" : "/doctor/dashboard/"}`} className="text-2xl font-bold text-emerald-700" >MediBook</Link>
+        <Link
+          to={`${
+            state === "Admin" ? "/admin/dashboard/" : "/doctor/dashboard/"
+          }`}
+          className="text-2xl font-bold text-emerald-700"
+        >
+          MediBook
+        </Link>
         <span className="mt-2 text-sm font-medium text-emerald-600 px-3 py-1 bg-emerald-100 rounded-full">
           {state}
         </span>
@@ -18,7 +25,9 @@ export const Sidebar = ({ links, tab, settab, state, logout }) => {
           <Link
             key={key}
             to={to}
-            onClick={() => settab(key)}
+            onClick={() => {
+              settab(key), closeMobile(false);
+            }}
             className={`flex items-center gap-4 px-6 py-3 mx-2 my-1 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md ${
               tab === key
                 ? "bg-emerald-100 text-emerald-800 font-semibold shadow-inner"

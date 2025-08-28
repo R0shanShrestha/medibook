@@ -7,7 +7,6 @@ import AdminContext from "./context/AdminContext.jsx";
 import DoctorContext from "./context/DoctorContext.jsx";
 import AppContext from "./context/AppContext.jsx";
 import Login from "./pages/Login/Login.jsx";
-import Dashboard from "./pages/adminpage/Dashboard/Dashboard.jsx";
 import DashboardItems from "./pages/adminpage/Dashboard/DashboardItems.jsx";
 import Appointments from "./pages/adminpage/Appointments/Appointments.jsx";
 import Doctors from "./pages/adminpage/Doctor/Doctors.jsx";
@@ -16,6 +15,7 @@ import MyAppointmentpage from "./pages/Doctor/MyAppointmentpage.jsx";
 import AddDoctor from "./pages/adminpage/Doctor/AddDoctor.jsx";
 import Patients from "./pages/Doctor/Patient/Patients.jsx";
 import DoctorProfile from "./pages/Doctor/DoctorProfile.jsx";
+import Dashboard from "./pages/mainDashboard/Dashboard.jsx";
 
 const routes = createBrowserRouter([
   {

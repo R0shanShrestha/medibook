@@ -9,7 +9,7 @@ const AppointmentCard = ({ data, slotDateFormat }) => {
   const [insideLoading, setinsideLoading] = useState(false);
   const { cancelAppointment, } = useContext(AdminContextProvider);
 
-  // const { insideLoading } = useContext(AdminContextProvider);
+
   return (
     <div className="items flex items-center rounded-xl   justify-between p-2 hover:shadow-md">
       <div className="flex items-center gap-4">

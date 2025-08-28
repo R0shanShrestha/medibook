@@ -8,10 +8,11 @@ import {
   X,
   Menu,
 } from "lucide-react";
-import { AppContextProvider } from "../../../context/AppContext";
-import { AdminContextProvider } from "../../../context/AdminContext";
-import { DoctorContextProvider } from "../../../context/DoctorContext";
-import { Sidebar } from "../../../components/Sidebar";
+
+import { Sidebar } from "../../components/Sidebar";
+import { AppContextProvider } from "../../context/AppContext";
+import { AdminContextProvider } from "../../context/AdminContext";
+import { DoctorContextProvider } from "../../context/DoctorContext";
 
 const Dashboard = () => {
   const { settab, tab, state, setstate } = useContext(AppContextProvider);
@@ -147,7 +148,7 @@ const Dashboard = () => {
               settab={settab}
               state={state}
               logout={logout}
-              closeMobile={() => setMobileOpen(false)}
+              closeMobile={setMobileOpen}
             />
           </div>
         </div>

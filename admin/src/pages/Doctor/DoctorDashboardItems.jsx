@@ -8,7 +8,7 @@ import AppointmentCard from "./Appointment/AppointmentCard";
 import Loading from "../../components/Loading";
 
 const DoctorDashboardItems = () => {
-  const { doctorToken, dashboard, dashboardData, isLoading } = useContext(
+  const { doctorToken, dashboard, dashboardData,  isLoading} = useContext(
     DoctorContextProvider
   );
 
@@ -25,48 +25,69 @@ const DoctorDashboardItems = () => {
     }
   }, [doctorToken]);
 
-  const stats = [
-    {
-      title: "Today's Appointments",
-      value: isLoading ? <Loading type={1} /> : dashboard?.totalAppoint,
-      icon: <Calendar />,
-      bg: "bg-emerald-500",
-    },
-    {
-      title: "Total Patients",
-      value: isLoading ? <Loading type={1} /> : dashboard?.totalPatients,
-      icon: <User />,
-      bg: "bg-blue-500",
-    },
-    {
-      title: "Earning ",
-      value: isLoading ? <Loading type={1} /> : dashboard?.earnings || 0,
-      icon: <Clock />,
-      bg: "bg-yellow-400",
-    },
-    {
-      title: "Completed Appointments",
-      value: isLoading ? <Loading type={1} /> : dashboard?.CompletedAppointments,
-      icon: <CheckCircle />,
-      bg: "bg-gray-400",
-    },
-  ];
-
+ 
 
   return (
     <div className="flex flex-col gap-8">
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {stats.map((item, idx) => (
-          <div
-            key={idx}
-            className={`p-4 rounded-xl shadow-md flex flex-col items-start justify-between transition-transform transform hover:-translate-y-1 ${item.bg} text-white`}
-          >
-            <div className="text-2xl">{item.icon}</div>
-            <h3 className="mt-2 text-xs font-semibold">{item.title}</h3>
-            <p className="text-xl font-bold mt-1">{item.value}</p>
+        <div
+          className={`p-4 rounded-xl shadow-md flex flex-col items-start justify-between transition-transform transform hover:-translate-y-1 bg-emerald-500 text-white`}
+        >
+          <div className="text-2xl">
+            <Calendar />{" "}
           </div>
-        ))}
+          <h3 className="mt-2 text-xs font-semibold">Today's Appointments</h3>
+          {isLoading ? (
+            <div className="text-white grayscale brightness-200">
+              <Loading type={1} />
+            </div>
+          ) : (
+            <p className="text-xl font-bold mt-1">{dashboard.totalAppoint}</p>
+          )}
+        </div>
+        <div
+          className={`p-4 rounded-xl shadow-md flex flex-col items-start justify-between transition-transform transform hover:-translate-y-1 bg-gray-400 text-white`}
+        >
+          <div className="text-2xl"><CheckCircle /></div>
+          <h3 className="mt-2 text-xs font-semibold">Completed Appointments</h3>
+           {isLoading ? (
+            <div className="text-white grayscale brightness-200 ">
+              <Loading type={1} />
+            </div>
+          ) : (
+          <p className="text-xl font-bold mt-1">{dashboard.CompletedAppointments || 0}</p>
+          )}
+        </div>
+        <div
+          className={`p-4 rounded-xl shadow-md flex flex-col items-start justify-between transition-transform transform hover:-translate-y-1 bg-blue-500 text-white`}
+        >
+          <div className="text-2xl">
+            {" "}
+            <User />
+          </div>
+          <h3 className="mt-2 text-xs font-semibold">Total Patients</h3>
+          {isLoading ? (
+            <div className="text-white grayscale brightness-200">
+              <Loading type={1} />
+            </div>
+          ) : (
+            <p className="text-xl font-bold mt-1">{dashboard.totalPatients}</p>
+          )}
+        </div>
+        <div
+          className={`p-4 rounded-xl shadow-md flex flex-col items-start justify-between transition-transform transform hover:-translate-y-1 bg-yellow-500 text-white`}
+        >
+          <div className="text-2xl"><Clock /></div>
+          <h3 className="mt-2 text-xs font-semibold">Earnings</h3>
+          {isLoading ? (
+            <div className="text-white grayscale brightness-200">
+              <Loading type={1} />
+            </div>
+          ) : (
+            <p className="text-xl font-bold mt-1">{dashboard?.earnings || 0}</p>
+          )}
+        </div>
       </div>
 
       {/* Latest Appointments */}

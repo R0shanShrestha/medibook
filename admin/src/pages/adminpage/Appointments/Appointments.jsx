@@ -27,11 +27,11 @@ const Appointments = () => {
   return adminToken ? (
     <div className="flex flex-col w-full h-full p-2 bg-white overflow-hidden">
       {/* Desktop Table */}
-      <div className="hidden md:flex flex-col w-full overflow-auto">
+      <div className=" md:flex flex-col w-full overflow-auto">
         <div className="flex w-full p-5 pb-3 border-b-2">
           <h1 className="text-xl text-slate-800">All Appointments</h1>
         </div>
-        <div className="mt-2 overflow-x-auto">
+        <div className="mt-2 md:block hidden overflow-x-auto">
           <table className="w-full table-auto border-separate border-spacing-y-2">
             <thead>
               <tr className="text-sm text-slate-700 text-center">
