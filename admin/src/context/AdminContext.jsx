@@ -41,7 +41,7 @@ const AdminContext = ({ children }) => {
       });
 
       if (data.success) {
-        setDoctors(data.doctors);
+        setDoctors(data.doctors.reverse());
         setLoading(false);
       } else {
         setLoading(false);
