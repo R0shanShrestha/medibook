@@ -113,6 +113,9 @@ const Appointment = () => {
         <div className="title font-bold text-3xl text-emerald-800 border-b-2 pb-4">
           My Appointments
         </div>
+        {appointments == "" && (
+          <p className="text-slate-600 ">No Appointment yet</p>
+        )}
         <div className="AppointmentList flex flex-col gap-6 py-4">
           {isLoading ? (
             <Loading />
@@ -138,16 +141,6 @@ const Appointment = () => {
                 />
               </div>
             ))
-          )}
-
-          {isLoading ? (
-            <div className=" overflow-hidden">
-              <Loading />
-            </div>
-          ) : (
-            appointments == "" && (
-              <p className="text-slate-600 ">No Appointment yet</p>
-            )
           )}
         </div>
       </div>
