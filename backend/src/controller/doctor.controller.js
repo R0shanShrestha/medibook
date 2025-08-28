@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { conf } from "../config/config.js";
 import appointmentModel from "../model/appointmentModel.js";
+import { v2 as cloud } from "cloudinary";
 
 const changeAvailablity = async (req, res) => {
   try {

@@ -10,7 +10,6 @@ export const DoctorContextProvider = createContext({
   isLoading: "",
   setLoading: () => {},
   setDoctorToken: () => {},
-  setDoctorToken: () => {},
   getAppointments: () => {},
   slotDateFormat: () => {},
   dashboardData: () => {},

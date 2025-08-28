@@ -1,6 +1,6 @@
 // doctor adding
 import validator from "validator";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 import { v2 as cloud } from "cloudinary";
 import doctorModel from "../model/doctorModel.js";
 import { conf } from "../config/config.js";
