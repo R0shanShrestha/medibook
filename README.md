@@ -7,34 +7,35 @@ MediBook is a full-featured **Doctor Booking Application** built with **React.js
 ## Features ✨
 
 ### Patient Side
-- Create account & login as **Patient**
-- Browse doctors and specialties
-- Book appointments with available time slots
-- Cancel or reschedule appointments
-- View booking history and upcoming appointments
+
+* Create account & login as **Patient**
+* Browse doctors and specialties
+* Book appointments with available time slots
+* Cancel or reschedule appointments
+* View booking history and upcoming appointments
 
 ### Doctor Side
-- Login as **Doctor**
-- Test credentials of User page:  
-  Email: `testing.medibook@medibook.com` | Password: `testing123`
-- Test credentials of Admin page:  
-  Email: `shreyarana@medibook.com` | Password: `doctor123`
-- Manage appointments (accept/cancel)
-- Set availability and booking slots
-- View patient details
-- Update profile & professional information
+
+* Login as **Doctor**
+* Test Credentials of User page: Email: [testing.medibook@medibook.com](mailto:testing.medibook@medibook.com) | Password: testing123
+* Test Credentials of Admin page: Email: [shreyarana@medibook.com](mailto:shreyarana@medibook.com) | Password: doctor123
+* Manage appointments (accept/cancel)
+* Set availability and booking slots
+* View patient details
+* Update profile & professional information
 
 ### Admin Side
-- Manage doctors and patients
-- Add, edit, or remove doctors
-- View all appointments
-- Dashboard analytics
+
+* Manage doctors and patients
+* Add, edit, or remove doctors
+* View all appointments
+* Dashboard analytics
 
 ---
 
 ## Screenshots 🖼️
 
-_Add screenshots of your app here, e.g., homepage, doctor profile, appointment list_
+*Add your screenshots here*
 
 <img width="1637" height="860" alt="Screenshot 2025-08-20 154907" src="https://github.com/user-attachments/assets/c2b36dd5-8f85-40ac-86c0-cfc1a63a3198" />
 
@@ -44,25 +45,23 @@ _Add screenshots of your app here, e.g., homepage, doctor profile, appointment l
 <img width="1602" height="833" alt="Screenshot 2025-08-28 204710" src="https://github.com/user-attachments/assets/95101822-236d-4827-b949-b90f54f0230c" />
 
 
+
 ---
 
 ## Tech Stack 🛠️
 
-- **Frontend:** React.js, Tailwind CSS, React Router
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB 
-- **Icons:** Lucide React, React Icons
-- **State Management:** Context API for auth
-- **Others:** Responsive design
+* **Frontend:** React.js, Tailwind CSS, React Router
+* **Backend:** Node.js, Express.js
+* **Database:** MongoDB
+* **Icons:** Lucide React, React Icons
+* **Others:** Context API for auth, responsive design
 
 ---
 
-## Site Links 🌐
+## Site links
 
-- **Patient:** [https://medibook-ten.vercel.app/](https://medibook-ten.vercel.app/)
-- **Admin & Doctor:** [https://adminmedibook.vercel.app/login](https://adminmedibook.vercel.app/login)
-
----
+* Patient: [https://medibook-ten.vercel.app/](https://medibook-ten.vercel.app/)
+* Admin & Doctor: [https://adminmedibook.vercel.app/login](https://adminmedibook.vercel.app/login)
 
 ## Installation 🚀
 
@@ -70,3 +69,34 @@ _Add screenshots of your app here, e.g., homepage, doctor profile, appointment l
 
 ```bash
 git clone https://github.com/R0shanShrestha/medibook.git
+```
+
+2. Navigate into the project folder:
+
+```bash
+cd medibook
+```
+
+3. Install dependencies for frontend and backend:
+
+```bash
+cd frontend
+npm install
+cd ../backend
+npm install
+```
+
+4. Run the app:
+
+```bash
+cd frontend
+npm start
+cd ../backend
+npm run dev
+```
+
+---
+
+## License 📄
+
+MIT License
