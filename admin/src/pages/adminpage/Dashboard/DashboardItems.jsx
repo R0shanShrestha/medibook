@@ -5,7 +5,7 @@ import AppointmentCard from "../Appointments/AppointmentCard";
 import { AdminContextProvider } from "../../../context/AdminContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const DashboardItems = () => {
   const {

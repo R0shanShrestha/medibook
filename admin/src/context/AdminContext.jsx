@@ -137,7 +137,6 @@ const AdminContext = ({ children }) => {
   ];
   const slotDateFormat = (slotDate) => {
     const dateArr = slotDate.split("_");
-    // console.log(datea)
     return dateArr[0] + " " + months[Number(dateArr[1]) - 1] + " " + dateArr[2];
   };
   const ageCalculator = (dob) => {

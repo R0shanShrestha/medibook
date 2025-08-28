@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { AdminContextProvider } from "../../../context/AdminContext";
 import { toast } from "react-toastify";
 import { images } from "../../../constant";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const AppointmentList = ({ doc }) => {
   const [insideLoading, setinsideLoading] = useState(false);

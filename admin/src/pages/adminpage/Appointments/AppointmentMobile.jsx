@@ -2,7 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import { AdminContextProvider } from "../../../context/AdminContext";
 import { useState } from "react";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const AppointmentMobile = ({ doc }) => {
   const { slotDateFormat, cancelAppointment } =

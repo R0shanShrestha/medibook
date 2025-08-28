@@ -2,10 +2,9 @@ import React, { useEffect, useContext } from "react";
 import { AdminContextProvider } from "../../../context/AdminContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../constant";
 import AppointmentList from "./AppointmentList";
 import AppointmentMobile from "./AppointmentMobile";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 const Appointments = () => {
   const { settab } = useContext(AppContextProvider);
   const nav = useNavigate();

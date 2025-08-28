@@ -128,8 +128,6 @@ const DoctorContext = ({ children }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
-
       toast.error(error.message);
     }
   };

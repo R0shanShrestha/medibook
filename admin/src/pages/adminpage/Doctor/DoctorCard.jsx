@@ -4,7 +4,7 @@ import { FcAbout } from "react-icons/fc";
 import { useState } from "react";
 import { useContext } from "react";
 import { AdminContextProvider } from "../../../context/AdminContext";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const DoctorCard = ({ doctor, onClick, infoDoc }) => {
   let { image, name, specializedIn, available, _id } = doctor;

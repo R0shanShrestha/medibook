@@ -5,8 +5,7 @@ import DoctorDetail from "../../../components/DoctorDetail";
 import { DoctorContextProvider } from "../../../context/DoctorContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../constant";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const Doctors = () => {
   const { getAllDoctors, adminToken, Doctors, isLoading } =

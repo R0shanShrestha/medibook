@@ -5,8 +5,7 @@ import { AdminContextProvider } from "../../../context/AdminContext";
 import { AppContextProvider } from "../../../context/AppContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../constant";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const AddDoctor = () => {
   const { backendUrl, adminToken, setLoading, isLoading } =

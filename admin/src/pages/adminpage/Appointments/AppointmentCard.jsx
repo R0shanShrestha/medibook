@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { CgClose } from "react-icons/cg";
 import { AdminContextProvider } from "../../../context/AdminContext";
 import { useState } from "react";
-import Loading from "../../../../../client/src/components/Loading/Loading";
+import Loading from "../../../components/Loading";
 
 const AppointmentCard = ({ data, slotDateFormat }) => {
   const [insideLoading, setinsideLoading] = useState(false);

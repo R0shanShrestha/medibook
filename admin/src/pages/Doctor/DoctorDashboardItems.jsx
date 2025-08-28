@@ -28,25 +28,25 @@ const DoctorDashboardItems = () => {
   const stats = [
     {
       title: "Today's Appointments",
-      value: isLoading ? <Loading type={1} /> : dashboard.totalAppoint,
+      value: isLoading ? <Loading type={1} /> : dashboard?.totalAppoint,
       icon: <Calendar />,
       bg: "bg-emerald-500",
     },
     {
       title: "Total Patients",
-      value: isLoading ? <Loading type={1} /> : dashboard.totalPatients,
+      value: isLoading ? <Loading type={1} /> : dashboard?.totalPatients,
       icon: <User />,
       bg: "bg-blue-500",
     },
     {
       title: "Earning ",
-      value: isLoading ? <Loading type={1} /> : dashboard.earnings || 0,
+      value: isLoading ? <Loading type={1} /> : dashboard?.earnings || 0,
       icon: <Clock />,
       bg: "bg-yellow-400",
     },
     {
       title: "Completed Appointments",
-      value: isLoading ? <Loading type={1} /> : dashboard.CompletedAppointments,
+      value: isLoading ? <Loading type={1} /> : dashboard?.CompletedAppointments,
       icon: <CheckCircle />,
       bg: "bg-gray-400",
     },
